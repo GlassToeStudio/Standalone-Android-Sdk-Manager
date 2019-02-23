@@ -6,25 +6,21 @@
              xmlns:local="clr-namespace:GTS_SDK_Manager"
              mc:Ignorable="d" 
     
-             d:DesignHeight="20" d:DesignWidth="800">
-	<Grid>
-		<Grid.ColumnDefinitions>
-			<ColumnDefinition Width="332*"/>
-			<ColumnDefinition Width="0*"/>
-			<ColumnDefinition Width="167*"/>
-			<ColumnDefinition Width="0*"/>
-			<ColumnDefinition Width="165*"/>
-			<ColumnDefinition Width="0*"/>
-			<ColumnDefinition Width="0*"/>
-			<ColumnDefinition Width="0*"/>
-			<ColumnDefinition Width="136*"/>
-		</Grid.ColumnDefinitions>
+             d:DesignHeight="20" Width="700">
+	<StackPanel Height="20" Margin="25,0,0,0">
+		<Grid Height="20">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="248*"/>
+				<ColumnDefinition Width="155*"/>
+				<ColumnDefinition Width="142*"/>
+				<ColumnDefinition Width="130*"/>
+			</Grid.ColumnDefinitions>
 
-		<CheckBox Grid.Column="0" Name="xNameHeader" Content="{Binding Path=PackageName}" Margin="10,0,0,0" Foreground="#BBBBBB"/>
-		<TextBlock Grid.Column="2" Name="xAPIHeader" Text="{Binding Path=APILevel}" TextAlignment="left" Margin="5,0,1,0" Foreground="#BBBBBB"/>
-		<TextBlock Grid.Column="4" Name="xRevisionHeader" Text="{Binding Path=Revision}" TextAlignment="left" Margin="4,0,0,0" Foreground="#BBBBBB"/>
-		<TextBlock Grid.Column="8" Name="xStatusHeader" Text="{Binding Path=Status}" TextAlignment="left" Foreground="#BBBBBB" Margin="5,0,0,0"/>
-
-	</Grid>
+			<CheckBox Grid.Column="0" Name="PackageNameHeader" Content="{Binding Path=PackageName}" Foreground="#BBBBBB" Checked="PackageNameHeader_Checked" Unchecked="PackageNameHeader_Unchecked" IsChecked="{Binding Path=IsChecked}"/>
+			<TextBlock Grid.Column="1" Name="xAPIHeader" Text="{Binding Path=APILevel}" TextAlignment="left"  Foreground="#BBBBBB"/>
+			<TextBlock Grid.Column="2" Name="xRevisionHeader" Text="{Binding Path=Revision}" TextAlignment="left" Foreground="#BBBBBB"/>
+			<TextBlock Grid.Column="3" Name="xStatusHeader" Text="{Binding Path=Status}" TextAlignment="left" Foreground="#BBBBBB" />
+		</Grid>
+	</StackPanel>
 
 </UserControl>

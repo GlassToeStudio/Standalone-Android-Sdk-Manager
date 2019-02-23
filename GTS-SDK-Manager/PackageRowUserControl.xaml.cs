@@ -15,34 +15,16 @@ using System.Windows.Shapes;
 
 namespace GTS_SDK_Manager
 {
-
-    /// <summary>
-    /// Interaction logic for PackageRowUserControl.xaml
-    /// </summary>
     public partial class PackageRowUserControl : UserControl
     {
-
-        public string APILevel
-        {
-            get { return (string)GetValue(APILevelProperty); }
-            set { SetValue(APILevelProperty, value); }
-        }
-
-        // Using a DependencyProperty as the backing store for APILevel.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty PackageNameProperty =
+            DependencyProperty.Register("PackageName", typeof(string), typeof(PackageRowUserControl), new PropertyMetadata(default(string)));
         public static readonly DependencyProperty APILevelProperty =
             DependencyProperty.Register("APILevel", typeof(string), typeof(PackageRowUserControl), new PropertyMetadata(default(string)));
-
-
-        public string Revision
-        {
-            get { return (string)GetValue(RevisionProperty); }
-            set { SetValue(RevisionProperty, value); }
-        }
-
-        // Using a DependencyProperty as the backing store for Revision.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty RevisionProperty =
             DependencyProperty.Register("Revision", typeof(string), typeof(PackageRowUserControl), new PropertyMetadata(default(string)));
-
+        public static readonly DependencyProperty StatusProperty =
+            DependencyProperty.Register("Status", typeof(string), typeof(PackageRowUserControl), new PropertyMetadata(default(string)));
 
         public string PackageName
         {
@@ -50,11 +32,17 @@ namespace GTS_SDK_Manager
             set { SetValue(PackageNameProperty, value); }
         }
 
-        // Using a DependencyProperty as the backing store for PackageName.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty PackageNameProperty =
-            DependencyProperty.Register("PackageName", typeof(string), typeof(PackageRowUserControl), new PropertyMetadata(default(string)));
+        public string APILevel
+        {
+            get { return (string)GetValue(APILevelProperty); }
+            set { SetValue(APILevelProperty, value); }
+        }
 
-
+        public string Revision
+        {
+            get { return (string)GetValue(RevisionProperty); }
+            set { SetValue(RevisionProperty, value); }
+        }
 
         public string Status
         {
@@ -62,20 +50,33 @@ namespace GTS_SDK_Manager
             set { SetValue(StatusProperty, value); }
         }
 
-        // Using a DependencyProperty as the backing store for Status.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty StatusProperty =
-            DependencyProperty.Register("Status", typeof(string), typeof(PackageRowUserControl), new PropertyMetadata(default(string)));
+        public bool IsChecked { get; set; }
 
+        public bool InitialState { get; private set; }
 
+        public MainWindow Main { get; set; }
 
-        public PackageRowUserControl(string name, string apilevel, string revision, string status)
+        public PackageRowUserControl(string name, string apilevel, string revision, string status, MainWindow main, bool isChecked)
         {
             InitializeComponent();
             this.PackageName = name;
             this.APILevel = apilevel;
             this.Revision = revision;
             this.Status = status;
+            this.Main = main;
+            this.IsChecked = isChecked;
+            this.InitialState = isChecked;
             this.DataContext = this;
+        }
+
+        private void PackageNameHeader_Checked(object sender, RoutedEventArgs e)
+        {
+            Main.ChildChecked(sender, e);
+        }
+
+        private void PackageNameHeader_Unchecked(object sender, RoutedEventArgs e)
+        {
+            Main.ChildUnchecked(sender, e);
         }
     }
 }

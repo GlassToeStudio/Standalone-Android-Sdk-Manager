@@ -73,65 +73,19 @@
 			</TabControl.Resources>
 			<TabItem Header="SDK Platform"
                      Background="#41516D"
-                     Foreground="#BBBBBB"
-                     >
+                     Foreground="#BBBBBB">
 
 				<Grid Background="#3C3F41" Margin="-2,0,-2,-2">
-
 					<TextBlock HorizontalAlignment="Left" Height="62" Margin="10,10,0,0" TextWrapping="Wrap" Text="Each Android SDK Platform package includes the Android platform and sources pertaining to an API level by default. Once installed, Android Studio will automatically check for updates. Check &quot;show package details&quot; to display individual SDK components." VerticalAlignment="Top" Width="596"/>
 
-					<!--<ListView Height="259" Width="731" Background="#3C3F41" Name="PackageList">
-                            <ListView.ItemTemplate>
-                                <DataTemplate>
-                                    <ToggleButton Margin="5" Content="{Binding Label}" IsChecked="{Binding IsSelected}"/>
-                                </DataTemplate>
-                            </ListView.ItemTemplate>
-                            
-                            <ListView.View>
-                                
-                                <GridView >
-
-                                    <GridView.ColumnHeaderContainerStyle>
-                                        <Style TargetType="{x:Type GridViewColumnHeader}">
-                                            -->
-					<!-- Set any properties you want to set -->
-					<!--
-                                            <Setter Property="Background">
-                                                <Setter.Value>
-                                                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                                                        <GradientStop Color="#FF2D2F31" Offset="1"/>
-                                                        <GradientStop Color="#FF3C3F41" Offset="0.5"/>
-                                                    </LinearGradientBrush>
-                                                </Setter.Value>
-                                            </Setter>
-
-                                            <Setter Property="Foreground" Value="#BBBBBB" />
-                                            <Setter Property="BorderBrush" Value="#FF3C3F41"/>
-                                            <Setter Property="BorderThickness" Value="0"/>
-                                        </Style>
-                                    </GridView.ColumnHeaderContainerStyle>
-                                    <GridViewColumn Width="355" Header="Name" DisplayMemberBinding="{Binding Name}">
-                                    </GridViewColumn>
-
-                                    <GridViewColumn Width="100" Header="API Level" DisplayMemberBinding="{Binding ApiLevel}">
-                                    </GridViewColumn>
-
-                                    <GridViewColumn Width="100" Header="Revision" DisplayMemberBinding="{Binding Revision}">
-                                    </GridViewColumn>
-                                    
-                                </GridView>
-                                
-                            </ListView.View>
-                        
-                        </ListView>-->
 					<StackPanel Margin="0,0,0,10">
 						<StackPanel Margin="10,64,10,0">
 							<Grid>
 								<Grid.ColumnDefinitions>
-									<ColumnDefinition Width="2*"/>
+									<ColumnDefinition Width="1.8*"/>
 									<ColumnDefinition Width="*"/>
 									<ColumnDefinition Width="*"/>
-									<ColumnDefinition Width="*"/>
+									<ColumnDefinition Width="1.2*"/>
 								</Grid.ColumnDefinitions>
 
 								<Border BorderThickness="1" BorderBrush="#FF2D2F31" Grid.Column="0">
@@ -155,28 +109,13 @@
 						</StackPanel>
 
 					</StackPanel>
+
 					<Border  BorderBrush="#FF2D2F31" BorderThickness="1" Margin="10,81,10,10">
-						<ScrollViewer HorizontalAlignment="Left" Margin="10,3,0,0" Width="738" Background="#3C3F41">
-							<StackPanel Name="AllPackages" Width="730" Height="377">
-								<!--<Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="100*"/>
-                                    <ColumnDefinition Width="50*"/>
-                                    <ColumnDefinition Width="50*"/>
-                                    <ColumnDefinition Width="41*"/>
-                                </Grid.ColumnDefinitions>
+						<ListView Name="AllPackages"  Background="#3C3F41" Margin="1">
+							<ListViewItem >
 
-                                <CheckBox Grid.Column="0" Name="xNameHeader" Content="Package Name" Margin="6,0,149,0" Grid.ColumnSpan="2" Foreground="#BBBBBB"/>
-                                <TextBlock Grid.Column="1" Name="xAPIHeader" Text="API Level" TextAlignment="left" Margin="9,0,-1,0" Foreground="#BBBBBB"/>
-                                <TextBlock Grid.Column="2" Name="xRevisionHeader" Text="Revision" TextAlignment="left" Margin="15,0,0,0" Foreground="#BBBBBB"/>
-                                <TextBlock Grid.Column="3" Name="xStatusHeader" Text="Status" TextAlignment="left" Foreground="#BBBBBB"/>
-
-                            </Grid>-->
-
-
-							</StackPanel>
-
-						</ScrollViewer>
+							</ListViewItem>
+						</ListView>
 					</Border>
 				</Grid>
 

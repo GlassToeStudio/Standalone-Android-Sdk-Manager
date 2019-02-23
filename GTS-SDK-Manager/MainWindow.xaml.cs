@@ -21,13 +21,13 @@ namespace GTS_SDK_Manager
 {
     public partial class MainWindow : Window
     {
-        static string pathName = @"C:\Users\USER\AppData\Local\Android\Sdk";
-        static List<string> packageDataList = new List<string>();
-        static List<PackageData> installedPackages = new List<PackageData>();
-        static List<PackageData> availablePackages = new List<PackageData>();
-        static List<PackageData> updateablePackages = new List<PackageData>();
-        static List<PackageData> finalPackageList = new List<PackageData>();
+        string pathName = @"C:\Users\USER\AppData\Local\Android\Sdk";
+        List<string> packageDataList = new List<string>();
 
+        List<PackageData> installedPackages = new List<PackageData>();
+        List<PackageData> availablePackages = new List<PackageData>();
+        List<PackageData> updateablePackages = new List<PackageData>();
+        List<PackageData> finalPackageList = new List<PackageData>();
 
         public MainWindow()
         {
@@ -37,6 +37,8 @@ namespace GTS_SDK_Manager
             InitializeComponent();
 
             FolderPathBox.Text = pathName;
+
+            Initialize();
         }
 
         private void OpenFolder_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
@@ -61,6 +63,24 @@ namespace GTS_SDK_Manager
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
+            //RunSDKManagerListVerbose();
+
+            //CreateInstalledPackages();
+
+            //CreateAvailablePackageRows();
+
+            //CreateUpdatablePackageRows();
+
+            //CreateFinalPackageList();
+
+            //foreach (var p in finalPackageList)
+            //{
+            //    this.AllPackages.Children.Add(new PackageRowUserControl(p.PlatformName, p.APILevel.ToString(), p.Revision, p.Status));
+            //}
+        }
+
+        private void Initialize()
+        {
             RunSDKManagerListVerbose();
 
             CreateInstalledPackages();
@@ -73,74 +93,19 @@ namespace GTS_SDK_Manager
 
             foreach (var p in finalPackageList)
             {
-                this.AllPackages.Children.Add(new PackageRowUserControl(p.PlatformName, p.APILevel.ToString(), p.Revision, p.Status));
-            }
-
-        }
-
-        private static void CreateFinalPackageList()
-        {
-            for (int i = 0; i < installedPackages.Count; i++)
-            {
-                Console.WriteLine(installedPackages[i].Status);
-            }
-            for (int i = 0; i < availablePackages.Count; i++)
-            {
-                Console.WriteLine(availablePackages[i].APILevel);
-            }
-            for (int i = 0; i < updateablePackages.Count; i++)
-            {
-                Console.WriteLine(updateablePackages[i].Status);
-            }
-
-
-            availablePackages.Sort();
-            for (int i = 0; i < availablePackages.Count; i++)
-            {
-                var p = IsInstalled(i);
-                if(p != null)
-                {
-                    finalPackageList.Add(p);
-                }
-                else
-                {
-                    finalPackageList.Add(availablePackages[i]);
-                }
-
-                Console.WriteLine(finalPackageList[i].Status);
+                bool isChecked = p.Status.Equals("Installed");
+                this.AllPackages.Items.Add(new PackageRowUserControl(p.PlatformName, p.APILevel.ToString(), p.Revision, p.Status, this, isChecked));
             }
         }
 
-        private static PackageData IsInstalled(int i)
+        public void ChildChecked(object sender, RoutedEventArgs e)
         {
-            foreach (var p in installedPackages)
-            {
-                if (availablePackages[i].APILevel == p.APILevel)
-                {
-                    var u = IsUpdatable(p);
-                    if(u != null)
-                    {
-                        return u;
-                    }
-                    else
-                    {
-                        return p;
-                    }
-                }
-            }
-            return null;
+            Console.WriteLine(sender.ToString() + " Checked");
         }
-
-        private static PackageData IsUpdatable(PackageData p)
+        
+        public void ChildUnchecked(object sender, RoutedEventArgs e)
         {
-            foreach (var u in updateablePackages)
-            {
-                if(p.APILevel == u.APILevel)
-                {
-                    return u;
-                }
-            }
-            return null;
+            Console.WriteLine(sender.ToString() + " Unchecked");
         }
 
         private void RunSDKManagerListVerbose()
@@ -293,6 +258,7 @@ namespace GTS_SDK_Manager
                 }
             }
         }
+
         private void CreateUpdatablePackageRows()
         {
             for (int i = 0; i < packageDataList.Count; i++)
@@ -332,34 +298,70 @@ namespace GTS_SDK_Manager
                 }
             }
         }
-    }
 
-    public class PackageData : IComparable<PackageData>
-    {
-        public string PlatformName { get; set; }
-        public int APILevel { get; set; }
-        public string Revision { get; set; }
-        public string Status { get; set; }
-
-        public PackageData(string platformName, int apilevel, string revision, string status)
+        private void CreateFinalPackageList()
         {
-            PlatformName = platformName;
-            APILevel = apilevel;
-            Revision = revision;
-            Status = status;
+            for (int i = 0; i < installedPackages.Count; i++)
+            {
+                Console.WriteLine(installedPackages[i].Status);
+            }
+            for (int i = 0; i < availablePackages.Count; i++)
+            {
+                Console.WriteLine(availablePackages[i].APILevel);
+            }
+            for (int i = 0; i < updateablePackages.Count; i++)
+            {
+                Console.WriteLine(updateablePackages[i].Status);
+            }
+
+
+            availablePackages.Sort();
+            for (int i = 0; i < availablePackages.Count; i++)
+            {
+                var p = IsInstalled(i);
+                if (p != null)
+                {
+                    finalPackageList.Add(p);
+                }
+                else
+                {
+                    finalPackageList.Add(availablePackages[i]);
+                }
+
+                Console.WriteLine(finalPackageList[i].Status);
+            }
         }
 
-        public int CompareTo(PackageData packageData)
+        private PackageData IsInstalled(int i)
         {
-            // A null value means that this object is greater.
-            if (packageData == null)
+            foreach (var p in installedPackages)
             {
-                return 1;
+                if (availablePackages[i].APILevel == p.APILevel)
+                {
+                    var u = IsUpdatable(p);
+                    if (u != null)
+                    {
+                        return u;
+                    }
+                    else
+                    {
+                        return p;
+                    }
+                }
             }
-            else
+            return null;
+        }
+
+        private PackageData IsUpdatable(PackageData p)
+        {
+            foreach (var u in updateablePackages)
             {
-                return packageData.APILevel.CompareTo(this.APILevel);
+                if (p.APILevel == u.APILevel)
+                {
+                    return u;
+                }
             }
+            return null;
         }
     }
 }
