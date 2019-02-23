@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GTS_SDK_Manager"
         mc:Ignorable="d"
-        Title="GTS Android SDK Manager" Height="623" Width="800" Background="#3C3F41">
+        Title="GTS Android SDK Manager" Height="700" Width="800" Background="#3C3F41">
 	<Grid>
 		<Label Content="Android SDK Location:" 
                Name="LocationLabel"
@@ -38,7 +38,7 @@
                    Foreground="#589DF6"
                    TextDecorations="Underline"/>
 		<TabControl HorizontalAlignment="Left" 
-                    Height="368" 
+                    Height="507" 
                     Margin="10,41,0,0" 
                     VerticalAlignment="Top" 
                     Width="772"
@@ -124,7 +124,7 @@
                             </ListView.View>
                         
                         </ListView>-->
-					<StackPanel Margin="0,0,0,34">
+					<StackPanel Margin="0,0,0,10">
 						<StackPanel Margin="10,64,10,0">
 							<Grid>
 								<Grid.ColumnDefinitions>
@@ -155,9 +155,10 @@
 						</StackPanel>
 
 					</StackPanel>
-					<ScrollViewer HorizontalAlignment="Left" Margin="10,84,0,27" Width="750" Background="#3C3F41" BorderBrush="#2D2F31" BorderThickness="1">
-						<StackPanel Name="AllPackages" Margin="0,0,10,0">
-							<!--<Grid>
+					<Border  BorderBrush="#FF2D2F31" BorderThickness="1" Margin="10,81,10,10">
+						<ScrollViewer HorizontalAlignment="Left" Margin="10,3,0,0" Width="738" Background="#3C3F41">
+							<StackPanel Name="AllPackages" Width="730" Height="377">
+								<!--<Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="100*"/>
                                     <ColumnDefinition Width="50*"/>
@@ -173,10 +174,10 @@
                             </Grid>-->
 
 
-						</StackPanel>
+							</StackPanel>
 
-					</ScrollViewer>
-
+						</ScrollViewer>
+					</Border>
 				</Grid>
 
 			</TabItem>
@@ -197,8 +198,8 @@
 				<Grid Background="#3C3F41" Margin="-2,0,0,-2"/>
 			</TabItem>
 		</TabControl>
-		<Button Content="Run" HorizontalAlignment="Left" Height="32" Margin="646,550,0,0" VerticalAlignment="Top" Width="136" Click="Button_Click" Background="#3C3F41" Foreground="#BBBBBB"/>
-		<TextBox Name="ConsoleFrame" HorizontalAlignment="Left" Height="168" Margin="10,414,0,0" VerticalAlignment="Top" Width="627" Background="#3C3F41" Foreground="#BBBBBB"/>
+		<Button Content="Run" HorizontalAlignment="Left" Height="32" Margin="646,627,0,0" VerticalAlignment="Top" Width="136" Click="Button_Click" Background="#3C3F41" Foreground="#BBBBBB"/>
+		<TextBox Name="ConsoleFrame" HorizontalAlignment="Left" Height="106" Margin="10,553,0,0" VerticalAlignment="Top" Width="627" Background="#3C3F41" Foreground="#BBBBBB"/>
 
 	</Grid>
 </Window>

@@ -19,13 +19,15 @@ using System.Runtime.InteropServices;
 
 namespace GTS_SDK_Manager
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
         static string pathName = @"C:\Users\USER\AppData\Local\Android\Sdk";
-        static List<string> InfoData = new List<string>();
+        static List<string> packageDataList = new List<string>();
+        static List<PackageData> installedPackages = new List<PackageData>();
+        static List<PackageData> availablePackages = new List<PackageData>();
+        static List<PackageData> updateablePackages = new List<PackageData>();
+        static List<PackageData> finalPackageList = new List<PackageData>();
+
 
         public MainWindow()
         {
@@ -33,37 +35,8 @@ namespace GTS_SDK_Manager
             pathName = appdata + @"\Android\Sdk";
 
             InitializeComponent();
+
             FolderPathBox.Text = pathName;
-
-            //PopulateList();
-        }
-
-        private void PopulateList()
-        {
-            //this.PackageList.Items.Add(new MyItem { Revision = 1, Name = "Oreo", ApiLevel = "20.1" });
-            //this.PackageList.Items.Add(new MyItem { Revision = 1, Name = "Oreo", ApiLevel = "20.1" });
-            //this.PackageList.Items.Add(new MyItem { Revision = 1, Name = "Oreo", ApiLevel = "20.1" });
-            //this.PackageList.Items.Add(new MyItem { Revision = 1, Name = "Oreo", ApiLevel = "20.1" });
-            //this.PackageList.Items.Add(new MyItem { Revision = 1, Name = "Oreo", ApiLevel = "20.1" });
-            //this.PackageList.Items.Add(new MyItem { Revision = 1, Name = "Oreo", ApiLevel = "20.1" });
-            //this.PackageList.Items.Add(new MyItem { Revision = 1, Name = "Oreo", ApiLevel = "20.1" });
-            //this.PackageList.Items.Add(new MyItem { Revision = 1, Name = "Oreo", ApiLevel = "20.1" });
-            //for (int i = 0; i < InfoData.Count; i++)
-            //{
-            //    if(InfoData[i].Contains("Available Packages:") || InfoData[i].Contains("Available Updates:"))
-            //    {
-            //        break;
-            //    }
-
-            //    if (InfoData[i].Contains("Installed packages:"))
-            //    {
-            //        continue;
-            //    }
-            //    else
-            //    {
-            //        this.AllPackages.Children.Add(new PackageRowUserControl(InfoData[i], 5, 1));
-            //    }
-            //}
         }
 
         private void OpenFolder_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
@@ -88,32 +61,111 @@ namespace GTS_SDK_Manager
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            ConsoleOut();
+            RunSDKManagerListVerbose();
+
+            CreateInstalledPackages();
+
+            CreateAvailablePackageRows();
+
+            CreateUpdatablePackageRows();
+
+            CreateFinalPackageList();
+
+            foreach (var p in finalPackageList)
+            {
+                this.AllPackages.Children.Add(new PackageRowUserControl(p.PlatformName, p.APILevel.ToString(), p.Revision, p.Status));
+            }
+
         }
 
-        private void ConsoleOut()
+        private static void CreateFinalPackageList()
+        {
+            for (int i = 0; i < installedPackages.Count; i++)
+            {
+                Console.WriteLine(installedPackages[i].Status);
+            }
+            for (int i = 0; i < availablePackages.Count; i++)
+            {
+                Console.WriteLine(availablePackages[i].APILevel);
+            }
+            for (int i = 0; i < updateablePackages.Count; i++)
+            {
+                Console.WriteLine(updateablePackages[i].Status);
+            }
+
+
+            availablePackages.Sort();
+            for (int i = 0; i < availablePackages.Count; i++)
+            {
+                var p = IsInstalled(i);
+                if(p != null)
+                {
+                    finalPackageList.Add(p);
+                }
+                else
+                {
+                    finalPackageList.Add(availablePackages[i]);
+                }
+
+                Console.WriteLine(finalPackageList[i].Status);
+            }
+        }
+
+        private static PackageData IsInstalled(int i)
+        {
+            foreach (var p in installedPackages)
+            {
+                if (availablePackages[i].APILevel == p.APILevel)
+                {
+                    var u = IsUpdatable(p);
+                    if(u != null)
+                    {
+                        return u;
+                    }
+                    else
+                    {
+                        return p;
+                    }
+                }
+            }
+            return null;
+        }
+
+        private static PackageData IsUpdatable(PackageData p)
+        {
+            foreach (var u in updateablePackages)
+            {
+                if(p.APILevel == u.APILevel)
+                {
+                    return u;
+                }
+            }
+            return null;
+        }
+
+        private void RunSDKManagerListVerbose()
         {
             string YourApplicationPath = pathName + @"\tools\bin\sdkmanager";
-            ProcessStartInfo processInfo = new ProcessStartInfo();
-            processInfo.UseShellExecute = false;
-            processInfo.CreateNoWindow = true;
-            processInfo.RedirectStandardOutput = true;
-            processInfo.RedirectStandardError = true;
-            processInfo.FileName = YourApplicationPath + ".bat";
-            Console.WriteLine(processInfo.FileName);
-            //processInfo.WorkingDirectory = System.IO.Path.GetDirectoryName(YourApplicationPath);
-            processInfo.Arguments = " --list --verbose";
 
+            ProcessStartInfo processInfo = new ProcessStartInfo
+            {
+                UseShellExecute = false,
+                CreateNoWindow = true,
+                RedirectStandardOutput = true,
+                RedirectStandardError = true,
+                FileName = YourApplicationPath + ".bat"
+            };
+            processInfo.Arguments = " --list --verbose";
 
             using (Process pro = new Process())
             {
                 pro.StartInfo = processInfo;
                 pro.Start();
 
-                string[] data;
+                string[] processOutput;
                 using (StreamReader std_out = pro.StandardOutput)
                 {
-                    data = std_out.ReadToEnd().Split('\n');
+                    processOutput = std_out.ReadToEnd().Split('\n');
                     std_out.Close();
                     pro.Close();
                 }
@@ -122,122 +174,192 @@ namespace GTS_SDK_Manager
                 bool addTwoMore = false;
                 bool addThreeMore = false;
 
-                foreach (var s in data)
+                foreach (var s in processOutput)
                 {
                     if (addThreeMore)
                     {
-                        InfoData.Add(s);
+                        packageDataList.Add(s);
                         addThreeMore = false;
                         continue;
                     }
                     if (addTwoMore)
                     {
-                        InfoData.Add(s);
+                        packageDataList.Add(s);
                         addTwoMore = false;
                         continue;
                     }
-                    if(addOneMore)
+                    if (addOneMore)
                     {
-                        InfoData.Add(s);
+                        packageDataList.Add(s);
                         addOneMore = false;
                         continue;
                     }
-                    Console.WriteLine(s);
-                    if(s.Contains("Installed packages:"))
+
+                    if (s.Contains("Installed packages:"))
                     {
-                        InfoData.Add("Installed packages:");
+                        packageDataList.Add("Installed packages:");
                         ConsoleFrame.Text += s.ToString() + "\n";
                     }
                     if (s.Contains("Available Packages:"))
                     {
-                        InfoData.Add("Available Packages:");
+                        packageDataList.Add("Available Packages:");
                         ConsoleFrame.Text += s.ToString() + "\n";
                     }
                     if (s.Contains("Available Updates:"))
                     {
-                        InfoData.Add("Available Updates:");
+                        packageDataList.Add("Available Updates:");
                         ConsoleFrame.Text += s.ToString() + "\n";
                     }
                     if (s.Contains("platforms;"))
                     {
-                        InfoData.Add(s);
+                        packageDataList.Add(s);
                         ConsoleFrame.Text += s.ToString() + "\n";
-                        addOneMore = true;
-                        addTwoMore = true;
-                        addThreeMore = true;
-                    }
-                }
-
-                for (int i = 0; i < InfoData.Count; i++)
-                {
-                    if (InfoData[i].Contains("Installed packages:"))
-                    {
-                        for (int j = i+1; j < InfoData.Count; j++)
-                        {
-                            if (InfoData[j].Contains("Available Packages:"))
-                            {
-                                j = InfoData.Count;
-                                continue;
-                            }
-                            /*
-                             * platforms;android-21
-                                    Description:        Android SDK Platform 21
-                                    Version:            2
-                                    Installed Location: C:\Users\GlassToe\AppData\Local\Android\Sdk\platforms\android-21
-                            */
-                            Console.WriteLine(j + " : " + InfoData[j]);
-                            var api = (InfoData[j].Split(';')[1]).Split('-')[1].Trim();
-                            j++;
-                            Console.WriteLine(InfoData[j]);
-                            var platform = (InfoData[j].Split(':')[1]).Trim();
-                            platform = LookUpTable.CoolNames[platform];
-                            j++;
-                            Console.WriteLine(InfoData[j]);
-                            var revision = (InfoData[j].Split(':')[1]).Trim();
-                            var status = "Installed";
-                            Console.WriteLine(string.Format("Platform {0}, API {1}, Revision {2}, Status {3}", platform, api, revision, status));
-                            this.AllPackages.Children.Add(new PackageRowUserControl(platform, api, revision, status));
-                            j++;
-                        }
+                        addOneMore = addTwoMore = addThreeMore = true;
                     }
                 }
             }
-            //PopulateList();
         }
 
-        [DllImport("Kernel32.dll")]
-        private static extern bool AttachConsole(int processId);
+        private void CreateInstalledPackages()
+        {
+            /*
+            * platforms;android-21
+            *       Description:        Android SDK Platform 21
+            *       Version:            2
+            *       Installed Location: C:\Users\GlassToe\AppData\Local\Android\Sdk\platforms\android-21     
+            */
+            for (int i = 0; i < packageDataList.Count; i++)
+            {
+                if (packageDataList[i].Contains("Installed packages:"))
+                {
+                    for (int j = i + 1; j < packageDataList.Count; j++)
+                    {
+                        if (packageDataList[j].Contains("Available Packages:"))
+                        {
+                            return;
+                        }
+                        // platforms;android-21
+                        var apilevel = (packageDataList[j].Split(';')[1]).Split('-')[1].Trim();
+                        j++;
+                        // Description:        Android SDK Platform 21
+                        var platformName = LookUpTable.CoolNames[(packageDataList[j].Split(':')[1]).Trim()];
+                        j++;
+                        // Version:            2
+                        var revision = (packageDataList[j].Split(':')[1]).Trim();
+                        var status = "Installed";
 
-        [DllImport("kernel32.dll")]
-        private static extern bool FreeConsole();
+                        installedPackages.Add(new PackageData(platformName, int.Parse(apilevel), revision, status));
+                        //Console.WriteLine(string.Format("Platform {0}, API {1}, Revision {2}, Status {3}", platformName, apilevel, revision, status));
+                        //this.AllPackages.Children.Add(new PackageRowUserControl(platformName, apilevel, revision, status));
+                        j++;
+                    }
+                }
+            }
+        }
+
+        private void CreateAvailablePackageRows()
+        {
+            for (int i = 0; i < packageDataList.Count; i++)
+            {
+                if (packageDataList[i].Contains("Available Packages:"))
+                {
+                    for (int j = i + 1; j < packageDataList.Count; j++)
+                    {
+                        if (packageDataList[j].Contains("Available Updates:"))
+                        {
+                            return;
+                        }
+                        /*
+                         * platforms;android-10
+                         *       Description:        Android SDK Platform 10
+                         *       Version:            2
+                        */
+
+                        // platforms;android-21
+                        var apilevel = (packageDataList[j].Split(';')[1]).Split('-')[1].Trim();
+                        j++;
+                        // Description:        Android SDK Platform 21
+                        var platformName = LookUpTable.CoolNames[(packageDataList[j].Split(':')[1]).Trim()];
+                        j++;
+                        // Version:            2
+                        var revision = (packageDataList[j].Split(':')[1]).Trim();
+                        var status = "Not Installed";
+
+                        availablePackages.Add(new PackageData(platformName, int.Parse(apilevel), revision, status));
+                        //Console.WriteLine(string.Format("Platform {0}, API {1}, Revision {2}, Status {3}", platformName, apilevel, revision, status));
+                        //this.AllPackages.Children.Add(new PackageRowUserControl(platformName, apilevel, revision, status));
+                        j++;
+                    }
+                }
+            }
+        }
+        private void CreateUpdatablePackageRows()
+        {
+            for (int i = 0; i < packageDataList.Count; i++)
+            {
+                if (packageDataList[i].Contains("Available Updates:"))
+                {
+                    for (int j = i + 1; j < packageDataList.Count; j++)
+                    {
+                        if (packageDataList[j].Contains("Available Updates:"))
+                        {
+                            return;
+                        }
+                        /*
+                            platforms;android-28
+                                Installed Version: 4
+                                Available Version: 6
+                        */
+
+                        // platforms;android-28
+                        var platformName = (packageDataList[j].Split(';')[1]).Trim();
+
+                        // platforms;android-21
+                        var apilevel = platformName.Split('-')[1].Trim();
+                        j++;
+                        // Version:            2
+                        var revision = (packageDataList[j].Split(':')[1]).Trim();
+                        var status = "Update Available";
+
+                        platformName = LookUpTable.CoolNames[platformName];
+                        platformName = LookUpTable.CoolNames[platformName]; // yes twice.
+
+                        updateablePackages.Add(new PackageData(platformName, int.Parse(apilevel), revision, status));
+                        //Console.WriteLine(string.Format("Platform {0}, API {1}, Revision {2}, Status {3}", platformName, apilevel, revision, status));
+                        //this.AllPackages.Children.Add(new PackageRowUserControl(platformName, apilevel, revision, status));
+                        j+=2;
+                    }
+                }
+            }
+        }
     }
 
-    public static class LookUpTable
+    public class PackageData : IComparable<PackageData>
     {
-        public static Dictionary<string, string> CoolNames = new Dictionary<string, string>
+        public string PlatformName { get; set; }
+        public int APILevel { get; set; }
+        public string Revision { get; set; }
+        public string Status { get; set; }
+
+        public PackageData(string platformName, int apilevel, string revision, string status)
         {
-            { "Android SDK Platform 7", "Android 2.1 (Eclair)"},
-            { "Android SDK Platform 8", "Android 2.2 (Froyo)"},
-            { "Android SDK Platform 9", "Android 2.3 (Gingerbread)"},
-            { "Android SDK Platform 10", "Android 2.3.3 (Gingerbread)"},
-            { "Android SDK Platform 11", "Android 3.0 (Honeycomb)"},
-            { "Android SDK Platform 12", "Android 3.1 (Honeycomb)"},
-            { "Android SDK Platform 13", "Android 3.2 (Honeycomb)"},
-            { "Android SDK Platform 14", "Android 4.0 (IceCreamsandwich)"},
-            { "Android SDK Platform 15", "Android 4.0.3 (IceCreamsandwich)"},
-            { "Android SDK Platform 16", "Android 4.1 (Jelly Bean)"},
-            { "Android SDK Platform 17", "Android 4.2 (Jelly Bean)"},
-            { "Android SDK Platform 18", "Android 4.3 (Jelly Bean)"},
-            { "Android SDK Platform 19", "Android 4.4 (KitKat)"},
-            { "Android SDK Platform 20", "Android 4.4W (KitKat Wear)"},
-            { "Android SDK Platform 21", "Android 5.0 (Lillipop)"},
-            { "Android SDK Platform 22", "Android 5.1 (Lillipop)"},
-            { "Android SDK Platform 23", "Android 6.0 (Marshmallow)"},
-            { "Android SDK Platform 24", "Android 7.0 (Nougat)"},
-            { "Android SDK Platform 25", "Android 7.1.1 (Nougat)"},
-            { "Android SDK Platform 26", "Android 8.0 (Oreo)"},
-            { "Android SDK Platform 27", "Android 8.1 (Oreo)"},
-            { "Android SDK Platform 28", "Android 28 (Pie)"}
-        };
+            PlatformName = platformName;
+            APILevel = apilevel;
+            Revision = revision;
+            Status = status;
+        }
+
+        public int CompareTo(PackageData packageData)
+        {
+            // A null value means that this object is greater.
+            if (packageData == null)
+            {
+                return 1;
+            }
+            else
+            {
+                return packageData.APILevel.CompareTo(this.APILevel);
+            }
+        }
     }
 }
