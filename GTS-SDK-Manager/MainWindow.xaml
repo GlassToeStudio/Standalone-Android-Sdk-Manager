@@ -5,8 +5,200 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GTS_SDK_Manager"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
-        
-    </Grid>
+        Title="GTS Android SDK Manager" Height="623" Width="800" Background="#3C3F41">
+	<Grid>
+		<Label Content="Android SDK Location:" 
+               Name="LocationLabel"
+               HorizontalAlignment="Left"
+               Height="26" Margin="10,10,0,0" 
+               VerticalAlignment="Top" 
+               Width="131" 
+               Background="#3C3F41" 
+               Foreground="#BBBBBB"/>
+		<TextBox HorizontalAlignment="Left" 
+                 Name="FolderPathBox" 
+                 Height="19" Margin="146,15,0,0" 
+                 TextWrapping="Wrap"
+                 VerticalAlignment="Top"
+                 Width="395"
+                 TextChanged="TextBox_TextChanged" 
+                 Background="#3C3F41" 
+                 Foreground="#BBBBBB"
+                 BorderBrush="#696969"/>
+		<TextBlock HorizontalAlignment="Left" 
+                   Name="OpenFolder" 
+                   Height="19"
+                   Margin="556,15,0,0"
+                   TextWrapping="Wrap" 
+                   Text="Edit" 
+                   VerticalAlignment="Top" 
+                   Width="81" 
+                   MouseLeftButtonUp="OpenFolder_MouseLeftButtonUp"
+                   Background="#3C3F41" 
+                   Foreground="#589DF6"
+                   TextDecorations="Underline"/>
+		<TabControl HorizontalAlignment="Left" 
+                    Height="368" 
+                    Margin="10,41,0,0" 
+                    VerticalAlignment="Top" 
+                    Width="772"
+                    Background="#41516D"
+                    BorderBrush="#292B2D"
+                    >
+			<TabControl.Resources>
+				<Style TargetType="TabItem">
+					<Setter Property="Template">
+						<Setter.Value>
+							<ControlTemplate TargetType="TabItem">
+								<Border Name="Border" BorderThickness="1,1,1,0" BorderBrush="#292B2D" CornerRadius="4,4,0,0" Margin="2,0" >
+									<ContentPresenter x:Name="ContentSite"
+                                        VerticalAlignment="Center"
+                                        HorizontalAlignment="Center"
+                                        ContentSource="Header"
+                                        Margin="10,2"
+                                        />
+								</Border>
+								<ControlTemplate.Triggers>
+									<Trigger Property="IsSelected" Value="True">
+										<Setter TargetName="Border" Property="Background" Value="#41516D" />
+									</Trigger>
+									<Trigger Property="IsSelected" Value="False">
+										<Setter TargetName="Border" Property="Background" Value="#3C3F41" />
+									</Trigger>
+								</ControlTemplate.Triggers>
+							</ControlTemplate>
+						</Setter.Value>
+					</Setter>
+				</Style>
+			</TabControl.Resources>
+			<TabItem Header="SDK Platform"
+                     Background="#41516D"
+                     Foreground="#BBBBBB"
+                     >
+
+				<Grid Background="#3C3F41" Margin="-2,0,-2,-2">
+
+					<TextBlock HorizontalAlignment="Left" Height="62" Margin="10,10,0,0" TextWrapping="Wrap" Text="Each Android SDK Platform package includes the Android platform and sources pertaining to an API level by default. Once installed, Android Studio will automatically check for updates. Check &quot;show package details&quot; to display individual SDK components." VerticalAlignment="Top" Width="596"/>
+
+					<!--<ListView Height="259" Width="731" Background="#3C3F41" Name="PackageList">
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <ToggleButton Margin="5" Content="{Binding Label}" IsChecked="{Binding IsSelected}"/>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                            
+                            <ListView.View>
+                                
+                                <GridView >
+
+                                    <GridView.ColumnHeaderContainerStyle>
+                                        <Style TargetType="{x:Type GridViewColumnHeader}">
+                                            -->
+					<!-- Set any properties you want to set -->
+					<!--
+                                            <Setter Property="Background">
+                                                <Setter.Value>
+                                                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                                        <GradientStop Color="#FF2D2F31" Offset="1"/>
+                                                        <GradientStop Color="#FF3C3F41" Offset="0.5"/>
+                                                    </LinearGradientBrush>
+                                                </Setter.Value>
+                                            </Setter>
+
+                                            <Setter Property="Foreground" Value="#BBBBBB" />
+                                            <Setter Property="BorderBrush" Value="#FF3C3F41"/>
+                                            <Setter Property="BorderThickness" Value="0"/>
+                                        </Style>
+                                    </GridView.ColumnHeaderContainerStyle>
+                                    <GridViewColumn Width="355" Header="Name" DisplayMemberBinding="{Binding Name}">
+                                    </GridViewColumn>
+
+                                    <GridViewColumn Width="100" Header="API Level" DisplayMemberBinding="{Binding ApiLevel}">
+                                    </GridViewColumn>
+
+                                    <GridViewColumn Width="100" Header="Revision" DisplayMemberBinding="{Binding Revision}">
+                                    </GridViewColumn>
+                                    
+                                </GridView>
+                                
+                            </ListView.View>
+                        
+                        </ListView>-->
+					<StackPanel Margin="0,0,0,34">
+						<StackPanel Margin="10,64,10,0">
+							<Grid>
+								<Grid.ColumnDefinitions>
+									<ColumnDefinition Width="2*"/>
+									<ColumnDefinition Width="*"/>
+									<ColumnDefinition Width="*"/>
+									<ColumnDefinition Width="*"/>
+								</Grid.ColumnDefinitions>
+
+								<Border BorderThickness="1" BorderBrush="#FF2D2F31" Grid.Column="0">
+									<TextBlock Name="NameHeader" Text="Package Name" TextAlignment="Center"/>
+								</Border>
+
+								<Border BorderThickness="1" BorderBrush="#FF2D2F31" Grid.Column="1">
+									<TextBlock Name="APIHeader" Text="API Level" TextAlignment="Center"/>
+								</Border>
+
+								<Border BorderThickness="1" BorderBrush="#FF2D2F31" Grid.Column="2">
+									<TextBlock Name="RevisionHeader" Text="Revision" TextAlignment="Center"/>
+								</Border>
+
+								<Border BorderThickness="1" BorderBrush="#FF2D2F31" Grid.Column="3">
+									<TextBlock Name="StatusHeader" Text="Status" TextAlignment="Center"/>
+								</Border>
+
+							</Grid>
+
+						</StackPanel>
+
+					</StackPanel>
+					<ScrollViewer HorizontalAlignment="Left" Margin="10,84,0,27" Width="750" Background="#3C3F41" BorderBrush="#2D2F31" BorderThickness="1">
+						<StackPanel Name="AllPackages" Margin="0,0,10,0">
+							<!--<Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="100*"/>
+                                    <ColumnDefinition Width="50*"/>
+                                    <ColumnDefinition Width="50*"/>
+                                    <ColumnDefinition Width="41*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <CheckBox Grid.Column="0" Name="xNameHeader" Content="Package Name" Margin="6,0,149,0" Grid.ColumnSpan="2" Foreground="#BBBBBB"/>
+                                <TextBlock Grid.Column="1" Name="xAPIHeader" Text="API Level" TextAlignment="left" Margin="9,0,-1,0" Foreground="#BBBBBB"/>
+                                <TextBlock Grid.Column="2" Name="xRevisionHeader" Text="Revision" TextAlignment="left" Margin="15,0,0,0" Foreground="#BBBBBB"/>
+                                <TextBlock Grid.Column="3" Name="xStatusHeader" Text="Status" TextAlignment="left" Foreground="#BBBBBB"/>
+
+                            </Grid>-->
+
+
+						</StackPanel>
+
+					</ScrollViewer>
+
+				</Grid>
+
+			</TabItem>
+
+
+			<TabItem Header="SDK Tools"
+                     Background="#3C3F41"
+                     Foreground="#BBBBBB"
+                     >
+
+				<Grid Background="#3C3F41" Margin="-2,0,2,-2"/>
+			</TabItem>
+			<TabItem Header="SDK Update Sites"
+                     Background="#3C3F41"
+                     Foreground="#BBBBBB"
+                     >
+
+				<Grid Background="#3C3F41" Margin="-2,0,0,-2"/>
+			</TabItem>
+		</TabControl>
+		<Button Content="Run" HorizontalAlignment="Left" Height="32" Margin="646,550,0,0" VerticalAlignment="Top" Width="136" Click="Button_Click" Background="#3C3F41" Foreground="#BBBBBB"/>
+		<TextBox Name="ConsoleFrame" HorizontalAlignment="Left" Height="168" Margin="10,414,0,0" VerticalAlignment="Top" Width="627" Background="#3C3F41" Foreground="#BBBBBB"/>
+
+	</Grid>
 </Window>
