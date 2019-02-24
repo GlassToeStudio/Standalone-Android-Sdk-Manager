@@ -163,7 +163,7 @@
 			</TabItem>
 		</TabControl>
 
-		<Button Content="Run" 
+		<Button Content="Apply" 
 				HorizontalAlignment="Left"
 				BorderBrush="#696969"
 				Height="32" 
