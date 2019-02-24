@@ -4,11 +4,12 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:GTS_SDK_Manager"
-             mc:Ignorable="d" 
-    
-             d:DesignHeight="20" Width="700">
-	<StackPanel Height="20" Margin="25,0,0,0">
-		<Grid Height="20">
+             mc:Ignorable="d" Width="700" Height="15.25">
+
+
+
+	<StackPanel Margin="25,0,0,-3">
+		<Grid Height="18">
 			<Grid.ColumnDefinitions>
 				<ColumnDefinition Width="248*"/>
 				<ColumnDefinition Width="155*"/>
@@ -16,7 +17,7 @@
 				<ColumnDefinition Width="130*"/>
 			</Grid.ColumnDefinitions>
 
-			<CheckBox Grid.Column="0" Name="PackageNameHeader" Content="{Binding Path=PackageName}" Foreground="#BBBBBB" Checked="PackageNameHeader_Checked" Unchecked="PackageNameHeader_Unchecked" IsChecked="{Binding Path=IsChecked}"/>
+			<CheckBox Grid.Column="0" Name="PackageNameHeader" Content="{Binding Path=PackageName}" Foreground="#BBBBBB" BorderBrush="#FF2D2F31" BorderThickness="1"  Background="#686868" Checked="PackageNameHeader_Checked" Unchecked="PackageNameHeader_Unchecked" IsChecked="{Binding Path=IsChecked}"/>
 			<TextBlock Grid.Column="1" Name="xAPIHeader" Text="{Binding Path=APILevel}" TextAlignment="left"  Foreground="#BBBBBB"/>
 			<TextBlock Grid.Column="2" Name="xRevisionHeader" Text="{Binding Path=Revision}" TextAlignment="left" Foreground="#BBBBBB"/>
 			<TextBlock Grid.Column="3" Name="xStatusHeader" Text="{Binding Path=Status}" TextAlignment="left" Foreground="#BBBBBB" />

@@ -18,7 +18,7 @@ namespace GTS_SDK_Manager
     public partial class PackageRowUserControl : UserControl
     {
         public static readonly DependencyProperty PackageNameProperty =
-            DependencyProperty.Register("PackageName", typeof(string), typeof(PackageRowUserControl), new PropertyMetadata(default(string)));
+            DependencyProperty.Register("DisplayName", typeof(string), typeof(PackageRowUserControl), new PropertyMetadata(default(string)));
         public static readonly DependencyProperty APILevelProperty =
             DependencyProperty.Register("APILevel", typeof(string), typeof(PackageRowUserControl), new PropertyMetadata(default(string)));
         public static readonly DependencyProperty RevisionProperty =
@@ -26,7 +26,9 @@ namespace GTS_SDK_Manager
         public static readonly DependencyProperty StatusProperty =
             DependencyProperty.Register("Status", typeof(string), typeof(PackageRowUserControl), new PropertyMetadata(default(string)));
 
-        public string PackageName
+        public string PackageName { get; set; }
+
+        public string DisplayName
         {
             get { return (string)GetValue(PackageNameProperty); }
             set { SetValue(PackageNameProperty, value); }
@@ -54,12 +56,14 @@ namespace GTS_SDK_Manager
 
         public bool InitialState { get; private set; }
 
+
         public MainWindow Main { get; set; }
 
-        public PackageRowUserControl(string name, string apilevel, string revision, string status, MainWindow main, bool isChecked)
+        public PackageRowUserControl(string packagename, string displayName, string apilevel, string revision, string status, MainWindow main, bool isChecked)
         {
             InitializeComponent();
-            this.PackageName = name;
+            this.PackageName = packagename;
+            this.DisplayName = displayName;
             this.APILevel = apilevel;
             this.Revision = revision;
             this.Status = status;
@@ -71,12 +75,12 @@ namespace GTS_SDK_Manager
 
         private void PackageNameHeader_Checked(object sender, RoutedEventArgs e)
         {
-            Main.ChildChecked(sender, e);
+            Main.ChildChecked(this, e);
         }
 
         private void PackageNameHeader_Unchecked(object sender, RoutedEventArgs e)
         {
-            Main.ChildUnchecked(sender, e);
+            Main.ChildUnchecked(this, e);
         }
     }
 }
