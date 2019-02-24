@@ -26,7 +26,8 @@ namespace GTS_SDK_Manager
         public static readonly DependencyProperty StatusProperty =
             DependencyProperty.Register("Status", typeof(string), typeof(PackageRowUserControl), new PropertyMetadata(default(string)));
 
-        public string PackageName { get; set; }
+        public string PackageName
+        { get; set; }
 
         public string DisplayName
         {
@@ -55,7 +56,6 @@ namespace GTS_SDK_Manager
         public bool IsChecked { get; set; }
 
         public bool InitialState { get; private set; }
-
 
         public MainWindow Main { get; set; }
 
