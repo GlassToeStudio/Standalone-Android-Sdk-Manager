@@ -18,7 +18,7 @@ namespace GTS_SDK_Manager
     public partial class PackageRowUserControl : UserControl
     {
         public static readonly DependencyProperty PackageNameProperty =
-            DependencyProperty.Register("DisplayName", typeof(string), typeof(PackageRowUserControl), new PropertyMetadata(default(string)));
+            DependencyProperty.Register("Description", typeof(string), typeof(PackageRowUserControl), new PropertyMetadata(default(string)));
         public static readonly DependencyProperty APILevelProperty =
             DependencyProperty.Register("APILevel", typeof(string), typeof(PackageRowUserControl), new PropertyMetadata(default(string)));
         public static readonly DependencyProperty RevisionProperty =
@@ -29,7 +29,7 @@ namespace GTS_SDK_Manager
         public string PackageName
         { get; set; }
 
-        public string DisplayName
+        public string Description
         {
             get { return (string)GetValue(PackageNameProperty); }
             set { SetValue(PackageNameProperty, value); }
@@ -59,11 +59,11 @@ namespace GTS_SDK_Manager
 
         public MainWindow Main { get; set; }
 
-        public PackageRowUserControl(string packagename, string displayName, string apilevel, string revision, string status, MainWindow main, bool isChecked)
+        public PackageRowUserControl(string packageName, string description, string apilevel, string revision, string status, MainWindow main, bool isChecked)
         {
             InitializeComponent();
-            this.PackageName = packagename;
-            this.DisplayName = displayName;
+            this.PackageName = packageName;
+            this.Description = description;
             this.APILevel = apilevel;
             this.Revision = revision;
             this.Status = status;

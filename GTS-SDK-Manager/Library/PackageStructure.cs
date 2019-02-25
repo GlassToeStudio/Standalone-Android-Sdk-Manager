@@ -11,11 +11,14 @@ namespace GTS_SDK_Manager
 {
     class PackageStructure
     {
+        static TextBox ConsoleFrame;
         public static string pathName = @"C:\Users\USER\AppData\Local\Android\Sdk";
 
-        public static string[] RunSDKManagerListVerbose(TextBox consoleFrame, params string[] args)
+        public async static Task<string[]> RunSDKManagerListVerbose(TextBox consoleFrame, params string[] args)
         {
+            ConsoleFrame = consoleFrame;
             string YourApplicationPath = pathName + @"\tools\bin\sdkmanager";
+            string[] processOutput;
 
             ProcessStartInfo processInfo = new ProcessStartInfo
             {
@@ -27,7 +30,11 @@ namespace GTS_SDK_Manager
             };
             processInfo.Arguments = String.Join(" ", args); //" --list --verbose";
 
-            string[] processOutput;
+            //Process p = new Process();
+            //p.StartInfo = processInfo;
+            //p.OutputDataReceived += new DataReceivedEventHandler(OutputHandler);
+            //p.Start();
+            //p.BeginOutputReadLine();
 
             using (Process pro = new Process())
             {
@@ -36,26 +43,20 @@ namespace GTS_SDK_Manager
 
                 using (StreamReader std_out = pro.StandardOutput)
                 {
-                    processOutput = std_out.ReadToEnd().Split('\n');
+                    var outstuff = await std_out.ReadToEndAsync();
+                    processOutput = outstuff.Split('\n');
+                    ConsoleFrame.Text = outstuff;
                     std_out.Close();
                     pro.Close();
                 }
-
-                if(consoleFrame != null)
-                {
-                    foreach (var s in processOutput)
-                    {
-                        consoleFrame.Text += s + "\n";
-                    }
-                }
-
             }
+
             return processOutput;
         }
 
-        public static List<PackageData> GetPackageList(TextBox consoleFrame)
+        public static async Task<List<PackageData>> GetPackageList(TextBox consoleFrame)
         {
-            List<string> packageDataList = CreatePackageDataList(RunSDKManagerListVerbose(consoleFrame, "--list", "--verbose"));
+            List<string> packageDataList = CreatePackageDataList(await RunSDKManagerListVerbose(consoleFrame, "--list", "--verbose"));
 
             return CreateFinalPackageList(
                 CreateInstalledPackages(packageDataList),
@@ -140,19 +141,16 @@ namespace GTS_SDK_Manager
                         }
                         // platforms;android-21
                         var packageName = packageDataList[j];
-                        var apilevel = (packageDataList[j].Split(';')[1]).Split('-')[1].Trim();
-                        j++;
+                        var apilevel = (packageName.Split(';')[1]).Split('-')[1].Trim();
                         // Description:        Android SDK Platform 21
-                        var platformName = LookUpTable.CoolNames[(packageDataList[j].Split(':')[1]).Trim()];
-                        j++;
+                        var displayName = LookUpTable.CoolNames[(packageDataList[j + 1].Split(':')[1]).Trim()];
                         // Version:            2
-                        var revision = (packageDataList[j].Split(':')[1]).Trim();
+                        var revision = (packageDataList[j + 2].Split(':')[1]).Trim();
                         var status = "Installed";
 
-                        installedPackages.Add(new PackageData(packageName, platformName, int.Parse(apilevel), revision, status));
-                        //Console.WriteLine(string.Format("Platform {0}, API {1}, Revision {2}, Status {3}", platformName, apilevel, revision, status));
-                        //this.AllPackages.Children.Add(new PackageRowUserControl(platformName, apilevel, revision, status));
-                        j++;
+                        installedPackages.Add(new PackageData(packageName, displayName, int.Parse(apilevel), revision, status));
+                        Console.WriteLine(string.Format("Package {0}, Display {1}, API {2}, Revision {3}, Status {4}", packageName, displayName, apilevel, revision, status));
+                        j += 3;
                     }
                 }
             }
@@ -181,19 +179,16 @@ namespace GTS_SDK_Manager
 
                         // platforms;android-21
                         var packageName = packageDataList[j];
-                        var apilevel = (packageDataList[j].Split(';')[1]).Split('-')[1].Trim();
-                        j++;
+                        var apilevel = (packageName.Split(';')[1]).Split('-')[1].Trim();
                         // Description:        Android SDK Platform 21
-                        var platformName = LookUpTable.CoolNames[(packageDataList[j].Split(':')[1]).Trim()];
-                        j++;
+                        var displayName = LookUpTable.CoolNames[(packageDataList[j + 1].Split(':')[1]).Trim()];
                         // Version:            2
-                        var revision = (packageDataList[j].Split(':')[1]).Trim();
+                        var revision = (packageDataList[j + 2].Split(':')[1]).Trim();
                         var status = "Not Installed";
 
-                        availablePackages.Add(new PackageData(packageName, platformName, int.Parse(apilevel), revision, status));
-                        //Console.WriteLine(string.Format("Platform {0}, API {1}, Revision {2}, Status {3}", platformName, apilevel, revision, status));
-                        //this.AllPackages.Children.Add(new PackageRowUserControl(platformName, apilevel, revision, status));
-                        j++;
+                        availablePackages.Add(new PackageData(packageName, displayName, int.Parse(apilevel), revision, status));
+                        Console.WriteLine(string.Format("Package {0}, Display {1}, API {2}, Revision {3}, Status {4}", packageName, displayName, apilevel, revision, status));
+                        j += 3;
                     }
                 }
             }
@@ -221,22 +216,20 @@ namespace GTS_SDK_Manager
 
                         // platforms;android-28
                         var packageName = packageDataList[j];
-                        var platformName = (packageDataList[j].Split(';')[1]).Trim();
+                        var displayName = (packageName.Split(';')[1]).Trim();
 
                         // platforms;android-21
-                        var apilevel = platformName.Split('-')[1].Trim();
-                        j++;
+                        var apilevel = displayName.Split('-')[1].Trim();
                         // Version:            2
-                        var revision = (packageDataList[j].Split(':')[1]).Trim();
+                        var revision = (packageDataList[j + 1].Split(':')[1]).Trim();
                         var status = "Update Available";
 
-                        platformName = LookUpTable.CoolNames[platformName];
-                        platformName = LookUpTable.CoolNames[platformName]; // yes twice.
+                        displayName = LookUpTable.CoolNames[displayName];
+                        displayName = LookUpTable.CoolNames[displayName]; // yes twice.
 
-                        updateablePackages.Add(new PackageData(packageName, platformName, int.Parse(apilevel), revision, status));
-                        //Console.WriteLine(string.Format("Platform {0}, API {1}, Revision {2}, Status {3}", platformName, apilevel, revision, status));
-                        //this.AllPackages.Children.Add(new PackageRowUserControl(platformName, apilevel, revision, status));
-                        j += 2;
+                        updateablePackages.Add(new PackageData(packageName, displayName, int.Parse(apilevel), revision, status));
+                        Console.WriteLine(string.Format("Package {0}, Display {1}, API {2}, Revision {3}, Status {4}", packageName, displayName, apilevel, revision, status));
+                        j += 3;
                     }
                 }
             }
@@ -310,5 +303,47 @@ namespace GTS_SDK_Manager
             return null;
         }
 
+        public static void RunSDKManagerInstall(TextBox consoleFrame, params string[] args)
+        {
+            ConsoleFrame = consoleFrame;
+            string YourApplicationPath = pathName + @"\tools\bin\sdkmanager";
+
+            ProcessStartInfo processInfo = new ProcessStartInfo
+            {
+                UseShellExecute = false,
+                CreateNoWindow = true,
+                RedirectStandardOutput = true,
+                RedirectStandardError = true,
+                RedirectStandardInput = true,
+                FileName = YourApplicationPath + ".bat"
+            };
+            processInfo.Arguments = String.Join(" ", args); //" --list --verbose";
+
+            Process pro = new Process
+            {
+                StartInfo = processInfo
+            };
+
+            pro.OutputDataReceived += new DataReceivedEventHandler(OutputHandler);
+            pro.Start();
+            pro.BeginOutputReadLine();
+            var answer = System.Windows.Forms.MessageBox.Show("Accept License Agreement?", "Accept?", System.Windows.Forms.MessageBoxButtons.YesNoCancel);
+            if (answer == System.Windows.Forms.DialogResult.Yes)
+            {
+                pro.StandardInput.WriteLine('y');
+            }
+            else
+            {
+                pro.StandardInput.WriteLine('n');
+            }
+        }
+
+        static void OutputHandler(object sendingProcess, DataReceivedEventArgs outLine)
+        {
+            ConsoleFrame.Dispatcher.Invoke(() => 
+            {
+                ConsoleFrame.Text += outLine.Data + "\n";
+            });
+        }
     }
 }

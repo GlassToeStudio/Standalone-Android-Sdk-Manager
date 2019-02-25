@@ -120,11 +120,11 @@
 					</StackPanel>
 
 					<Border  Margin="10,81,10,10">
-						<ListView Name="AllPackages" Foreground="#FF2D2F31" Background="#3C3F41" BorderBrush="#FF2D2F31" BorderThickness="1">
-							<ListViewItem >
+						<TreeView Name="AllPackages" Foreground="#FF2D2F31" Background="#3C3F41" BorderBrush="#FF2D2F31" BorderThickness="1">
+							<TreeViewItem >
 
-							</ListViewItem>
-						</ListView>
+							</TreeViewItem>
+						</TreeView>
 					</Border>
 				</Grid>
 
@@ -183,7 +183,7 @@
 				 Foreground="#BBBBBB" 
 				 BorderBrush="#FF2D2F31" 
 				 BorderThickness="1"
-				 IsInactiveSelectionHighlightEnabled="False"
+				 IsInactiveSelectionHighlightEnabled="False" TextChanged="ConsoleFrame_TextChanged"
 				 >
 			<TextBox.Style>
 				<Style BasedOn="{x:Null}" TargetType="{x:Type TextBox}">

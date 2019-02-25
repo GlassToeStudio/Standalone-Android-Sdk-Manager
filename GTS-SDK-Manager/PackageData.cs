@@ -4,17 +4,17 @@ namespace GTS_SDK_Manager
 {
     public class PackageData : IComparable<PackageData>
     {
-        public string DisplayName { get; set; }
+        public string PackageName { get; set; }
         public int APILevel { get; set; }
+        public string Description { get; set; }
         public string Revision { get; set; }
         public string Status { get; set; }
-        public string PackageName { get; set;
-        }
-        public PackageData(string packageName, string displayName, int apilevel, string revision, string status)
+
+        public PackageData(string packageName, string description, int apilevel, string revision, string status)
         {
             PackageName = packageName;
-            DisplayName = displayName;
             APILevel = apilevel;
+            Description = description;
             Revision = revision;
             Status = status;
         }

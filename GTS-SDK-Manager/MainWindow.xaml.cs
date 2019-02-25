@@ -47,7 +47,7 @@ namespace GTS_SDK_Manager
             }
         }
 
-        private void Initialize()
+        private async void Initialize()
         {
             if ( ! File.Exists(PackageStructure.pathName + @"\tools\bin\sdkmanager.bat"))
             {
@@ -55,17 +55,18 @@ namespace GTS_SDK_Manager
                 return;
             }
 
-            List<PackageData> finalPackageList = PackageStructure.GetPackageList(ConsoleFrame);
+            List<PackageData> finalPackageList = await PackageStructure.GetPackageList(ConsoleFrame);
 
             foreach (var p in finalPackageList)
             {
                 bool isChecked = p.Status.Equals("Installed");
-                this.AllPackages.Items.Add(new PackageRowUserControl(p.PackageName, p.DisplayName, p.APILevel.ToString(), p.Revision, p.Status, this, isChecked));
+                this.AllPackages.Items.Add(new PackageRowUserControl(p.PackageName, p.Description, p.APILevel.ToString(), p.Revision, p.Status, this, isChecked));
             }
         }
 
         private void Refresh()
         {
+            ConsoleFrame.Text = "";
             packagesToInstallorUpdate.Clear();
             packagesToUninstall.Clear();
             this.AllPackages.Items.Clear();
@@ -125,8 +126,12 @@ namespace GTS_SDK_Manager
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
+            ConsoleFrame.Text = "";
+            var args = string.Empty;
+
             foreach (var p in packagesToInstallorUpdate)
             {
+                args += p.PackageName + " ";
                 ConsoleFrame.Text += "Install: " + p.PackageName + "\n";
                 Console.WriteLine("Install: " + p.PackageName);
             }
@@ -135,12 +140,14 @@ namespace GTS_SDK_Manager
                 ConsoleFrame.Text += "Uninstall: " + p.PackageName + "\n";
                 Console.WriteLine("Uninstall: " + p.PackageName);
             }
+            PackageStructure.RunSDKManagerInstall(ConsoleFrame, args);
         }
 
         private void ExecuteButton_Click(object sender, RoutedEventArgs e)
         {
+            ConsoleFrame.Text = "";
             Console.WriteLine(ArgList.Text);
-            PackageStructure.RunSDKManagerListVerbose(ConsoleFrame, ArgList.Text);
+            PackageStructure.RunSDKManagerInstall(ConsoleFrame, ArgList.Text);
         }
 
         private void ArgList_LostFocus(object sender, RoutedEventArgs e)
@@ -162,6 +169,11 @@ namespace GTS_SDK_Manager
         private void ClearButton_Click(object sender, RoutedEventArgs e)
         {
             ConsoleFrame.Text = "";
+        }
+
+        private void ConsoleFrame_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            ((System.Windows.Controls.TextBox)sender).ScrollToEnd();
         }
     }
 
