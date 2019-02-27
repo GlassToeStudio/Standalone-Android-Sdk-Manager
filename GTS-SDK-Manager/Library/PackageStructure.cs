@@ -23,7 +23,7 @@ namespace GTS_SDK_Manager
             ProcessStartInfo processInfo = new ProcessStartInfo
             {
                 UseShellExecute = false,
-                CreateNoWindow = true,
+                CreateNoWindow = false,
                 RedirectStandardOutput = true,
                 RedirectStandardError = true,
                 FileName = YourApplicationPath + ".bat"
