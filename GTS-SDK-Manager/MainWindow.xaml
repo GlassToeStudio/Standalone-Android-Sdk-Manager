@@ -121,7 +121,7 @@
 
 					<Border  Margin="10,81,10,10">
 						<TreeView Name="AllPackages" Foreground="#FF2D2F31" Background="#3C3F41" BorderBrush="#FF2D2F31" BorderThickness="1">
-							<TreeViewItem >
+							<TreeViewItem>
 
 							</TreeViewItem>
 						</TreeView>
@@ -133,10 +133,12 @@
 
 			<TabItem Header="SDK Tools"
                      Background="#3C3F41"
-                     Foreground="#BBBBBB"
-                     >
+                     Foreground="#BBBBBB">
 
-				<Grid Background="#3C3F41" Margin="-2,0,2,-2"/>
+				<Grid Background="#3C3F41" Margin="-2,0,2,-2">
+					
+					
+				</Grid>
 			</TabItem>
 			<TabItem Header="SDK Update Sites"
                      Background="#3C3F41"
