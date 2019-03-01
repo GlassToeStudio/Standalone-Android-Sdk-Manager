@@ -55,10 +55,37 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="MainWindowViewModel.cs" />
-    <Compile Include="SDKTools\PackageItem.cs" />
-    <Compile Include="SDKTools\PakcageItemStructure.cs" />
-    <Compile Include="SDKTools\SDKManagerBat.cs" />
+    <Compile Include="SDKManager\Models\SDK_PlatformItem.cs" />
+    <Compile Include="SDKManager\Models\SDK_PlatformStructure.cs" />
+    <Compile Include="SDKManager\Utilities\Patterns.cs" />
+    <Compile Include="SDKManager\Utilities\SDKManager.cs" />
+    <Compile Include="ViewModels\BaseViewModel.cs" />
+    <Compile Include="ViewModels\Commands\RelayCommand.cs" />
+    <Compile Include="ViewModels\Commands\RelayCommandString.cs" />
+    <Compile Include="ViewModels\SDKManagerViewModel.cs" />
+    <Compile Include="ViewModels\TabViewModels\CommandLineTabViewModel.cs" />
+    <Compile Include="ViewModels\TabViewModels\SDK_UpdateSitesTabViewModel.cs" />
+    <Compile Include="ViewModels\TabViewModels\SDK_PlatformsTabViewModel.cs" />
+    <Compile Include="ViewModels\TabViewModels\SDK_ToolsTabViewModel.cs" />
+    <Compile Include="ViewModels\SDK_PlaformItemViewModel.cs" />
+    <Compile Include="ViewModels\TabViewModels\TabBaseViewModel.cs" />
+    <Compile Include="Views\TabViews\CommandLineTabView.xaml.cs">
+      <DependentUpon>CommandLineTabView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModels\MainWindowViewModel.cs" />
+    <Compile Include="Views\TabViews\SDK_PlatformsTabView.xaml.cs">
+      <DependentUpon>SDK_PlatformsTabView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\TabViews\SDK_ToolsTabView.xaml.cs">
+      <DependentUpon>SDK_ToolsTabView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\TabViews\SDK_UpdateSitesTabView.xaml.cs">
+      <DependentUpon>SDK_UpdateSitesTabView.xaml</DependentUpon>
+    </Compile>
+    <Page Include="Views\TabViews\CommandLineTabView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -67,21 +94,31 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Library\PackageStructure.cs" />
-    <Compile Include="LookUpTable.cs" />
+    <Compile Include="SDKManager\Utilities\LookUpTable.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="PackageRowUserControl.xaml">
+    <Page Include="Views\SDK_PlatformItemView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\TabViews\SDK_PlatformsTabView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\TabViews\SDK_ToolsTabView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\TabViews\SDK_UpdateSitesTabView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="PackageData.cs" />
-    <Compile Include="PackageRowUserControl.xaml.cs">
-      <DependentUpon>PackageRowUserControl.xaml</DependentUpon>
+    <Compile Include="Views\SDK_PlatformItemView.xaml.cs">
+      <DependentUpon>SDK_PlatformItemView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
@@ -108,8 +145,6 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="System\Windows\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

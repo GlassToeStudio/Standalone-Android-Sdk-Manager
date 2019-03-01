@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GTS_SDK_Manager"
         mc:Ignorable="d"
-        Title="GTS Android SDK Manager" Height="700" Width="800" Background="#3C3F41">
+        Title="GTS Android SDK Manager" Height="630" Width="810" Background="#3C3F41">
 	<Window.Resources>
 		<Style TargetType="ScrollBar">
 			<Setter Property="Background" Value="#3C3F41"/>
@@ -15,51 +15,78 @@
 	</Window.Resources>
 
 
-	<Grid>
-		<Label Content="Android SDK Location:" 
-               Name="LocationLabel"
-               HorizontalAlignment="Left"
-               Height="26" Margin="10,10,0,0" 
-               VerticalAlignment="Top" 
-               Width="131" 
-               Background="#3C3F41" 
-               Foreground="#BBBBBB"/>
-		<TextBox HorizontalAlignment="Left" 
-                 Name="FolderPathBox" 
-                 Height="19" Margin="146,15,0,0" 
-                 TextWrapping="Wrap"
-                 VerticalAlignment="Top"
-                 Width="395"
-                 TextChanged="TextBox_TextChanged" 
-                 Background="#3C3F41" 
-                 Foreground="#BBBBBB"
-                 BorderBrush="#696969"/>
+
+	<Grid DataContext="{Binding}">
+		<Label Content="Android SDK Location" 
+            Name="LocationLabel"
+            HorizontalAlignment="Left"
+            Height="26" Margin="10,10,0,0" 
+            VerticalAlignment="Top" 
+            Width="131" />
+		<TextBox Text="{Binding PathName}" 
+			HorizontalAlignment="Left" 
+            Name="FolderPathBox" 
+            Height="19" Margin="146,15,0,0" 
+            TextWrapping="Wrap"
+            VerticalAlignment="Top"
+            Width="395"
+            TextChanged="FolderPathBox_TextChanged" 
+            BorderBrush="#696969"/>
 		<TextBlock HorizontalAlignment="Left" 
-                   Name="OpenFolder" 
-                   Height="19"
-                   Margin="556,15,0,0"
-                   TextWrapping="Wrap" 
-                   Text="Edit" 
-                   VerticalAlignment="Top" 
-                   Width="81" 
-                   MouseLeftButtonUp="OpenFolder_MouseLeftButtonUp"
-                   Background="#3C3F41" 
-                   Foreground="#589DF6"
-                   TextDecorations="Underline"/>
-		<TabControl HorizontalAlignment="Left" 
-                    Height="507" 
-                    Margin="10,41,0,0" 
-                    VerticalAlignment="Top" 
-                    Width="772"
-                    Background="#41516D"
-                    BorderBrush="#292B2D"
-                    >
+            Name="OpenFolder" 
+            Height="19"
+            Margin="556,15,0,0"
+            TextWrapping="Wrap" 
+            Text="Edit" 
+            VerticalAlignment="Top" 
+            Width="81" 
+            MouseLeftButtonUp="OpenFolder_MouseLeftButtonUp"
+            Foreground="#589DF6"
+            TextDecorations="Underline"/>
+		<Button Content="Apply" 
+			Command="{Binding UpdatePackagesCommand}"
+			HorizontalAlignment="Left"
+			BorderBrush="#696969"
+			Height="32" 
+			Margin="646,557,0,0"
+			VerticalAlignment="Top"
+			Width="136" 
+			Background="#3C3F41" 
+			Foreground="#BBBBBB"/>
+
+		<TabControl Name="MainTabControl" 
+			ItemsSource="{Binding TabViewModels}"
+            Height="507" 
+            Width="772"
+			HorizontalAlignment="Left" 
+            VerticalAlignment="Top" 
+            Margin="10,41,0,20" 
+            Background="#41516D"
+            BorderBrush="#292B2D"
+			BorderThickness="1.5, 0, 1.5, 1.5"
+            >
+
 			<TabControl.Resources>
+				<DataTemplate DataType="{x:Type local:SDK_PlatformsTabViewModel}">
+					<local:SDKPlatformView />
+				</DataTemplate>
+				<DataTemplate DataType="{x:Type local:SDK_ToolsTabViewModel}">
+					<local:SDKToolsView />
+				</DataTemplate>
+				<DataTemplate DataType="{x:Type local:SDK_UpdateSitesTabViewModel}">
+					<local:SDKUpdateSitesView />
+				</DataTemplate>
+				<DataTemplate DataType="{x:Type local:CommandLineTabViewModel}">
+					<local:CommandLineView />
+				</DataTemplate>
 				<Style TargetType="TabItem">
+					<Setter Property="Header" Value="{Binding TxtTabName}"/>
 					<Setter Property="Template">
 						<Setter.Value>
 							<ControlTemplate TargetType="TabItem">
-								<Border Name="Border" BorderThickness="1,1,1,0" BorderBrush="#292B2D" CornerRadius="4,4,0,0" Margin="2,0" >
+								<Border Name="Border" BorderThickness="1,1,1,0" 
+										BorderBrush="#292B2D" 
+										CornerRadius="4,4,0,0" Margin="2,0" >
 									<ContentPresenter x:Name="ContentSite"
                                         VerticalAlignment="Center"
                                         HorizontalAlignment="Center"
@@ -67,115 +94,26 @@
                                         Margin="10,2"
                                         />
 								</Border>
+
 								<ControlTemplate.Triggers>
 									<Trigger Property="IsSelected" Value="True">
 										<Setter TargetName="Border" Property="Background" Value="#41516D" />
 									</Trigger>
 									<Trigger Property="IsSelected" Value="False">
-										<Setter TargetName="Border" Property="Background" Value="#3C3F41" />
+										<Setter TargetName="Border" Property="Background" Value="#36393A" />
 									</Trigger>
 								</ControlTemplate.Triggers>
 							</ControlTemplate>
 						</Setter.Value>
 					</Setter>
 				</Style>
+
 			</TabControl.Resources>
-			<TabItem Header="SDK Platforms"
-                     Background="#41516D"
-                     Foreground="#BBBBBB">
-
-				<Grid Background="#3C3F41" Margin="-2,1,-2,-2">
-					<TextBlock HorizontalAlignment="Left" Height="62" Margin="10,10,0,0" TextWrapping="Wrap" Text="Each Android SDK Platform package includes the Android platform and sources pertaining to an API level by default. Once installed, Android Studio will automatically check for updates. Check &quot;show package details&quot; to display individual SDK components." VerticalAlignment="Top" Width="596"/>
-
-					<StackPanel Margin="0,0,0,10">
-						<StackPanel Margin="10,64,10,0">
-							<Grid>
-								<Grid.ColumnDefinitions>
-									<ColumnDefinition Width="1.8*"/>
-									<ColumnDefinition Width="*"/>
-									<ColumnDefinition Width="*"/>
-									<ColumnDefinition Width="1.2*"/>
-								</Grid.ColumnDefinitions>
-
-								<Border BorderThickness="1" BorderBrush="#FF2D2F31" Grid.Column="0">
-									<TextBlock Name="NameHeader" Text="Package Name" TextAlignment="Center"/>
-								</Border>
-
-								<Border BorderThickness="1" BorderBrush="#FF2D2F31" Grid.Column="1">
-									<TextBlock Name="APIHeader" Text="API Level" TextAlignment="Center"/>
-								</Border>
-
-								<Border BorderThickness="1" BorderBrush="#FF2D2F31" Grid.Column="2">
-									<TextBlock Name="RevisionHeader" Text="Revision" TextAlignment="Center"/>
-								</Border>
-
-								<Border BorderThickness="1" BorderBrush="#FF2D2F31" Grid.Column="3">
-									<TextBlock Name="StatusHeader" Text="Status" TextAlignment="Center"/>
-								</Border>
-
-							</Grid>
-
-						</StackPanel>
-
-					</StackPanel>
-
-					<Border  Margin="10,81,10,10">
-						<TreeView Name="AllPackages" Foreground="#FF2D2F31" Background="#3C3F41" BorderBrush="#FF2D2F31" BorderThickness="1">
-							<TreeViewItem>
-
-							</TreeViewItem>
-						</TreeView>
-					</Border>
-				</Grid>
-
-			</TabItem>
-
-
-			<TabItem Header="SDK Tools"
-                     Background="#3C3F41"
-                     Foreground="#BBBBBB">
-
-				<Grid Background="#3C3F41" Margin="-2,0,2,-2">
-					
-					
-				</Grid>
-			</TabItem>
-			<TabItem Header="SDK Update Sites"
-                     Background="#3C3F41"
-                     Foreground="#BBBBBB"
-                     >
-
-				<Grid Background="#3C3F41" Margin="-2,0,0,-2"/>
-			</TabItem>
-			<TabItem Header="command line"
-                     Background="#3C3F41"
-                     Foreground="#BBBBBB">
-
-				<Grid Background="#3C3F41" Margin="-2,1,-2,-2">
-					<TextBox Name="SDKMANAGERTEXT" IsReadOnly="True" Foreground="#BBBBBB" BorderBrush="#696969" Background="#3C3F41" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" Width="73" Height="21" Margin="10,24,0,0" Text="sdkmanager"></TextBox>
-					<TextBox Name="ArgList" Text="--list" LostFocus="ArgList_LostFocus" Foreground="#BBBBBB" BorderBrush="#696969" Background="#3C3F41" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" Width="364" Height="21" Margin="82,24,0,0"></TextBox>
-					<Button Name="ExecuteButton" Content="Run" BorderBrush="#696969" Background="#3C3F41" Foreground="#BBBBBB" HorizontalAlignment="Left" Height="21" Margin="547,24,0,0" VerticalAlignment="Top" Width="183" Click="ExecuteButton_Click"/>
-
-					<Border  Margin="10,85,10,10">
-						<ListView Foreground="#FF2D2F31" Background="#3C3F41" BorderBrush="#FF2D2F31" BorderThickness="1">
-							<TextBox BorderThickness="0" Foreground="#BBBBBB" Background="#3C3F41" IsReadOnly="True" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" Width="736" Height="374" Text="Usage:&#xD;&#xA;  sdkmanager [--uninstall] [&lt;common args&gt;] [--package_file=&lt;file&gt;] [&lt;packages&gt;...]&#xD;&#xA;  sdkmanager --update [&lt;common args&gt;]&#xD;&#xA;  sdkmanager --list [&lt;common args&gt;]&#xD;&#xA;  sdkmanager --licenses [&lt;common args&gt;]&#xD;&#xA;  sdkmanager --version&#xD;&#xA;&#xD;&#xA;With --install (optional), installs or updates packages.&#xD;&#xA;    By default, the listed packages are installed or (if already installed)&#xD;&#xA;    updated to the latest version.&#xD;&#xA;With --uninstall, uninstall the listed packages.&#xD;&#xA;&#xD;&#xA;    &lt;package&gt; is a sdk-style path (e.g. &quot;build-tools;23.0.0&quot; or&#xD;&#xA;             &quot;platforms;android-23&quot;).&#xD;&#xA;    &lt;package-file&gt; is a text file where each line is a sdk-style path&#xD;&#xA;                   of a package to install or uninstall.&#xD;&#xA;    Multiple --package_file arguments may be specified in combination&#xD;&#xA;    with explicit paths.&#xD;&#xA;&#xD;&#xA;With --update, all installed packages are updated to the latest version.&#xD;&#xA;&#xD;&#xA;With --list, all installed and available packages are printed out.&#xD;&#xA;&#xD;&#xA;With --licenses, show and offer the option to accept licenses for all&#xD;&#xA;     available packages that have not already been accepted.&#xD;&#xA;&#xD;&#xA;With --version, prints the current version of sdkmanager.&#xD;&#xA;&#xD;&#xA;Common Arguments:&#xD;&#xA;    --sdk_root=&lt;sdkRootPath&gt;: Use the specified SDK root instead of the SDK&#xD;&#xA;                              containing this tool&#xD;&#xA;&#xD;&#xA;    --channel=&lt;channelId&gt;: Include packages in channels up to &lt;channelId&gt;.&#xD;&#xA;                           Common channels are:&#xD;&#xA;                           0 (Stable), 1 (Beta), 2 (Dev), and 3 (Canary).&#xD;&#xA;&#xD;&#xA;    --include_obsolete: With --list, show obsolete packages in the&#xD;&#xA;                        package listing. With --update, update obsolete&#xD;&#xA;                        packages as well as non-obsolete.&#xD;&#xA;&#xD;&#xA;    --no_https: Force all connections to use http rather than https.&#xD;&#xA;&#xD;&#xA;    --proxy=&lt;http | socks&gt;: Connect via a proxy of the given type.&#xD;&#xA;&#xD;&#xA;    --proxy_host=&lt;IP or DNS address&gt;: IP or DNS address of the proxy to use.&#xD;&#xA;&#xD;&#xA;    --proxy_port=&lt;port #&gt;: Proxy port to connect to.&#xD;&#xA;&#xD;&#xA;    --verbose: Enable verbose output."></TextBox>
-						</ListView>
-					</Border>
-				</Grid>
-			</TabItem>
 		</TabControl>
 
-		<Button Content="Apply" 
-				HorizontalAlignment="Left"
-				BorderBrush="#696969"
-				Height="32" 
-				Margin="646,627,0,0"
-				VerticalAlignment="Top"
-				Width="136" 
-				Click="Button_Click"
-				Background="#3C3F41" 
-				Foreground="#BBBBBB"/>
-		<TextBox Name="ConsoleFrame" 
+
+
+		<!--<TextBox Name="ConsoleFrame" 
 				 HorizontalAlignment="Left"
 				 Height="106" 
 				 Margin="10,553,0,0" 
@@ -185,7 +123,8 @@
 				 Foreground="#BBBBBB" 
 				 BorderBrush="#FF2D2F31" 
 				 BorderThickness="1"
-				 IsInactiveSelectionHighlightEnabled="False" TextChanged="ConsoleFrame_TextChanged"
+				 IsInactiveSelectionHighlightEnabled="False" 
+				 TextChanged="ConsoleFrame_TextChanged"
 				 >
 			<TextBox.Style>
 				<Style BasedOn="{x:Null}" TargetType="{x:Type TextBox}">
@@ -212,8 +151,8 @@
 				</Style>
 			</TextBox.Style>
 
-		</TextBox>
-		<Button Content="X" 
+		</TextBox>-->
+		<!--<Button Content="X" 
 				Name="ClearButton"
 				HorizontalAlignment="Left" 
 				VerticalAlignment="Top" 
@@ -224,7 +163,7 @@
 				Click="ClearButton_Click" 
 				Background="#3C3F41" 
 				Foreground="#41516D"
-				FontStretch="Condensed"/>
+				FontStretch="Condensed"/>-->
 	</Grid>
 </Window>
 

@@ -10,19 +10,16 @@ namespace GTS_SDK_Manager
 {
     public partial class MainWindow : Window
     {
-        List<PackageRowUserControl> packagesToInstallorUpdate = new List<PackageRowUserControl>();
-        List<PackageRowUserControl> packagesToUninstall = new List<PackageRowUserControl>();
+        List<SDK_PlatformItemView> packagesToInstallorUpdate = new List<SDK_PlatformItemView>();
+        List<SDK_PlatformItemView> packagesToUninstall = new List<SDK_PlatformItemView>();
 
         public MainWindow()
         {
-            string appdata = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
-            PackageStructure.pathName = appdata + @"\Android\Sdk";
+            this.DataContext = new MainWindowViewModel();
 
             InitializeComponent();
 
-            FolderPathBox.Text = PackageStructure.pathName;
-
-            Initialize();
+            this.MainTabControl.SelectedIndex = 0;
         }
 
         private void OpenFolder_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
@@ -35,145 +32,68 @@ namespace GTS_SDK_Manager
                 {
                     if(File.Exists(fbd.SelectedPath + @"\tools\bin\sdkmanager.bat"))
                     {
-                        PackageStructure.pathName = fbd.SelectedPath;
+                        //PackageStructure.pathName = fbd.SelectedPath;
                         FolderPathBox.Text = fbd.SelectedPath;
                         Refresh();
                     }
                     else
                     {
+                        FolderPathBox.Text = "";
                         System.Windows.Forms.MessageBox.Show("File Not found: " + fbd.SelectedPath + @"\tools\bin\sdkmanager.bat");
                     }
                 }
             }
         }
 
-        private async void Initialize()
-        {
-            if ( ! File.Exists(PackageStructure.pathName + @"\tools\bin\sdkmanager.bat"))
-            {
-                System.Windows.Forms.MessageBox.Show("File Not found: " + PackageStructure.pathName + @"\tools\bin\sdkmanager.bat");
-                return;
-            }
-
-            List<PackageData> finalPackageList = await PackageStructure.GetPackageList(ConsoleFrame);
-
-            foreach (var p in finalPackageList)
-            {
-                bool isChecked = p.Status.Equals("Installed");
-                this.AllPackages.Items.Add(new PackageRowUserControl(p.PackageName, p.Description, p.APILevel.ToString(), p.Revision, p.Status, this, isChecked));
-            }
-        }
-
         private void Refresh()
         {
-            ConsoleFrame.Text = "";
+            //ConsoleFrame.Text = "";
             packagesToInstallorUpdate.Clear();
             packagesToUninstall.Clear();
-            this.AllPackages.Items.Clear();
-            Initialize();
         }
 
         private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            PackageStructure.pathName = FolderPathBox.Text;
-        }
 
-        public void ChildChecked(object sender, RoutedEventArgs e)
-        {
-            var packageData = (PackageRowUserControl)sender;
-
-            // We are an installed package, now we
-            if (packageData.InitialState == true)
-            {
-                if(packagesToUninstall.Contains(packageData))
-                {
-                    packagesToUninstall.Remove(packageData);
-                    return;
-                }
-            }
-            else
-            {
-                if ( ! packagesToInstallorUpdate.Contains(packageData))
-                {
-                    packagesToInstallorUpdate.Add(packageData);
-                    return;
-                }
-            }
-        }
-
-        public void ChildUnchecked(object sender, RoutedEventArgs e)
-        {
-            var packageData = (PackageRowUserControl)sender;
-
-            // We are an installed package, now we
-            if (packageData.InitialState == false)
-            {
-                if (packagesToInstallorUpdate.Contains(packageData))
-                {
-                    packagesToInstallorUpdate.Remove(packageData);
-                    return;
-                }
-            }
-            else
-            {
-                if ( ! packagesToUninstall.Contains(packageData))
-                {
-                    packagesToUninstall.Add(packageData);
-                    return;
-                }
-            }
-        }
-
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            ConsoleFrame.Text = "";
-            var args = string.Empty;
-
-            foreach (var p in packagesToInstallorUpdate)
-            {
-                args += p.PackageName + " ";
-                ConsoleFrame.Text += "Install: " + p.PackageName + "\n";
-                Console.WriteLine("Install: " + p.PackageName);
-            }
-            foreach (var p in packagesToUninstall)
-            {
-                ConsoleFrame.Text += "Uninstall: " + p.PackageName + "\n";
-                Console.WriteLine("Uninstall: " + p.PackageName);
-            }
-            PackageStructure.RunSDKManagerInstall(ConsoleFrame, args);
         }
 
         private void ExecuteButton_Click(object sender, RoutedEventArgs e)
         {
-            ConsoleFrame.Text = "";
-            Console.WriteLine(ArgList.Text);
-            PackageStructure.RunSDKManagerInstall(ConsoleFrame, ArgList.Text);
+            //ConsoleFrame.Text = "";
+            //Console.WriteLine(ArgList.Text);
+            //PackageStructure.RunSDKManagerInstall(ConsoleFrame, ArgList.Text);
         }
 
         private void ArgList_LostFocus(object sender, RoutedEventArgs e)
         {
-            var argListText = ArgList.Text;
-            var argArray = argListText.Split();
-            for (int i = 0; i < argArray.Length; i++)
-            {
-                if (argArray[i].Contains("--") == false)
-                {
-                    argArray[i].Trim('-');
-                    argArray[i] = "--" + argArray[i];
-                }
-            }
-            argListText = String.Join(" ", argArray);
-            ArgList.Text = argListText;
+            //var argListText = ArgList.Text;
+            //var argArray = argListText.Split();
+            //for (int i = 0; i < argArray.Length; i++)
+            //{
+            //    if (argArray[i].Contains("--") == false)
+            //    {
+            //        argArray[i].Trim('-');
+            //        argArray[i] = "--" + argArray[i];
+            //    }
+            //}
+            //argListText = String.Join(" ", argArray);
+            //ArgList.Text = argListText;
         }
 
         private void ClearButton_Click(object sender, RoutedEventArgs e)
         {
-            ConsoleFrame.Text = "";
+            //ConsoleFrame.Text = "";
         }
 
         private void ConsoleFrame_TextChanged(object sender, TextChangedEventArgs e)
         {
             ((System.Windows.Controls.TextBox)sender).ScrollToEnd();
+        }
+
+        private void FolderPathBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            var binding = ((System.Windows.Controls.TextBox)sender).GetBindingExpression(System.Windows.Controls.TextBox.TextProperty);
+            binding.UpdateSource();
         }
     }
 

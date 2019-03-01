@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="GTS_SDK_Manager.PackageRowUserControl"
+﻿<UserControl x:Class="GTS_SDK_Manager.SDK_PlatformItemView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -6,9 +6,7 @@
              xmlns:local="clr-namespace:GTS_SDK_Manager"
              mc:Ignorable="d" Width="700" Height="15.25">
 
-
-
-	<StackPanel Margin="25,0,0,-3">
+	<StackPanel Margin="10,0,0,-3">
 		<Grid Height="18">
 			<Grid.ColumnDefinitions>
 				<ColumnDefinition Width="248*"/>
@@ -17,9 +15,9 @@
 				<ColumnDefinition Width="130*"/>
 			</Grid.ColumnDefinitions>
 
-			<CheckBox Grid.Column="0" Name="PackageNameHeader" Content="{Binding Path=Description}" Foreground="#BBBBBB" BorderBrush="#FF2D2F31" BorderThickness="1"  Background="#686868" Checked="PackageNameHeader_Checked" Unchecked="PackageNameHeader_Unchecked" IsChecked="{Binding Path=IsChecked}"/>
-			<TextBlock Grid.Column="1" Name="xAPIHeader" Text="{Binding Path=APILevel}" TextAlignment="left"  Foreground="#BBBBBB"/>
-			<TextBlock Grid.Column="2" Name="xRevisionHeader" Text="{Binding Path=Revision}" TextAlignment="left" Foreground="#BBBBBB"/>
+			<CheckBox Grid.Column="0" Name="PackageNameHeader" Content="{Binding Path=Description}" IsChecked="{Binding IsChecked}" Foreground="#BBBBBB" BorderBrush="#FF2D2F31" BorderThickness="1"  Background="#686868" Margin="0,0,0,0"/>
+			<TextBlock Grid.Column="1" Name="xAPIHeader" Text="{Binding Path=ApiLevel}" TextAlignment="left"  Foreground="#BBBBBB"/>
+			<TextBlock Grid.Column="2" Name="xRevisionHeader" Text="{Binding Path=Version}" TextAlignment="left" Foreground="#BBBBBB"/>
 			<TextBlock Grid.Column="3" Name="xStatusHeader" Text="{Binding Path=Status}" TextAlignment="left" Foreground="#BBBBBB" />
 		</Grid>
 	</StackPanel>

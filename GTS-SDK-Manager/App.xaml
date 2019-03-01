@@ -4,6 +4,15 @@
              xmlns:local="clr-namespace:GTS_SDK_Manager"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-         
-    </Application.Resources>
+		<Style TargetType="TextBlock">
+			<Setter Property="Foreground" Value ="#BBBBBB"/>
+		</Style>
+		<Style TargetType="Label">
+			<Setter Property="Foreground" Value ="#BBBBBB"/>
+		</Style>
+		<Style TargetType="TextBox">
+			<Setter Property="Foreground" Value ="#BBBBBB"/>
+			<Setter Property="Background" Value="#3C3F41"/>
+		</Style>
+	</Application.Resources>
 </Application>
