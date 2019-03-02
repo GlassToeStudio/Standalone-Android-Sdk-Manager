@@ -23,7 +23,7 @@
             Height="26" Margin="10,10,0,0" 
             VerticalAlignment="Top" 
             Width="131" />
-		<TextBox Text="{Binding PathName}" 
+		<TextBox 
 			HorizontalAlignment="Left" 
             Name="FolderPathBox" 
             Height="19" Margin="146,15,0,0" 
@@ -31,7 +31,24 @@
             VerticalAlignment="Top"
             Width="395"
             TextChanged="FolderPathBox_TextChanged" 
-            BorderBrush="#696969"/>
+            BorderBrush="#696969">
+			<TextBox.Text>
+				<Binding Path="PathName" UpdateSourceTrigger="PropertyChanged">
+					<Binding.ValidationRules>
+						<local:FileExistsValidationRule ValidationStep="RawProposedValue"/>
+					</Binding.ValidationRules>
+				</Binding>
+			</TextBox.Text>
+			<Validation.ErrorTemplate>
+				<ControlTemplate>
+					<StackPanel>
+						<AdornedElementPlaceholder x:Name="textBox"/>
+						<TextBlock Text="{Binding [0].ErrorContent}" Foreground="Red"/>
+						
+					</StackPanel>
+				</ControlTemplate>
+			</Validation.ErrorTemplate>
+		</TextBox>
 		<TextBlock HorizontalAlignment="Left" 
             Name="OpenFolder" 
             Height="19"
@@ -56,11 +73,11 @@
 
 		<TabControl Name="MainTabControl" 
 			ItemsSource="{Binding TabViewModels}"
-            Height="507" 
+            Height="488" 
             Width="772"
 			HorizontalAlignment="Left" 
             VerticalAlignment="Top" 
-            Margin="10,41,0,20" 
+            Margin="10,60,0,0" 
             Background="#41516D"
             BorderBrush="#292B2D"
 			BorderThickness="1.5, 0, 1.5, 1.5"

@@ -29,5 +29,10 @@ namespace GTS_SDK_Manager
             PathName = SDKManagerBat.PathName;
 
         }
+
+        public void Reset()
+        {
+            SDKManagerBat.Reset();
+        }
     }
 }

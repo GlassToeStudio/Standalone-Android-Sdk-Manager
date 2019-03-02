@@ -12,7 +12,7 @@ namespace GTS_SDK_Manager
     public static class SDKManagerBat
     {
         private static readonly RegexOptions _options = RegexOptions.Multiline;
-        public static string PathName = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + @"\Android\Sdk";
+        public static string PathName = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + @"\Andyroid\Sdk";
  
         private static MatchCollection _body;
         private static MatchCollection _updates;
@@ -25,6 +25,7 @@ namespace GTS_SDK_Manager
 
         public async static Task<string> GetListVerboseOutputAsync(params string[] args)
         {
+            Console.WriteLine("SDK Manager Path Name: " + PathName);
             if(string.IsNullOrEmpty(PathName))
             {
                 PathName = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + @"\Android\Sdk";
@@ -43,7 +44,7 @@ namespace GTS_SDK_Manager
                 ProcessStartInfo processInfo = new ProcessStartInfo
                 {
                     UseShellExecute = false,
-                    CreateNoWindow = false,
+                    CreateNoWindow = true,
                     RedirectStandardOutput = true,
                     RedirectStandardError = true,
                     FileName = YourApplicationPath + ".bat"
@@ -72,6 +73,17 @@ namespace GTS_SDK_Manager
             }
             
             return AllData;
+        }
+
+        public static void Reset()
+        {
+             _body = null;
+             _updates = null;
+             _googleApis = null;
+             _systemImages = null;
+             _sources = null;
+             _googleGlass = null;
+             AllData = null;
         }
 
         public static List<SDK_PlatformItem> CreatePackageItems()

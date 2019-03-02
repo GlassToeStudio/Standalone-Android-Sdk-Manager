@@ -1,6 +1,11 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.IO;
 using System.Text;
+using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace GTS_SDK_Manager
@@ -15,8 +20,12 @@ namespace GTS_SDK_Manager
 
         public string TxtBroweFolder { get; set; }
 
-        private string _pathName;
+        public bool IsValidPath
+        {
+            get => ValidatePath();
+        }
 
+        private string _pathName;
         public string PathName
         {
             get => _pathName;
@@ -26,7 +35,15 @@ namespace GTS_SDK_Manager
                 {
                     _pathName = value;
                     sdkManager.PathName = value;
-                    NotifyPropertyChanged();
+                    if (IsValidPath)
+                    {
+                        NotifyPropertyChanged();
+                        if (TabViewModels != null)
+                        {
+                            sdkManager.Reset();
+                            PopulatePlatformsTab();
+                        }
+                    }
                 }
             }
         }
@@ -44,6 +61,11 @@ namespace GTS_SDK_Manager
 
             sdkManager = new SDKManagerViewModel();
             PathName = sdkManager.PathName;
+            CreateTabViewModels();
+        }
+
+        private void CreateTabViewModels()
+        {
             TabViewModels = new ObservableCollection<TabBaseViewModel>
             {
                 new SDK_PlatformsTabViewModel
@@ -58,15 +80,18 @@ namespace GTS_SDK_Manager
                 new SDK_ToolsTabViewModel
                 {
                     TxtTabName = "SDK Tools",
-                    TxtInformation = "Each Android SDK Platform package includes the Android platform and sources pertaining to an API level by default. Once installed, Android Studio will automatically check for updates. Check \"show package details\" to display individual SDK components.",
-                    TxtPackageName = "Package Name",
-                    TxtAPILevel = "API Level",
-                    TxtRevision = "Revision",
-                    TxtStatus = "Status"
                 },
                 new SDK_UpdateSitesTabViewModel { TxtTabName = "Package Updates", },
                 new CommandLineTabViewModel { TxtTabName = "Command Line", }
             };
+
+            PopulatePlatformsTab();
+        }
+
+        private void PopulatePlatformsTab()
+        {
+            sdkManager.Reset();
+            ((SDK_PlatformsTabViewModel)TabViewModels[0])?.Populate();
         }
 
         private void UpdatePackages()
@@ -110,6 +135,33 @@ namespace GTS_SDK_Manager
         private void ChangePath(string obj)
         {
             Console.WriteLine("This is obj: " + obj);
+        }
+
+        private bool ValidatePath()
+        {
+            if (File.Exists(_pathName + @"\tools\bin\sdkmanager.bat"))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+    }
+
+    public class FileExistsValidationRule : ValidationRule
+    {
+        public override ValidationResult Validate(object value, System.Globalization.CultureInfo cultureInfo)
+        {
+            if (File.Exists((string)value + @"\tools\bin\sdkmanager.bat"))
+            {
+                return new ValidationResult(true, null);
+            }
+            else
+            {
+                return new ValidationResult(false, "Path is not a valid path to the android sdk.");
+            }
         }
     }
 }
