@@ -2,8 +2,15 @@
 
 namespace GTS_SDK_Manager
 {
+    /// <summary>
+    /// static class for converting from standard description to alias description.
+    /// </summary>
     public static class LookUpTable
     {
+        /// <summary>
+        /// Convert from default platform desction to the alias name of a platform.
+        /// <para>Android SDK Platform 7 => Android 2.1 (Eclair)</para>
+        /// </summary>
         public static Dictionary<string, string> CoolNames = new Dictionary<string, string>
         {
             { "Android SDK Platform 7", "Android 2.1 (Eclair)"},

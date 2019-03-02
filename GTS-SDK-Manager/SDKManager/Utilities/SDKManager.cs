@@ -1,19 +1,23 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Text.RegularExpressions;
+using System.Diagnostics;
 using System.Threading.Tasks;
+using System.Collections.Generic;
+using System.Text.RegularExpressions;
 
 namespace GTS_SDK_Manager
 {
+    /// <summary>
+    /// Simulate the built-in sdkmanger.bat
+    /// </summary>
     public static class SDKManagerBat
     {
+        #region Private fields
+
         private static readonly RegexOptions _options = RegexOptions.Multiline;
-        public static string PathName = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + @"\Andyroid\Sdk";
- 
+
         private static MatchCollection _body;
         private static MatchCollection _updates;
         private static MatchCollection _googleApis;
@@ -21,12 +25,30 @@ namespace GTS_SDK_Manager
         private static MatchCollection _sources;
         private static MatchCollection _googleGlass;
 
+        #endregion
+
+        /// <summary>
+        /// The path to sdkmanager.bat
+        /// </summary>
+        public static string PathName = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + @"\Andyroid\Sdk";
+        /// <summary>
+        /// A string representation of the output from sdkmanager.bat --list --verbose
+        /// </summary>
         public static string AllData { get; private set; }
 
+        /// <summary>
+        /// Listen for this event to get the output from the hidden console window.
+        /// </summary>
+        public static Action<string> SendOutput { get; set; }
+
+        /// <summary>
+        /// Returns the output AllData from running sdkmanager.bat --list --verbose
+        /// </summary>
+        /// <param name="args"></param>
+        /// <returns></returns>
         public async static Task<string> GetListVerboseOutputAsync(params string[] args)
         {
-            Console.WriteLine("SDK Manager Path Name: " + PathName);
-            if(string.IsNullOrEmpty(PathName))
+            if (string.IsNullOrEmpty(PathName))
             {
                 PathName = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + @"\Android\Sdk";
             }
@@ -38,17 +60,9 @@ namespace GTS_SDK_Manager
 
             if (AllData == null)
             {
-                string YourApplicationPath = PathName + @"\tools\bin\sdkmanager";
                 string processOutput;
+                ProcessStartInfo processInfo = NoShellProcessInfo(PathName);
 
-                ProcessStartInfo processInfo = new ProcessStartInfo
-                {
-                    UseShellExecute = false,
-                    CreateNoWindow = true,
-                    RedirectStandardOutput = true,
-                    RedirectStandardError = true,
-                    FileName = YourApplicationPath + ".bat"
-                };
                 processInfo.Arguments = String.Join(" ", args); //" --list --verbose";
 
                 Process pro = new Process
@@ -71,24 +85,128 @@ namespace GTS_SDK_Manager
 
                 AllData = r;
             }
-            
+
             return AllData;
         }
-
-        public static void Reset()
+        /// <summary>
+        /// Runs sdkmanager.bat --install [package;name]
+        /// </summary>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        public async static Task<string> InstallPackagesAsync(params string[] args)
         {
-             _body = null;
-             _updates = null;
-             _googleApis = null;
-             _systemImages = null;
-             _sources = null;
-             _googleGlass = null;
-             AllData = null;
+            ProcessStartInfo processInfo = NoShellProcessInfo(PathName);
+
+            processInfo.Arguments = String.Join(" ", args);
+
+            Process pro = new Process
+            {
+                StartInfo = processInfo
+            };
+
+            var t = await Task.Run<string>(() =>
+            {
+                var stdOutput = new StringBuilder();
+                pro.OutputDataReceived += (sender, arg) =>
+                {
+                    SendOutput(arg.Data);
+                    stdOutput.AppendLine(arg.Data);
+                }; 
+
+                string stdError = null;
+                try
+                {
+                    pro.Start();
+
+                    pro.BeginOutputReadLine();
+                    pro.StandardInput.WriteLine("y");
+                    stdError = pro.StandardError.ReadToEnd();
+                    pro.WaitForExit();
+                }
+                catch (Exception e)
+                {
+                    throw new Exception("OS error while executing " + Format("sdkmanager", String.Join(" ", args)) + ": " + e.Message, e);
+                }
+
+                if (pro.ExitCode == 0)
+                {
+                    return stdOutput.ToString();
+                }
+                else
+                {
+                    var message = new StringBuilder();
+
+                    if (!string.IsNullOrEmpty(stdError))
+                    {
+                        message.AppendLine(stdError);
+                    }
+
+                    if (stdOutput.Length != 0)
+                    {
+                        message.AppendLine("Std output:");
+                        message.AppendLine(stdOutput.ToString());
+                    }
+
+                    throw new Exception(Format("sdkmanager", String.Join(" ", args)) + " finished with exit code = " + pro.ExitCode + ": " + message);
+                }
+            });
+
+            return t;
         }
 
+        /// <summary>
+        /// Reset the static members to prepare to gather new data. Called when changes to installed sdks are made.
+        /// </summary>
+        public static void Reset()
+        {
+            _body = null;
+            _updates = null;
+            _googleApis = null;
+            _systemImages = null;
+            _sources = null;
+            _googleGlass = null;
+            AllData = null;
+        }
+
+        /// <summary>
+        /// Helper method to get setup a new process.
+        /// </summary>
+        /// <param name="pathName"></param>
+        /// <returns></returns>
+        private static ProcessStartInfo NoShellProcessInfo(string pathName)
+        {
+            string sdkManagerPath = $"{pathName}{@"\tools\bin\sdkmanager.bat"}";
+            return new ProcessStartInfo
+            {
+                UseShellExecute = false,
+                CreateNoWindow = true,
+                RedirectStandardOutput = true,
+                RedirectStandardError = true,
+                RedirectStandardInput = true,
+                FileName = sdkManagerPath
+            };
+        }
+
+        /// <summary>
+        /// Used for error handling of console output.
+        /// </summary>
+        /// <param name="filename"></param>
+        /// <param name="arguments"></param>
+        /// <returns></returns>
+        private static string Format(string filename, string arguments)
+        {
+            return "'" + filename +
+                ((string.IsNullOrEmpty(arguments)) ? string.Empty : " " + arguments) +
+                "'";
+        }
+
+        /// <summary>
+        /// Will create a list of package items based on AllData.
+        /// </summary>
+        /// <returns></returns>
         public static List<SDK_PlatformItem> CreatePackageItems()
         {
-            if(_body == null)
+            if (_body == null)
             {
                 _body = Regex.Matches(AllData, Patterns.test_string, _options);
             }
@@ -125,13 +243,18 @@ namespace GTS_SDK_Manager
 
         #region SDK_PlatformItem Extension Methods
 
+        /// <summary>
+        /// Check this SDK_PlatformItem for updates.
+        /// </summary>
+        /// <param name="packageItem"></param>
+        /// <returns></returns>
         public static SDK_PlatformItem CheckForUpdates(this SDK_PlatformItem packageItem)
         {
-            if(_updates == null)
+            if (_updates == null)
             {
                 _updates = Regex.Matches(AllData, Patterns.UPDATEABLE_PACKAGES_PATTERN, _options);
             }
-       
+
             for (int i = 0; i < _updates.Count; i++)
             {
                 var platform = _updates[i].Groups["Platform"].ToString().Trim();
@@ -146,26 +269,30 @@ namespace GTS_SDK_Manager
             }
             return packageItem;
         }
-
+        /// <summary>
+        /// Get all low-level packages for this SDK_PlatformItem.
+        /// </summary>
+        /// <param name="packageItem"></param>
+        /// <returns></returns>
         public static SDK_PlatformItem CreatePackageChildren(this SDK_PlatformItem packageItem)
         {
-            if(_systemImages == null)
+            if (_systemImages == null)
             {
                 _systemImages = Regex.Matches(AllData, Patterns.SYSTEM_IMAGES_PATTERN, _options);
             }
             packageItem.GetChild(_systemImages);
 
-            if(_googleApis == null)
+            if (_googleApis == null)
             {
                 _googleApis = Regex.Matches(AllData, Patterns.GOOGLE_APIS, _options);
             }
-            if(_sources == null)
+            if (_sources == null)
             {
                 _sources = Regex.Matches(AllData, Patterns.SOURCES_PATTERN, _options);
             }
             packageItem.GetChild(_sources);
 
-            if(_googleGlass == null)
+            if (_googleGlass == null)
             {
                 _googleGlass = Regex.Matches(AllData, Patterns.GOOGLE_GLASS_PATTERN, _options);
             }
@@ -174,7 +301,11 @@ namespace GTS_SDK_Manager
 
             return packageItem;
         }
-
+        /// <summary>
+        /// Helper method to get specific children of this SDK_PlatformItem. Use by CreatePackageChildren().
+        /// </summary>
+        /// <param name="packageItem"></param>
+        /// <returns></returns>
         private static SDK_PlatformItem GetChild(this SDK_PlatformItem packageItem, MatchCollection collection)
         {
             for (int i = 0; i < collection.Count; i++)
@@ -206,7 +337,7 @@ namespace GTS_SDK_Manager
             }
             return packageItem;
         }
-        
+
         #endregion
     }
 }

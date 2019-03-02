@@ -5,6 +5,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Input;
 
@@ -12,18 +13,13 @@ namespace GTS_SDK_Manager
 {
     public class MainWindowViewModel : BaseViewModel
     {
-        private SDKManagerViewModel sdkManager;
+        public SDKManagerViewModel sdkManager { get; set; }
 
         public string LabelLocation = "Android SDK Location";
 
         public string TxtSDKPath { get; set; }
 
         public string TxtBroweFolder { get; set; }
-
-        public bool IsValidPath
-        {
-            get => ValidatePath();
-        }
 
         private string _pathName;
         public string PathName
@@ -46,6 +42,11 @@ namespace GTS_SDK_Manager
                     }
                 }
             }
+        }
+
+        public bool IsValidPath
+        {
+            get => ValidatePath();
         }
 
         public ICommand ChangePathCommand { get; set; }
@@ -122,6 +123,17 @@ namespace GTS_SDK_Manager
             {
                 case true:
                     Console.WriteLine(sbInstall.ToString());
+                    var t = Task.Run( async () => {
+                        await sdkManager.UpdatePackges(sbInstall.ToString());
+                        PopulatePlatformsTab();
+                    });
+                    
+                    t = Task.Run( async () => {
+                        await sdkManager.UpdatePackges(sbUninstall.ToString());
+                        PopulatePlatformsTab();
+                    });
+
+                   
                     Console.WriteLine(sbUninstall.ToString());
                     break;
                 case false:

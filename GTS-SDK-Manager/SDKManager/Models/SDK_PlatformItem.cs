@@ -3,6 +3,9 @@ using System.Collections.Generic;
 
 namespace GTS_SDK_Manager
 {
+    /// <summary>
+    /// Standard data container for each high-level sdk platform,
+    /// </summary>
     public class SDK_PlatformItem : IComparable<SDK_PlatformItem>
     {
         /// <summary>
@@ -14,7 +17,7 @@ namespace GTS_SDK_Manager
         /// </summary>
         public int ApiLevel { get; set; }
         /// <summary>
-        /// Android SDK Platform 23 => Android 6.0 (Marshmallow)
+        /// The descrion of the plafrom as read from sdk manager: Android SDK Platform 23 => Android 6.0 (Marshmallow)
         /// </summary>
         public string Description { get; set; }
         /// <summary>
@@ -23,7 +26,7 @@ namespace GTS_SDK_Manager
         public string Version { get; set; }
         /// <summary>
         /// The installed lcoation of this package.
-        /// C:\Users\GlassToe\AppData\Local\Android\Sdk\platforms\android-23
+        /// C:\Users\USER\AppData\Local\Android\Sdk\platforms\android-23 ( for example)
         /// </summary>
         public string InstallLocation { get; set; }
         /// <summary>

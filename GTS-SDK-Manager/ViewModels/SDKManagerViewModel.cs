@@ -10,10 +10,12 @@ namespace GTS_SDK_Manager
     {
         private string _pathName;
 
-        public string PathName { get => _pathName;
+        public string PathName
+        {
+            get => _pathName;
             set
             {
-                if(_pathName != value)
+                if (_pathName != value)
                 {
                     _pathName = value;
                     SDKManagerBat.PathName = value;
@@ -24,10 +26,35 @@ namespace GTS_SDK_Manager
             }
         }
 
+        private string _consoleOutput = "Status";
+        public string ConsoleOutput
+        {
+            get => _consoleOutput;
+            set
+            {
+                if(_consoleOutput != value)
+                {
+                    _consoleOutput = value;
+                    NotifyPropertyChanged();
+                }
+            }
+        }
+
         public SDKManagerViewModel()
         {
+            SDKManagerBat.SendOutput += GetSKDManagerOutput;
             PathName = SDKManagerBat.PathName;
+        }
 
+        public async Task<string> UpdatePackges(string args)
+        {
+            var t = await Task.Run(() => SDKManagerBat.InstallPackagesAsync(args));
+            return t;
+        }
+
+        private void GetSKDManagerOutput(string output)
+        {
+            ConsoleOutput = output?.Trim();
         }
 
         public void Reset()

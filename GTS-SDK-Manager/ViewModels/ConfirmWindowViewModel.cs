@@ -8,6 +8,11 @@ using System.Windows.Input;
 
 namespace GTS_SDK_Manager
 {
+    /// <summary>
+    /// A window to diplay when updating, intalling, uninstalling packages.
+    /// <para>Will return true if user accpets, or false if user cancles.</para>
+    /// <para>Use Window.ShowDialog()</para>
+    /// </summary>
     public class ConfirmWindowViewModel : BaseViewModel
     {
         private Window _win {get;set;}

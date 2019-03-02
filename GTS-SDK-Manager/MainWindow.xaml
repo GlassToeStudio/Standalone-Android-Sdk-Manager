@@ -44,7 +44,7 @@
 					<StackPanel>
 						<AdornedElementPlaceholder x:Name="textBox"/>
 						<TextBlock Text="{Binding [0].ErrorContent}" Foreground="Red"/>
-						
+
 					</StackPanel>
 				</ControlTemplate>
 			</Validation.ErrorTemplate>
@@ -60,6 +60,13 @@
             MouseLeftButtonUp="OpenFolder_MouseLeftButtonUp"
             Foreground="#589DF6"
             TextDecorations="Underline"/>
+
+		<Label Content="{Binding Path=sdkManager.ConsoleOutput}" 
+            HorizontalAlignment="Left"
+            Height="41" Margin="10,548,0,0" 
+            VerticalAlignment="Top" 
+            Width="608" />
+
 		<Button Content="Apply" 
 			Command="{Binding UpdatePackagesCommand}"
 			HorizontalAlignment="Left"

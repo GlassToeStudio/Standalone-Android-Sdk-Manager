@@ -6,28 +6,6 @@ namespace GTS_SDK_Manager
 {
     public class SDK_PlaformItemViewModel : BaseViewModel
     {
-        public SDK_PlaformItemViewModel(SDK_PlatformItem package)
-        {
-            Platform = package.Platform;
-            ApiLevel = package.ApiLevel;
-            Description = package.Description;
-            Version = package.Version;
-            InstallLocation = package.InstallLocation;
-            IsInstalled = package.IsInstalled;
-            Status = package.Status;
-            IsChild = package.IsChild;
-            InitialState = string.IsNullOrEmpty(InstallLocation) ? false : true;
-            IsChecked = InitialState;
-
-            var children = package.Children;
-            if (package.IsChild == false)
-            {
-                _otherPackages = new ObservableCollection<SDK_PlaformItemViewModel>(
-                    children.Select(p => new SDK_PlaformItemViewModel(p))
-                    );
-            }
- 
-        }
         /// <summary>
         /// The name of this platform, as read from sdk manager: platforms;android-23
         /// </summary>
@@ -73,10 +51,19 @@ namespace GTS_SDK_Manager
             get { return IsChild ? null : _otherPackages; }
             set { _otherPackages = value; }
         }
-
+        /// <summary>
+        /// True if this package was initially installed, false otherwise.
+        /// <para>Used to determine how to handle this package if its Checkbox is toggled.</para>
+        /// </summary>
         public bool InitialState { get; set; }
 
+        /// <summary>
+        /// IsChecked backing field.
+        /// </summary>
         private bool _isChecked;
+        /// <summary>
+        /// True if Checked, false otherwise.
+        /// </summary>
         public bool IsChecked
         {
             get { return _isChecked; }
@@ -90,6 +77,33 @@ namespace GTS_SDK_Manager
                 _isChecked = value;
                 NotifyPropertyChanged();
             }
+        }
+
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="package"></param>
+        public SDK_PlaformItemViewModel(SDK_PlatformItem package)
+        {
+            Platform = package.Platform;
+            ApiLevel = package.ApiLevel;
+            Description = package.Description;
+            Version = package.Version;
+            InstallLocation = package.InstallLocation;
+            IsInstalled = package.IsInstalled;
+            Status = package.Status;
+            IsChild = package.IsChild;
+            InitialState = string.IsNullOrEmpty(InstallLocation) ? false : true;
+            IsChecked = InitialState;
+
+            var children = package.Children;
+            if (package.IsChild == false)
+            {
+                _otherPackages = new ObservableCollection<SDK_PlaformItemViewModel>(
+                    children.Select(p => new SDK_PlaformItemViewModel(p))
+                    );
+            }
+
         }
     }
 }

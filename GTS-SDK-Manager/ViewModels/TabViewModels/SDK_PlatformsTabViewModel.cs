@@ -5,9 +5,14 @@ namespace GTS_SDK_Manager
 {
     public class SDK_PlatformsTabViewModel : TabBaseViewModel
     {
+        /// <summary>
+        /// Data container for all currently available platform items
+        /// </summary>
         private SDK_PlatformStructure _packageItemStructure;
         private ObservableCollection<SDK_PlaformItemViewModel> _packageItems;
-
+        /// <summary>
+        /// List of all high-level platform items and their lower level packages.
+        /// </summary>
         public ObservableCollection<SDK_PlaformItemViewModel> PackageItems { get => _packageItems;
             set
             {
@@ -18,6 +23,7 @@ namespace GTS_SDK_Manager
                 }
             }
         }
+
         public SDK_PlatformsTabViewModel() : base()
         {
 

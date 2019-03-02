@@ -11,19 +11,14 @@ namespace GTS_SDK_Manager
 
         public RelayCommand(Action action)
         {
-            Console.WriteLine("Im created " + action.Method.Name);
             _action = action;
         }
 
-        public bool CanExecute(object parameter)
-        {
-            return true;
-        }
+        public bool CanExecute(object parameter) => true;
 
         public void Execute(object parameter)
         {
-            Console.WriteLine("Im Executin");
-            _action.Invoke();
+            _action?.Invoke();
         }
     }
 }
