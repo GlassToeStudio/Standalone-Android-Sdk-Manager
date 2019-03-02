@@ -71,9 +71,9 @@ namespace GTS_SDK_Manager
 
         private void UpdatePackages()
         {
-            Console.WriteLine("Hi");
             StringBuilder sbInstall = new StringBuilder("--install ");
             StringBuilder sbUninstall = new StringBuilder("--uninstall ");
+            StringBuilder descriptions = new StringBuilder();
             var packageTabs = (SDK_PlatformsTabViewModel)TabViewModels[0];
             foreach (var item in packageTabs.PackageItems)
             {
@@ -81,6 +81,7 @@ namespace GTS_SDK_Manager
                 {
                     if(item.InitialState == false)
                     {
+                        descriptions.Append($"{item.Description}\n");
                         sbInstall.Append($"{item.Platform} ");
                     }
                     else
@@ -89,8 +90,21 @@ namespace GTS_SDK_Manager
                     }
                 }
             }
-            Console.WriteLine(sbInstall.ToString());
-            Console.WriteLine(sbUninstall.ToString());
+
+            ConfirmChangeWindow win = new ConfirmChangeWindow(descriptions.ToString());
+            bool? result = win.ShowDialog();
+            switch (result)
+            {
+                case true:
+                    Console.WriteLine(sbInstall.ToString());
+                    Console.WriteLine(sbUninstall.ToString());
+                    break;
+                case false:
+                    Console.WriteLine("User Canceled");
+                    break;
+                default:
+                    break;
+            }
         }
 
         private void ChangePath(string obj)

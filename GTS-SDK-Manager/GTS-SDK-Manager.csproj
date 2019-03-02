@@ -62,6 +62,7 @@
     <Compile Include="ViewModels\BaseViewModel.cs" />
     <Compile Include="ViewModels\Commands\RelayCommand.cs" />
     <Compile Include="ViewModels\Commands\RelayCommandString.cs" />
+    <Compile Include="ViewModels\ConfirmWindowViewModel.cs" />
     <Compile Include="ViewModels\SDKManagerViewModel.cs" />
     <Compile Include="ViewModels\TabViewModels\CommandLineTabViewModel.cs" />
     <Compile Include="ViewModels\TabViewModels\SDK_UpdateSitesTabViewModel.cs" />
@@ -69,6 +70,9 @@
     <Compile Include="ViewModels\TabViewModels\SDK_ToolsTabViewModel.cs" />
     <Compile Include="ViewModels\SDK_PlaformItemViewModel.cs" />
     <Compile Include="ViewModels\TabViewModels\TabBaseViewModel.cs" />
+    <Compile Include="Windows\ConfirmChangeWindow.xaml.cs">
+      <DependentUpon>ConfirmChangeWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\TabViews\CommandLineTabView.xaml.cs">
       <DependentUpon>CommandLineTabView.xaml</DependentUpon>
     </Compile>
@@ -82,6 +86,10 @@
     <Compile Include="Views\TabViews\SDK_UpdateSitesTabView.xaml.cs">
       <DependentUpon>SDK_UpdateSitesTabView.xaml</DependentUpon>
     </Compile>
+    <Page Include="Windows\ConfirmChangeWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\TabViews\CommandLineTabView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
