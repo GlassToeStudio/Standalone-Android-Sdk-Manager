@@ -70,6 +70,9 @@
     <Compile Include="ViewModels\TabViewModels\SdkToolsTabViewModel.cs" />
     <Compile Include="ViewModels\SdkPlaformItemViewModel.cs" />
     <Compile Include="ViewModels\TabViewModels\TabBaseViewModel.cs" />
+    <Compile Include="Views\SdkPlatformItemChildView.xaml.cs">
+      <DependentUpon>SdkPlatformItemChildView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Windows\ConfirmChangeWindow.xaml.cs">
       <DependentUpon>ConfirmChangeWindow.xaml</DependentUpon>
     </Compile>
@@ -86,6 +89,10 @@
     <Compile Include="Views\TabViews\SdkUpdateSitesTabView.xaml.cs">
       <DependentUpon>SdkUpdateSitesTabView.xaml</DependentUpon>
     </Compile>
+    <Page Include="Views\SdkPlatformItemChildView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Windows\ConfirmChangeWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

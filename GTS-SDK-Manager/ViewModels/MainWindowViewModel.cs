@@ -193,7 +193,6 @@ namespace GTS_SDK_Manager
             }
         }
 
-
         private bool ValidatePath()
         {
             return File.Exists(_pathName + @"\tools\bin\sdkmanager.bat");
