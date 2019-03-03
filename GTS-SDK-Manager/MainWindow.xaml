@@ -14,8 +14,6 @@
 		</Style>
 	</Window.Resources>
 
-
-
 	<Grid DataContext="{Binding}">
 		<Label Content="Android SDK Location" 
             Name="LocationLabel"
@@ -44,7 +42,6 @@
 					<StackPanel>
 						<AdornedElementPlaceholder x:Name="textBox"/>
 						<TextBlock Text="{Binding [0].ErrorContent}" Foreground="Red"/>
-
 					</StackPanel>
 				</ControlTemplate>
 			</Validation.ErrorTemplate>

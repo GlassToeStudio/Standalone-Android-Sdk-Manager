@@ -19,13 +19,13 @@ namespace GTS_SDK_Manager
         /// </summary>
         public SDK_PlatformStructure()
         {
-            if (SDKManagerBat.AllData == null)
+            if (SDKManagerBat.VerboseOutput == null)
             {
-                var t = Task.Run(() => SDKManagerBat.GetListVerboseOutputAsync("--list --verbose"));
+                var t = Task.Run(() => SDKManagerBat.FetchVerboseOutputAsync());
                 t.Wait();
             }
 
-            if (SDKManagerBat.AllData == null)
+            if (SDKManagerBat.VerboseOutput == null)
             {
                 return;
             }

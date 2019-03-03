@@ -29,12 +29,12 @@ namespace GTS_SDK_Manager
 
         /// <summary>
         /// The path to sdkmanager.bat
-        /// </summary>
-        public static string PathName = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + @"\Andyroid\Sdk";
+        /// </summary> TODO: Intentional Typeo!!!!!!!!!!!!!!!!!!!!!!
+        public static string PathName { get; set; } = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + @"\Andyroid\Sdk";
         /// <summary>
         /// A string representation of the output from sdkmanager.bat --list --verbose
         /// </summary>
-        public static string AllData { get; private set; }
+        public static string VerboseOutput { get; private set; }
 
         /// <summary>
         /// Listen for this event to get the output from the hidden console window.
@@ -42,11 +42,11 @@ namespace GTS_SDK_Manager
         public static Action<string> SendOutput { get; set; }
 
         /// <summary>
-        /// Returns the output AllData from running sdkmanager.bat --list --verbose
+        /// Returns the output VerboseOutput from running sdkmanager.bat --list --verbose
         /// </summary>
         /// <param name="args"></param>
         /// <returns></returns>
-        public async static Task<string> GetListVerboseOutputAsync(params string[] args)
+        public async static Task<string> FetchVerboseOutputAsync()
         {
             if (string.IsNullOrEmpty(PathName))
             {
@@ -58,36 +58,28 @@ namespace GTS_SDK_Manager
                 return null;
             }
 
-            if (AllData == null)
+            if (VerboseOutput == null)
             {
-                string processOutput;
                 ProcessStartInfo processInfo = NoShellProcessInfo(PathName);
+                processInfo.Arguments = "--list --verbose";
 
-                processInfo.Arguments = String.Join(" ", args); //" --list --verbose";
+                Process cmdProcess = new Process { StartInfo = processInfo };
+                cmdProcess.Start();
 
-                Process pro = new Process
+                VerboseOutput = await Task.Run(async () =>
                 {
-                    StartInfo = processInfo
-                };
-                pro.Start();
-
-                var r = await Task.Run(async () =>
-                {
-                    using (StreamReader std_out = pro.StandardOutput)
+                    using (StreamReader stdOut = cmdProcess.StandardOutput)
                     {
-                        var outstuff = await std_out.ReadToEndAsync();
-                        processOutput = outstuff;
-                        std_out.Close();
-                        pro.Close();
-                        return processOutput;
+                        var result = await stdOut.ReadToEndAsync();
+                        stdOut.Close();
+                        cmdProcess.Close();
+                        return result;
                     }
                 });
-
-                AllData = r;
             }
-
-            return AllData;
+            return VerboseOutput;
         }
+
         /// <summary>
         /// Runs sdkmanager.bat --install [package;name]
         /// </summary>
@@ -97,27 +89,24 @@ namespace GTS_SDK_Manager
         {
             ProcessStartInfo processInfo = NoShellProcessInfo(PathName);
 
-            processInfo.Arguments = String.Join(" ", args);
+            processInfo.Arguments = $"{"--install "}{String.Join(" ", args)}";
 
             Process pro = new Process
             {
                 StartInfo = processInfo
             };
 
-            var t = await Task.Run<string>(() =>
+            var t = await Task.Run(() =>
             {
-                var stdOutput = new StringBuilder();
                 pro.OutputDataReceived += (sender, arg) =>
                 {
                     SendOutput(arg.Data);
-                    stdOutput.AppendLine(arg.Data);
                 }; 
 
                 string stdError = null;
                 try
                 {
                     pro.Start();
-
                     pro.BeginOutputReadLine();
                     pro.StandardInput.WriteLine("y");
                     stdError = pro.StandardError.ReadToEnd();
@@ -130,7 +119,7 @@ namespace GTS_SDK_Manager
 
                 if (pro.ExitCode == 0)
                 {
-                    return stdOutput.ToString();
+                    return string.Empty;
                 }
                 else
                 {
@@ -141,10 +130,61 @@ namespace GTS_SDK_Manager
                         message.AppendLine(stdError);
                     }
 
-                    if (stdOutput.Length != 0)
+                    throw new Exception(Format("sdkmanager", String.Join(" ", args)) + " finished with exit code = " + pro.ExitCode + ": " + message);
+                }
+            });
+
+            return t;
+        }
+        
+        /// <summary>
+        /// Runs sdkmanager.bat --uninstall [package;name]
+        /// </summary>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        public async static Task<string> UninstallPackagesAsync(params string[] args)
+        {
+            ProcessStartInfo processInfo = NoShellProcessInfo(PathName);
+
+            processInfo.Arguments = $"{"--uninstall "}{String.Join(" ", args)}";
+
+            Process pro = new Process
+            {
+                StartInfo = processInfo
+            };
+
+            var t = await Task.Run(() =>
+            {
+                pro.OutputDataReceived += (sender, arg) =>
+                {
+                    SendOutput(arg.Data);
+                }; 
+
+                string stdError = null;
+                try
+                {
+                    pro.Start();
+                    pro.BeginOutputReadLine();
+                    //pro.StandardInput.WriteLine("y");
+                    stdError = pro.StandardError.ReadToEnd();
+                    pro.WaitForExit();
+                }
+                catch (Exception e)
+                {
+                    throw new Exception("OS error while executing " + Format("sdkmanager", String.Join(" ", args)) + ": " + e.Message, e);
+                }
+
+                if (pro.ExitCode == 0)
+                {
+                    return string.Empty;
+                }
+                else
+                {
+                    var message = new StringBuilder();
+
+                    if (!string.IsNullOrEmpty(stdError))
                     {
-                        message.AppendLine("Std output:");
-                        message.AppendLine(stdOutput.ToString());
+                        message.AppendLine(stdError);
                     }
 
                     throw new Exception(Format("sdkmanager", String.Join(" ", args)) + " finished with exit code = " + pro.ExitCode + ": " + message);
@@ -165,7 +205,7 @@ namespace GTS_SDK_Manager
             _systemImages = null;
             _sources = null;
             _googleGlass = null;
-            AllData = null;
+            VerboseOutput = null;
         }
 
         /// <summary>
@@ -201,14 +241,14 @@ namespace GTS_SDK_Manager
         }
 
         /// <summary>
-        /// Will create a list of package items based on AllData.
+        /// Will create a list of package items based on VerboseOutput.
         /// </summary>
         /// <returns></returns>
         public static List<SDK_PlatformItem> CreatePackageItems()
         {
             if (_body == null)
             {
-                _body = Regex.Matches(AllData, Patterns.test_string, _options);
+                _body = Regex.Matches(VerboseOutput, Patterns.test_string, _options);
             }
 
             List<SDK_PlatformItem> packageItems = new List<SDK_PlatformItem>();
@@ -252,7 +292,7 @@ namespace GTS_SDK_Manager
         {
             if (_updates == null)
             {
-                _updates = Regex.Matches(AllData, Patterns.UPDATEABLE_PACKAGES_PATTERN, _options);
+                _updates = Regex.Matches(VerboseOutput, Patterns.UPDATEABLE_PACKAGES_PATTERN, _options);
             }
 
             for (int i = 0; i < _updates.Count; i++)
@@ -278,23 +318,23 @@ namespace GTS_SDK_Manager
         {
             if (_systemImages == null)
             {
-                _systemImages = Regex.Matches(AllData, Patterns.SYSTEM_IMAGES_PATTERN, _options);
+                _systemImages = Regex.Matches(VerboseOutput, Patterns.SYSTEM_IMAGES_PATTERN, _options);
             }
             packageItem.GetChild(_systemImages);
 
             if (_googleApis == null)
             {
-                _googleApis = Regex.Matches(AllData, Patterns.GOOGLE_APIS, _options);
+                _googleApis = Regex.Matches(VerboseOutput, Patterns.GOOGLE_APIS, _options);
             }
             if (_sources == null)
             {
-                _sources = Regex.Matches(AllData, Patterns.SOURCES_PATTERN, _options);
+                _sources = Regex.Matches(VerboseOutput, Patterns.SOURCES_PATTERN, _options);
             }
             packageItem.GetChild(_sources);
 
             if (_googleGlass == null)
             {
-                _googleGlass = Regex.Matches(AllData, Patterns.GOOGLE_GLASS_PATTERN, _options);
+                _googleGlass = Regex.Matches(VerboseOutput, Patterns.GOOGLE_GLASS_PATTERN, _options);
             }
 
             packageItem.GetChild(_googleGlass);

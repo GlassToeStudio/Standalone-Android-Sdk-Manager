@@ -97,9 +97,10 @@ namespace GTS_SDK_Manager
 
         private void UpdatePackages()
         {
-            StringBuilder sbInstall = new StringBuilder("--install ");
-            StringBuilder sbUninstall = new StringBuilder("--uninstall ");
+            StringBuilder sbInstall = new StringBuilder();
+            StringBuilder sbUninstall = new StringBuilder();
             StringBuilder descriptions = new StringBuilder();
+
             var packageTabs = (SDK_PlatformsTabViewModel)TabViewModels[0];
             foreach (var item in packageTabs.PackageItems)
             {
@@ -122,19 +123,24 @@ namespace GTS_SDK_Manager
             switch (result)
             {
                 case true:
-                    Console.WriteLine(sbInstall.ToString());
-                    var t = Task.Run( async () => {
-                        await sdkManager.UpdatePackges(sbInstall.ToString());
-                        PopulatePlatformsTab();
-                    });
-                    
-                    t = Task.Run( async () => {
-                        await sdkManager.UpdatePackges(sbUninstall.ToString());
-                        PopulatePlatformsTab();
-                    });
+                    if(sbInstall.Length > 0)
+                    {
+                        Console.WriteLine(sbInstall.ToString());
+                        var t = Task.Run( async () => {
+                            await sdkManager.InstallOrUpdatePackages(sbInstall.ToString());
+                            PopulatePlatformsTab();
+                        });
+                    }
 
-                   
-                    Console.WriteLine(sbUninstall.ToString());
+                    if(sbUninstall.Length > 0)
+                    {
+                        Console.WriteLine(sbUninstall.ToString());
+                        var t = Task.Run(async () => {
+                            await sdkManager.UninstallPackages(sbUninstall.ToString());
+                            PopulatePlatformsTab();
+                        });
+                    }
+                                       
                     break;
                 case false:
                     Console.WriteLine("User Canceled");

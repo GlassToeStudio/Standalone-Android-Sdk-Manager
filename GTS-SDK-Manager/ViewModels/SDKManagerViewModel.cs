@@ -46,9 +46,15 @@ namespace GTS_SDK_Manager
             PathName = SDKManagerBat.PathName;
         }
 
-        public async Task<string> UpdatePackges(string args)
+        public async Task<string> InstallOrUpdatePackages(string args)
         {
             var t = await Task.Run(() => SDKManagerBat.InstallPackagesAsync(args));
+            return t;
+        }
+
+        public async Task<string> UninstallPackages(string args)
+        {
+            var t = await Task.Run(() => SDKManagerBat.UninstallPackagesAsync(args));
             return t;
         }
 

@@ -14,7 +14,6 @@ namespace GTS_SDK_Manager
 
         protected void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
         {
-            Console.WriteLine("Property Changing: " + propertyName);
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
