@@ -334,16 +334,13 @@ namespace GTS_SDK_Manager
         /// <returns></returns>
         public static SDK_PlatformItem CreatePackageChildren(this SDK_PlatformItem packageItem)
         {
-            if (_systemImages == null)
-            {
-                _systemImages = Regex.Matches(VerboseOutput, Patterns.SYSTEM_IMAGES_PATTERN, _options);
-            }
-            packageItem.GetChild(_systemImages);
 
             if (_googleApis == null)
             {
                 _googleApis = Regex.Matches(VerboseOutput, Patterns.GOOGLE_APIS, _options);
             }
+            packageItem.GetChild(_googleApis);
+
             if (_sources == null)
             {
                 _sources = Regex.Matches(VerboseOutput, Patterns.SOURCES_PATTERN, _options);
@@ -354,8 +351,13 @@ namespace GTS_SDK_Manager
             {
                 _googleGlass = Regex.Matches(VerboseOutput, Patterns.GOOGLE_GLASS_PATTERN, _options);
             }
-
             packageItem.GetChild(_googleGlass);
+
+            if (_systemImages == null)
+            {
+                _systemImages = Regex.Matches(VerboseOutput, Patterns.SYSTEM_IMAGES_PATTERN, _options);
+            }
+            packageItem.GetChild(_systemImages);
 
             return packageItem;
         }
