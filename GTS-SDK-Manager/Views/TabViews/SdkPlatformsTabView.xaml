@@ -10,7 +10,8 @@
 	<Grid Background="#3C3F41" Margin="-2,1,-2,-2">
 		<TextBlock HorizontalAlignment="Left" Height="52" Margin="10,10,0,0" TextWrapping="Wrap" Text="{Binding TxtInformation}" VerticalAlignment="Top" Width="596"/>
 
-		<StackPanel Margin="10,64,10,0" >
+		<!-- Column Headers -->
+		<Border BorderThickness="0" Margin="10,64,10,370" >
 			<Grid>
 				<Grid.ColumnDefinitions>
 					<ColumnDefinition Width="30"/>
@@ -32,6 +33,7 @@
 						</TextBlock.Background>
 					</TextBlock>
 				</Border>
+
 				<Border BorderThickness=".5, 1, .5, 1" BorderBrush="#FF2D2F31" Grid.Column="1">
 					<TextBlock Name="NameHeader" Text="{Binding TxtPackageName}" TextAlignment="Center">
 						<TextBlock.Background>
@@ -85,19 +87,17 @@
 				</Border>
 
 			</Grid>
+		</Border>
 
-		</StackPanel>
-
-
-
-		<Border Margin="10,81,10,10">
+		<!-- Package Columns -->
+		<Border Margin="10,81,10,30">
 			<TreeView Name="AllPackages" 
 					  ItemsSource="{Binding PackageItems}"
 					  Foreground="#FF2D2F31"
 					  Background="#3C3F41" 
 					  BorderBrush="#FF2D2F31" 
 					  BorderThickness="1" 
-					  Margin="0,0,0,20" >
+					  >
 				<TreeView.ItemContainerStyle>
 					<Style TargetType="{x:Type TreeViewItem}">
 						<Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}"/>

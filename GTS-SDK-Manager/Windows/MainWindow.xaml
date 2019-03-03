@@ -6,13 +6,6 @@
         xmlns:local="clr-namespace:GTS_SDK_Manager"
         mc:Ignorable="d"
         Title="GTS Android SDK Manager" Height="630" Width="810" Background="#3C3F41">
-	<Window.Resources>
-		<Style TargetType="ScrollBar">
-			<Setter Property="Background" Value="#3C3F41"/>
-			<Setter Property="BorderBrush"  Value="#292B2D"/>
-			<Setter Property="BorderThickness"  Value="0"/>
-		</Style>
-	</Window.Resources>
 
 	<Grid DataContext="{Binding}">
 		<Label Content="Android SDK Location" 
@@ -121,6 +114,7 @@
 										<Setter TargetName="Border" Property="Background" Value="#36393A" />
 									</Trigger>
 								</ControlTemplate.Triggers>
+								
 							</ControlTemplate>
 						</Setter.Value>
 					</Setter>
