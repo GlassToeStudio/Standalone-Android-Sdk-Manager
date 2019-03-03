@@ -63,7 +63,6 @@ namespace GTS_SDK_Manager
         
         #endregion
 
-
         #region Commands
 
         /// <summary>
@@ -87,6 +86,7 @@ namespace GTS_SDK_Manager
         #endregion
 
         #region Private Methods
+
         private void CreateTabViewModels()
         {
             TabViewModels = new ObservableCollection<TabBaseViewModel>
@@ -114,7 +114,7 @@ namespace GTS_SDK_Manager
         private void PopulatePlatformsTab()
         {
             SdkManager.ClearCache();
-            ((SdkPlatformsTabViewModel)TabViewModels[0])?.Populate();
+            ((SdkPlatformsTabViewModel)TabViewModels[0])?.PopulatePackageItemStructure();
         }
 
         private void UpdatePackages()
