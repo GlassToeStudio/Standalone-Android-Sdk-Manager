@@ -21,7 +21,7 @@
 					<ColumnDefinition Width="397"/>
 					<ColumnDefinition Width="100"/>
 					<ColumnDefinition Width="100"/>
-					<ColumnDefinition Width="187"/>
+					<ColumnDefinition Width="187*"/>
 				</Grid.ColumnDefinitions>
 
 				<Border BorderThickness="1, 1, .5, 1" BorderBrush="#FF2D2F31" Grid.Column="0">
