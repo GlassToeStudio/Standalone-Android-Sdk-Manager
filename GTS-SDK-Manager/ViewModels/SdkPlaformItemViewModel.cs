@@ -9,8 +9,24 @@ namespace GTS_SDK_Manager
     /// </summary>
     public class SdkPlaformItemViewModel : BaseViewModel
     {
+        #region Private Backing Fields
 
+        /// <summary>
+        /// OtherPackages backing field.
+        /// </summary>
+        private ObservableCollection<SdkPlaformItemViewModel> _otherPackages;
+        /// <summary>
+        /// IsChecked backing field.
+        /// </summary>
+        private bool _isChecked;
+        /// <summary>
+        /// IsExpanded backing field.
+        /// </summary>
         private bool _isExpanded;
+
+        #endregion
+
+        #region Public Properties
 
         /// <summary>
         /// The name of this platform, as read from sdk manager: platforms;android-23
@@ -44,11 +60,7 @@ namespace GTS_SDK_Manager
         /// <summary>
         /// True if this is a child of a Package Item, false otherwise.
         /// </summary>
-        public bool IsChild { get; set; }
-        /// <summary>
-        /// OtherPackages backing field.
-        /// </summary>
-        private ObservableCollection<SdkPlaformItemViewModel> _otherPackages;
+        public bool IsChild { get; private set; }
         /// <summary>
         /// List of OtherPackages of this package item, items is this list will have null OtherPackages.
         /// </summary>
@@ -57,16 +69,16 @@ namespace GTS_SDK_Manager
             get { return IsChild ? null : _otherPackages; }
             set { _otherPackages = value; }
         }
+
+        #endregion
+
+        #region UI Properties
+
         /// <summary>
         /// True if this package was initially installed, false otherwise.
         /// <para>Used to determine how to handle this package if its Checkbox is toggled.</para>
         /// </summary>
-        public bool InitialState { get; set; }
-
-        /// <summary>
-        /// IsChecked backing field.
-        /// </summary>
-        private bool _isChecked;
+        public bool InitialState { get; private set; }
         /// <summary>
         /// True if Checked, false otherwise.
         /// </summary>
@@ -84,7 +96,6 @@ namespace GTS_SDK_Manager
                 NotifyPropertyChanged();
             }
         }
-
         /// <summary>
         /// Indicates if the current item is expanded or not
         /// </summary>
@@ -104,14 +115,16 @@ namespace GTS_SDK_Manager
             }
         }
 
-        SdkPlatformItem _package;
+        #endregion
+
+        #region Constructor
+
         /// <summary>
         /// Constructor
         /// </summary>
         /// <param name="package"></param>
         public SdkPlaformItemViewModel(SdkPlatformItem package)
         {
-            _package = package;
             Platform = package.Platform;
             ApiLevel = package.ApiLevel;
             Description = package.Description;
@@ -123,8 +136,8 @@ namespace GTS_SDK_Manager
             InitialState = string.IsNullOrEmpty(InstallLocation) ? false : true;
             IsChecked = InitialState;
 
-            var children = _package.Children;
-            if (_package.IsChild == false)
+            var children = package.Children;
+            if (package.IsChild == false)
             {
                 _otherPackages = new ObservableCollection<SdkPlaformItemViewModel>(
                     children.Select(p => new SdkPlaformItemViewModel(p))
@@ -133,5 +146,7 @@ namespace GTS_SDK_Manager
 
             IsExpanded = false;
         }
+        
+        #endregion
     }
 }

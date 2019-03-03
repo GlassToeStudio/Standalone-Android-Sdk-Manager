@@ -67,13 +67,10 @@
 		<Button Content="Apply" 
 			Command="{Binding UpdatePackagesCommand}"
 			HorizontalAlignment="Left"
-			BorderBrush="#696969"
 			Height="32" 
 			Margin="646,557,0,0"
 			VerticalAlignment="Top"
-			Width="136" 
-			Background="#3C3F41" 
-			Foreground="#BBBBBB"/>
+			Width="136" />
 
 		<TabControl Name="MainTabControl" 
 			ItemsSource="{Binding TabViewModels}"

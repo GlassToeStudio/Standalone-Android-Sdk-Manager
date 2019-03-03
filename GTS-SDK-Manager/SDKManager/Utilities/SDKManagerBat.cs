@@ -53,6 +53,45 @@ namespace GTS_SDK_Manager
         #region Public Methods
 
         /// <summary>
+        /// Returns the output VerboseOutput from running sdkmanager.bat --list --verbose
+        /// </summary>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        public async static Task<string> FetchVerboseOutputAsync()
+        {
+            if (string.IsNullOrEmpty(PathName))
+            {
+                PathName = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + @"\Android\Sdk";
+            }
+
+            if (File.Exists(PathName + @"\tools\bin\sdkmanager.bat") == false)
+            {
+                return null;
+            }
+
+            if (VerboseOutput == null)
+            {
+                ProcessStartInfo processInfo = NoShellProcessInfo(PathName);
+                processInfo.Arguments = "--list --verbose";
+
+                Process cmdProcess = new Process { StartInfo = processInfo };
+                cmdProcess.Start();
+
+                VerboseOutput = await Task.Run(async () =>
+                {
+                    using (StreamReader stdOut = cmdProcess.StandardOutput)
+                    {
+                        var result = await stdOut.ReadToEndAsync();
+                        stdOut.Close();
+                        cmdProcess.Close();
+                        return result;
+                    }
+                });
+            }
+            return VerboseOutput;
+        }
+
+        /// <summary>
         /// Will create a list of package items based on VerboseOutput.
         /// </summary>
         /// <returns></returns>
@@ -93,45 +132,6 @@ namespace GTS_SDK_Manager
             return packageItems;
         }
       
-        /// <summary>
-        /// Returns the output VerboseOutput from running sdkmanager.bat --list --verbose
-        /// </summary>
-        /// <param name="args"></param>
-        /// <returns></returns>
-        public async static Task<string> FetchVerboseOutputAsync()
-        {
-            if (string.IsNullOrEmpty(PathName))
-            {
-                PathName = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + @"\Android\Sdk";
-            }
-
-            if (File.Exists(PathName + @"\tools\bin\sdkmanager.bat") == false)
-            {
-                return null;
-            }
-
-            if (VerboseOutput == null)
-            {
-                ProcessStartInfo processInfo = NoShellProcessInfo(PathName);
-                processInfo.Arguments = "--list --verbose";
-
-                Process cmdProcess = new Process { StartInfo = processInfo };
-                cmdProcess.Start();
-
-                VerboseOutput = await Task.Run(async () =>
-                {
-                    using (StreamReader stdOut = cmdProcess.StandardOutput)
-                    {
-                        var result = await stdOut.ReadToEndAsync();
-                        stdOut.Close();
-                        cmdProcess.Close();
-                        return result;
-                    }
-                });
-            }
-            return VerboseOutput;
-        }
-
         /// <summary>
         /// Runs sdkmanager.bat --install [package;name]
         /// </summary>
