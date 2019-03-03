@@ -138,7 +138,24 @@ namespace GTS_SDK_Manager
                         sbUninstall.Append($"{item.Platform} ");
                     }
                 }
+
+                foreach (var child in item.OtherPackages)
+                {
+                    if (child.InitialState != child.IsChecked)
+                    {
+                        if (child.InitialState == false)
+                        {
+                            descriptions.Append($"{child.Description}\n");
+                            sbInstall.Append($"{child.Platform} ");
+                        }
+                        else
+                        {
+                            sbUninstall.Append($"{child.Platform} ");
+                        }
+                    }
+                }
             }
+            Console.WriteLine(sbInstall.ToString());
 
             ConfirmChangeWindow win = new ConfirmChangeWindow(descriptions.ToString());
             bool? result = win.ShowDialog();

@@ -8,18 +8,12 @@
              d:DesignHeight="450" d:DesignWidth="800">
 	
 	<UserControl.Resources>
-		<Style TargetType="ScrollBar">
-			<Setter Property="Background" Value="#3C3F41"/>
-			<Setter Property="BorderBrush"  Value="#292B2D"/>
-			<Setter Property="BorderThickness"  Value="0"/>
-			<Setter Property="TextBlock.Foreground" Value="#BBBBBB"/>
-		</Style>
 
-		</UserControl.Resources>
+	</UserControl.Resources>
+	
 	<Grid Background="#3C3F41" Margin="-2,1,-2,-2">
-		<TextBlock HorizontalAlignment="Left" Height="62" Margin="10,10,0,0" TextWrapping="Wrap" Text="{Binding TxtInformation}" VerticalAlignment="Top" Width="596"/>
+		<TextBlock HorizontalAlignment="Left" Height="52" Margin="10,10,0,0" TextWrapping="Wrap" Text="{Binding TxtInformation}" VerticalAlignment="Top" Width="596"/>
 
-		<StackPanel Margin="0,0,0,10">
 			<StackPanel Margin="10,64,10,0" >
 				<Grid>
 					<Grid.ColumnDefinitions>
@@ -98,21 +92,31 @@
 
 			</StackPanel>
 
-		</StackPanel>
 
-		<Border  Margin="10,81,10,10">
+
+		<Border Margin="10,81,10,10">
 			<TreeView Name="AllPackages" 
+					  ItemsSource="{Binding PackageItems}"
 					  Foreground="#FF2D2F31"
 					  Background="#3C3F41" 
 					  BorderBrush="#FF2D2F31" 
 					  BorderThickness="1" 
-					  ItemsSource="{Binding PackageItems}"
 					  Margin="0,0,0,20" >
+				<TreeView.ItemContainerStyle>
+					<Style TargetType="{x:Type TreeViewItem}">
+						<Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}"/>
+					</Style>
+				</TreeView.ItemContainerStyle>
 				<TreeView.Resources>
 					<DataTemplate DataType="{x:Type local:SdkPlaformItemViewModel}">
 						<local:SdkPlatformItemView />
 					</DataTemplate>
 				</TreeView.Resources>
+				<TreeView.ItemTemplate>
+					<HierarchicalDataTemplate ItemsSource="{Binding OtherPackages}">
+						<local:SdkPlatformItemView />
+					</HierarchicalDataTemplate>
+				</TreeView.ItemTemplate>
 			</TreeView>
 		</Border>
 	</Grid>

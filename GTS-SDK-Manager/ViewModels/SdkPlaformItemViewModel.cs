@@ -6,6 +6,9 @@ namespace GTS_SDK_Manager
 {
     public class SdkPlaformItemViewModel : BaseViewModel
     {
+
+        private bool _isExpanded;
+
         /// <summary>
         /// The name of this platform, as read from sdk manager: platforms;android-23
         /// </summary>
@@ -80,11 +83,32 @@ namespace GTS_SDK_Manager
         }
 
         /// <summary>
+        /// Indicates if the current item is expanded or not
+        /// </summary>
+        public bool IsExpanded
+        {
+            get
+            {
+                return _isExpanded;
+            }
+            set
+            {
+                if (value != _isExpanded)
+                {
+                    _isExpanded = value;
+                    NotifyPropertyChanged();
+                }
+            }
+        }
+
+        SDK_PlatformItem _package;
+        /// <summary>
         /// Constructor
         /// </summary>
         /// <param name="package"></param>
         public SdkPlaformItemViewModel(SDK_PlatformItem package)
         {
+            _package = package;
             Platform = package.Platform;
             ApiLevel = package.ApiLevel;
             Description = package.Description;
@@ -96,14 +120,15 @@ namespace GTS_SDK_Manager
             InitialState = string.IsNullOrEmpty(InstallLocation) ? false : true;
             IsChecked = InitialState;
 
-            var children = package.Children;
-            if (package.IsChild == false)
+            var children = _package.Children;
+            if (_package.IsChild == false)
             {
                 _otherPackages = new ObservableCollection<SdkPlaformItemViewModel>(
                     children.Select(p => new SdkPlaformItemViewModel(p))
                     );
             }
 
+            IsExpanded = false;
         }
     }
 }
