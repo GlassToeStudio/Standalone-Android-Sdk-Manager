@@ -46,7 +46,7 @@ namespace GTS_SDK_Manager
         /// <summary>
         /// Listen for this event to get the output from the hidden console window.
         /// </summary>
-        public static event Action<string> SendOutput;
+        public static event Action<string> CommandLineOutputReceived;
 
         #endregion
 
@@ -152,7 +152,7 @@ namespace GTS_SDK_Manager
             {
                 pro.OutputDataReceived += (sender, arg) =>
                 {
-                    SendOutput(arg.Data);
+                    CommandLineOutputReceived(arg.Data);
                 }; 
 
                 string stdError = null;
@@ -209,7 +209,7 @@ namespace GTS_SDK_Manager
             {
                 pro.OutputDataReceived += (sender, arg) =>
                 {
-                    SendOutput(arg.Data);
+                    CommandLineOutputReceived(arg.Data);
                 }; 
 
                 string stdError = null;

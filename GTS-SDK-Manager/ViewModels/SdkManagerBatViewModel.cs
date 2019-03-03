@@ -8,25 +8,28 @@ namespace GTS_SDK_Manager
 {
     public class SdkManagerBatViewModel : BaseViewModel
     {
-        private string _pathName;
+        #region Pivate Backing Fields 
 
+        private string _pathName;
+        private string _consoleOutput = "Status";
+
+        #endregion
+
+        #region Public Properties
+
+        /// <summary>
+        /// The path to sdkmanager.bat
+        /// </summary>
         public string PathName
         {
-            get => _pathName;
+            get => SdkManagerBat.PathName;
             set
             {
-                if (_pathName != value)
-                {
-                    _pathName = value;
-                    SdkManagerBat.PathName = value;
-                    Console.WriteLine("Me : " + _pathName);
-                    NotifyPropertyChanged();
-                    Console.WriteLine("It : " + SdkManagerBat.PathName);
-                }
+                _pathName = value;
+                SdkManagerBat.PathName = value;
             }
         }
 
-        private string _consoleOutput = "Status";
         public string ConsoleOutput
         {
             get => _consoleOutput;
@@ -40,32 +43,44 @@ namespace GTS_SDK_Manager
             }
         }
 
+        #endregion
+
+        #region Constructor
+
         public SdkManagerBatViewModel()
         {
-            SdkManagerBat.SendOutput += GetSKDManagerOutput;
+            SdkManagerBat.CommandLineOutputReceived += OnCommandLineOutputReceived;
             PathName = SdkManagerBat.PathName;
         }
 
-        public async Task<string> InstallOrUpdatePackages(string args)
+        #endregion
+
+        #region Public Methods
+
+        public async Task InstallOrUpdatePackages(string args)
         {
             var t = await Task.Run(() => SdkManagerBat.InstallPackagesAsync(args));
-            return t;
         }
 
-        public async Task<string> UninstallPackages(string args)
+        public async Task UninstallPackages(string args)
         {
             var t = await Task.Run(() => SdkManagerBat.UninstallPackagesAsync(args));
-            return t;
         }
 
-        private void GetSKDManagerOutput(string output)
-        {
-            ConsoleOutput = output?.Trim();
-        }
-
-        public void Reset()
+        public void ClearCache()
         {
             SdkManagerBat.ClearCache();
         }
+
+        #endregion
+
+        #region Private Methods
+
+        private void OnCommandLineOutputReceived(string output)
+        {
+            ConsoleOutput = output?.Trim();
+        }
+        
+        #endregion
     }
 }

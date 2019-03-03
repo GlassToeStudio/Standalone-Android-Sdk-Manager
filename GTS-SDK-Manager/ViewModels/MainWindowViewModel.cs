@@ -23,6 +23,9 @@ namespace GTS_SDK_Manager
 
         public SdkManagerBatViewModel SdkManager { get; set; }
 
+        /// <summary>
+        /// The path to sdkmanager.bat
+        /// </summary>
         public string PathName
         {
             get => _pathName;
@@ -37,7 +40,7 @@ namespace GTS_SDK_Manager
                         NotifyPropertyChanged();
                         if (TabViewModels != null)
                         {
-                            SdkManager.Reset();
+                            SdkManager.ClearCache();
                             PopulatePlatformsTab();
                         }
                     }
@@ -45,11 +48,17 @@ namespace GTS_SDK_Manager
             }
         }
 
+        /// <summary>
+        /// Returns true if sdkmanager.bat is found, false otherwise.
+        /// </summary>
         public bool IsValidPath
         {
             get => ValidatePath();
         }
 
+        /// <summary>
+        /// Container for all Tab View Modles, a view created for each..
+        /// </summary>
         public ObservableCollection<TabBaseViewModel> TabViewModels { get; set; }
         
         #endregion
@@ -57,8 +66,9 @@ namespace GTS_SDK_Manager
 
         #region Commands
 
-        public ICommand ChangePathCommand { get; set; }
-
+        /// <summary>
+        /// Called when user clicks button to update packages.
+        /// </summary>
         public ICommand UpdatePackagesCommand { get; set; }
 
         #endregion
@@ -67,7 +77,6 @@ namespace GTS_SDK_Manager
 
         public MainWindowViewModel()
         {
-            ChangePathCommand = new RelayCommandString(ChangePath);
             UpdatePackagesCommand = new RelayCommand(UpdatePackages);
 
             SdkManager = new SdkManagerBatViewModel();
@@ -77,6 +86,7 @@ namespace GTS_SDK_Manager
 
         #endregion
 
+        #region Private Methods
         private void CreateTabViewModels()
         {
             TabViewModels = new ObservableCollection<TabBaseViewModel>
@@ -103,7 +113,7 @@ namespace GTS_SDK_Manager
 
         private void PopulatePlatformsTab()
         {
-            SdkManager.Reset();
+            SdkManager.ClearCache();
             ((SdkPlatformsTabViewModel)TabViewModels[0])?.Populate();
         }
 
@@ -162,22 +172,12 @@ namespace GTS_SDK_Manager
             }
         }
 
-        private void ChangePath(string obj)
-        {
-            Console.WriteLine("This is obj: " + obj);
-        }
-
         private bool ValidatePath()
         {
-            if (File.Exists(_pathName + @"\tools\bin\sdkmanager.bat"))
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            return File.Exists(_pathName + @"\tools\bin\sdkmanager.bat");
         }
+        
+        #endregion
     }
 
     #region Validate Class
