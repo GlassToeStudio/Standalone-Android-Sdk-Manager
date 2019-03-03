@@ -6,7 +6,7 @@ namespace GTS_SDK_Manager
     /// <summary>
     /// Standard data container for each high-level sdk platform,
     /// </summary>
-    public class SDK_PlatformItem : IComparable<SDK_PlatformItem>
+    public class SdkPlatformItem : IComparable<SdkPlatformItem>
     {
         /// <summary>
         /// The name of this platform, as read from sdk manager: platforms;android-23
@@ -44,18 +44,18 @@ namespace GTS_SDK_Manager
         /// <summary>
         /// Children backing field.
         /// </summary>
-        private List<SDK_PlatformItem> _children = new List<SDK_PlatformItem>();
+        private List<SdkPlatformItem> _children = new List<SdkPlatformItem>();
         /// <summary>
         /// List of Children of this package item, items is this list will have null children.
         /// </summary>
-        public List<SDK_PlatformItem> Children
+        public List<SdkPlatformItem> Children
         {
             get { return IsChild ? null : _children; }
             set { _children = value; }
         }
 
         #region Overrides
-        public int CompareTo(SDK_PlatformItem packageData)
+        public int CompareTo(SdkPlatformItem packageData)
         {
             // A null value means that this object is greater.
             if (packageData == null)

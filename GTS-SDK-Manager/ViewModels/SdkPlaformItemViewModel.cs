@@ -4,6 +4,9 @@ using System.Linq;
 
 namespace GTS_SDK_Manager
 {
+    /// <summary>
+    /// Standard data container view model for each high-level sdk platform,
+    /// </summary>
     public class SdkPlaformItemViewModel : BaseViewModel
     {
 
@@ -101,12 +104,12 @@ namespace GTS_SDK_Manager
             }
         }
 
-        SDK_PlatformItem _package;
+        SdkPlatformItem _package;
         /// <summary>
         /// Constructor
         /// </summary>
         /// <param name="package"></param>
-        public SdkPlaformItemViewModel(SDK_PlatformItem package)
+        public SdkPlaformItemViewModel(SdkPlatformItem package)
         {
             _package = package;
             Platform = package.Platform;

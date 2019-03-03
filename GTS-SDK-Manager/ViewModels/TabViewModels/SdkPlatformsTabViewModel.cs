@@ -16,7 +16,7 @@ namespace GTS_SDK_Manager
         /// <summary>
         /// Data container for all currently available platform items
         /// </summary>
-        public SDK_PlatformStructure PackageItemStructure { get; set; }
+        public SdkPlatformStructure PackageItemStructure { get; set; }
 
         /// <summary>
         /// List of all high-level platform items and their lower level packages.
@@ -47,7 +47,7 @@ namespace GTS_SDK_Manager
 
         public void PopulatePackageItemStructure()
         {
-            PackageItemStructure = new SDK_PlatformStructure();
+            PackageItemStructure = new SdkPlatformStructure();
 
             var children = PackageItemStructure.PackageItems;
             this.PackageItems = new ObservableCollection<SdkPlaformItemViewModel>(

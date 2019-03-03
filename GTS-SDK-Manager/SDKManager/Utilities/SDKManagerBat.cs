@@ -56,14 +56,14 @@ namespace GTS_SDK_Manager
         /// Will create a list of package items based on VerboseOutput.
         /// </summary>
         /// <returns></returns>
-        public static List<SDK_PlatformItem> CreatePackageItems()
+        public static List<SdkPlatformItem> CreatePackageItems()
         {
             if (_body == null)
             {
                 _body = Regex.Matches(VerboseOutput, Patterns.TestString, _options);
             }
 
-            List<SDK_PlatformItem> packageItems = new List<SDK_PlatformItem>();
+            List<SdkPlatformItem> packageItems = new List<SdkPlatformItem>();
 
             for (int i = 0; i < _body.Count; i++)
             {
@@ -76,7 +76,7 @@ namespace GTS_SDK_Manager
                 if (packageItems.Any(x => x.Platform == platform) == false)
                 {
                     packageItems.Add(
-                        new SDK_PlatformItem
+                        new SdkPlatformItem
                         {
                             Platform = platform,
                             ApiLevel = int.Parse(apilevel = apilevel.Substring(0, apilevel.IndexOf('.') > -1 ? apilevel.IndexOf('.') : apilevel.Length)),
@@ -305,7 +305,7 @@ namespace GTS_SDK_Manager
         /// </summary>
         /// <param name="packageItem"></param>
         /// <returns></returns>
-        public static SDK_PlatformItem CheckForUpdates(this SDK_PlatformItem packageItem)
+        public static SdkPlatformItem CheckForUpdates(this SdkPlatformItem packageItem)
         {
             if (_updates == null)
             {
@@ -332,7 +332,7 @@ namespace GTS_SDK_Manager
         /// </summary>
         /// <param name="packageItem"></param>
         /// <returns></returns>
-        public static SDK_PlatformItem CreatePackageChildren(this SDK_PlatformItem packageItem)
+        public static SdkPlatformItem CreatePackageChildren(this SdkPlatformItem packageItem)
         {
 
             if (_googleApis == null)
@@ -367,7 +367,7 @@ namespace GTS_SDK_Manager
         /// </summary>
         /// <param name="packageItem"></param>
         /// <returns></returns>
-        private static SDK_PlatformItem GetChild(this SDK_PlatformItem packageItem, MatchCollection collection)
+        private static SdkPlatformItem GetChild(this SdkPlatformItem packageItem, MatchCollection collection)
         {
             for (int i = 0; i < collection.Count; i++)
             {
@@ -382,7 +382,7 @@ namespace GTS_SDK_Manager
                 {
                     if (packageItem.ApiLevel == int.Parse(apilevel))
                     {
-                        packageItem.Children.Add(new SDK_PlatformItem
+                        packageItem.Children.Add(new SdkPlatformItem
                         {
                             Platform = platform,
                             ApiLevel = intapilevel,

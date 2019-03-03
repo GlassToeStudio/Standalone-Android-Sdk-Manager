@@ -55,8 +55,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="SDKManager\Models\SDK_PlatformItem.cs" />
-    <Compile Include="SDKManager\Models\SDK_PlatformStructure.cs" />
+    <Compile Include="SDKManager\Models\SdkPlatformItem.cs" />
+    <Compile Include="SDKManager\Models\SdkPlatformStructure.cs" />
     <Compile Include="SDKManager\Utilities\Patterns.cs" />
     <Compile Include="SDKManager\Utilities\SdkManagerBat.cs" />
     <Compile Include="ValueConverters\StatusEnumToStringConverter.cs" />
