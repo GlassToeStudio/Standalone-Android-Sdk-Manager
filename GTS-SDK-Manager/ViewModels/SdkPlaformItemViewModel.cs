@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace GTS_SDK_Manager
 {
-    public class SDK_PlaformItemViewModel : BaseViewModel
+    public class SdkPlaformItemViewModel : BaseViewModel
     {
         /// <summary>
         /// The name of this platform, as read from sdk manager: platforms;android-23
@@ -42,11 +42,11 @@ namespace GTS_SDK_Manager
         /// <summary>
         /// OtherPackages backing field.
         /// </summary>
-        private ObservableCollection<SDK_PlaformItemViewModel> _otherPackages;
+        private ObservableCollection<SdkPlaformItemViewModel> _otherPackages;
         /// <summary>
         /// List of OtherPackages of this package item, items is this list will have null OtherPackages.
         /// </summary>
-        public ObservableCollection<SDK_PlaformItemViewModel> OtherPackages
+        public ObservableCollection<SdkPlaformItemViewModel> OtherPackages
         {
             get { return IsChild ? null : _otherPackages; }
             set { _otherPackages = value; }
@@ -83,7 +83,7 @@ namespace GTS_SDK_Manager
         /// Constructor
         /// </summary>
         /// <param name="package"></param>
-        public SDK_PlaformItemViewModel(SDK_PlatformItem package)
+        public SdkPlaformItemViewModel(SDK_PlatformItem package)
         {
             Platform = package.Platform;
             ApiLevel = package.ApiLevel;
@@ -99,8 +99,8 @@ namespace GTS_SDK_Manager
             var children = package.Children;
             if (package.IsChild == false)
             {
-                _otherPackages = new ObservableCollection<SDK_PlaformItemViewModel>(
-                    children.Select(p => new SDK_PlaformItemViewModel(p))
+                _otherPackages = new ObservableCollection<SdkPlaformItemViewModel>(
+                    children.Select(p => new SdkPlaformItemViewModel(p))
                     );
             }
 

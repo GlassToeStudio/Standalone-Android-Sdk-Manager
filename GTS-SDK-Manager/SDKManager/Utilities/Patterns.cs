@@ -12,14 +12,14 @@ namespace GTS_SDK_Manager
     public static class Patterns
     {
         #region Maybe do this later
-        const string APILEVEL = @"(?<APILevel>[\d]*)(?:[\s\w\-\;]*\n))";
-        const string CAPTURE_DESCRIPTION = @"(?:[\s]*Description[:][\s]*)(?<Description>[\s\w]*\n)";
-        const string CAPTURE_VERSION = @"(?:[\s]*[\w\s]*[:][\s]*)(?<Version>[\d]*)";
-        const string CAPTURE_LOCATION = @"(?:(?:[\s]*Installed Location[:][\s]*)(?<Installed_Location>[\s]*[\w\:\\\-]*))?";
-        const string platform_pattern = @"(?<Platform>(?:platforms;android-)";
+        const string _APILEVEL = @"(?<APILevel>[\d]*)(?:[\s\w\-\;]*\n))";
+        const string _CAPTURE_DESCRIPTION = @"(?:[\s]*Description[:][\s]*)(?<Description>[\s\w]*\n)";
+        const string _CAPTURE_VERSION = @"(?:[\s]*[\w\s]*[:][\s]*)(?<Version>[\d]*)";
+        const string _CAPTURE_LOCATION = @"(?:(?:[\s]*Installed Location[:][\s]*)(?<Installed_Location>[\s]*[\w\:\\\-]*))?";
+        const string _platform_pattern = @"(?<Platform>(?:platforms;android-)";
 
         // This works just fine.
-        public const string test_string = platform_pattern + APILEVEL + CAPTURE_DESCRIPTION + CAPTURE_VERSION + CAPTURE_LOCATION;
+        public const string TestString = _platform_pattern + _APILEVEL + _CAPTURE_DESCRIPTION + _CAPTURE_VERSION + _CAPTURE_LOCATION;
         #endregion
 
         #region unused

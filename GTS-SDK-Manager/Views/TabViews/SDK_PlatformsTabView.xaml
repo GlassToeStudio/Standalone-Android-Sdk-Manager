@@ -109,8 +109,8 @@
 					  ItemsSource="{Binding PackageItems}"
 					  Margin="0,0,0,20" >
 				<TreeView.Resources>
-					<DataTemplate DataType="{x:Type local:SDK_PlaformItemViewModel}">
-						<local:SDK_PlatformItemView />
+					<DataTemplate DataType="{x:Type local:SdkPlaformItemViewModel}">
+						<local:SdkPlatformItemView />
 					</DataTemplate>
 				</TreeView.Resources>
 			</TreeView>

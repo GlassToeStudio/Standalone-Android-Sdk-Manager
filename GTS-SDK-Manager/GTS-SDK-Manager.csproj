@@ -58,17 +58,17 @@
     <Compile Include="SDKManager\Models\SDK_PlatformItem.cs" />
     <Compile Include="SDKManager\Models\SDK_PlatformStructure.cs" />
     <Compile Include="SDKManager\Utilities\Patterns.cs" />
-    <Compile Include="SDKManager\Utilities\SDKManager.cs" />
+    <Compile Include="SDKManager\Utilities\SdkManagerBat.cs" />
     <Compile Include="ViewModels\BaseViewModel.cs" />
     <Compile Include="ViewModels\Commands\RelayCommand.cs" />
     <Compile Include="ViewModels\Commands\RelayCommandString.cs" />
     <Compile Include="ViewModels\ConfirmWindowViewModel.cs" />
-    <Compile Include="ViewModels\SDKManagerViewModel.cs" />
+    <Compile Include="ViewModels\SdkManagerBatViewModel.cs" />
     <Compile Include="ViewModels\TabViewModels\CommandLineTabViewModel.cs" />
-    <Compile Include="ViewModels\TabViewModels\SDK_UpdateSitesTabViewModel.cs" />
-    <Compile Include="ViewModels\TabViewModels\SDK_PlatformsTabViewModel.cs" />
-    <Compile Include="ViewModels\TabViewModels\SDK_ToolsTabViewModel.cs" />
-    <Compile Include="ViewModels\SDK_PlaformItemViewModel.cs" />
+    <Compile Include="ViewModels\TabViewModels\SdkUpdateSitesTabViewModel.cs" />
+    <Compile Include="ViewModels\TabViewModels\SdkPlatformsTabViewModel.cs" />
+    <Compile Include="ViewModels\TabViewModels\SdkToolsTabViewModel.cs" />
+    <Compile Include="ViewModels\SdkPlaformItemViewModel.cs" />
     <Compile Include="ViewModels\TabViewModels\TabBaseViewModel.cs" />
     <Compile Include="Windows\ConfirmChangeWindow.xaml.cs">
       <DependentUpon>ConfirmChangeWindow.xaml</DependentUpon>
@@ -107,7 +107,7 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="Views\SDK_PlatformItemView.xaml">
+    <Page Include="Views\SdkPlatformItemView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -125,8 +125,8 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Views\SDK_PlatformItemView.xaml.cs">
-      <DependentUpon>SDK_PlatformItemView.xaml</DependentUpon>
+    <Compile Include="Views\SdkPlatformItemView.xaml.cs">
+      <DependentUpon>SdkPlatformItemView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>

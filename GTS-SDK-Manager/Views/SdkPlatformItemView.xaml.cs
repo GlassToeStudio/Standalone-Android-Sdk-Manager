@@ -15,9 +15,9 @@ using System.Windows.Shapes;
 
 namespace GTS_SDK_Manager
 {
-    public partial class SDK_PlatformItemView : UserControl
+    public partial class SdkPlatformItemView : UserControl
     {
-        public SDK_PlatformItemView()
+        public SdkPlatformItemView()
         {
             InitializeComponent();
         }

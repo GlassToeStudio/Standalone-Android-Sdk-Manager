@@ -58,7 +58,7 @@
             Foreground="#589DF6"
             TextDecorations="Underline"/>
 
-		<Label Content="{Binding Path=sdkManager.ConsoleOutput}" 
+		<Label Content="{Binding Path=SdkManager.ConsoleOutput}" 
             HorizontalAlignment="Left"
             Height="41" Margin="10,548,0,0" 
             VerticalAlignment="Top" 
@@ -88,13 +88,13 @@
             >
 
 			<TabControl.Resources>
-				<DataTemplate DataType="{x:Type local:SDK_PlatformsTabViewModel}">
+				<DataTemplate DataType="{x:Type local:SdkPlatformsTabViewModel}">
 					<local:SDKPlatformView />
 				</DataTemplate>
-				<DataTemplate DataType="{x:Type local:SDK_ToolsTabViewModel}">
+				<DataTemplate DataType="{x:Type local:SdkToolsTabViewModel}">
 					<local:SDKToolsView />
 				</DataTemplate>
-				<DataTemplate DataType="{x:Type local:SDK_UpdateSitesTabViewModel}">
+				<DataTemplate DataType="{x:Type local:SdkUpdateSitesTabViewModel}">
 					<local:SDKUpdateSitesView />
 				</DataTemplate>
 				<DataTemplate DataType="{x:Type local:CommandLineTabViewModel}">
@@ -128,63 +128,8 @@
 						</Setter.Value>
 					</Setter>
 				</Style>
-
 			</TabControl.Resources>
 		</TabControl>
-
-
-
-		<!--<TextBox Name="ConsoleFrame" 
-				 HorizontalAlignment="Left"
-				 Height="106" 
-				 Margin="10,553,0,0" 
-				 VerticalAlignment="Top"
-				 Width="627" 
-				 Background="#3C3F41" 
-				 Foreground="#BBBBBB" 
-				 BorderBrush="#FF2D2F31" 
-				 BorderThickness="1"
-				 IsInactiveSelectionHighlightEnabled="False" 
-				 TextChanged="ConsoleFrame_TextChanged"
-				 >
-			<TextBox.Style>
-				<Style BasedOn="{x:Null}" TargetType="{x:Type TextBox}">
-					<Setter Property="FocusVisualStyle" Value="{x:Null}"/>
-					<Setter Property="Template">
-						<Setter.Value>
-							<ControlTemplate TargetType="{x:Type TextBox}">
-								<Border x:Name="bg" BorderBrush="#FF2D2F31"  BorderThickness="1">
-									<ScrollViewer x:Name="PART_ContentHost" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
-								</Border>
-								<ControlTemplate.Triggers>
-									<Trigger Property="IsMouseOver" Value="True">
-										<Setter Property="BorderBrush" TargetName="bg" Value="#FF2D2F31"/>
-										<Setter Property="BorderThickness" TargetName="bg" Value="1"/>
-									</Trigger>
-									<Trigger Property="IsFocused" Value="True">
-										<Setter Property="BorderBrush" TargetName="bg" Value="#FF2D2F31"/>
-										<Setter Property="BorderThickness" TargetName="bg" Value="1"/>
-									</Trigger>
-								</ControlTemplate.Triggers>
-							</ControlTemplate>
-						</Setter.Value>
-					</Setter>
-				</Style>
-			</TextBox.Style>
-
-		</TextBox>-->
-		<!--<Button Content="X" 
-				Name="ClearButton"
-				HorizontalAlignment="Left" 
-				VerticalAlignment="Top" 
-				Width="20" 
-				BorderBrush="#FF2D2F31"
-				Height="20" 
-				Margin="617,553,0,0" 
-				Click="ClearButton_Click" 
-				Background="#3C3F41" 
-				Foreground="#41516D"
-				FontStretch="Condensed"/>-->
 	</Grid>
 </Window>
 

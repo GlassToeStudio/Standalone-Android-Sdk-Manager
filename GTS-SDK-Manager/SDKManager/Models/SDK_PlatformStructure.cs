@@ -19,18 +19,18 @@ namespace GTS_SDK_Manager
         /// </summary>
         public SDK_PlatformStructure()
         {
-            if (SDKManagerBat.VerboseOutput == null)
+            if (SdkManagerBat.VerboseOutput == null)
             {
-                var t = Task.Run(() => SDKManagerBat.FetchVerboseOutputAsync());
+                var t = Task.Run(() => SdkManagerBat.FetchVerboseOutputAsync());
                 t.Wait();
             }
 
-            if (SDKManagerBat.VerboseOutput == null)
+            if (SdkManagerBat.VerboseOutput == null)
             {
                 return;
             }
 
-            PackageItems = SDKManagerBat.CreatePackageItems();
+            PackageItems = SdkManagerBat.CreatePackageItems();
 
             foreach (var p in PackageItems)
             {

@@ -12,7 +12,7 @@ namespace GTS_SDK_Manager
     /// <summary>
     /// Simulate the built-in sdkmanger.bat
     /// </summary>
-    public static class SDKManagerBat
+    public static class SdkManagerBat
     {
         #region Private fields
 
@@ -27,20 +27,72 @@ namespace GTS_SDK_Manager
 
         #endregion
 
-        /// <summary>
-        /// The path to sdkmanager.bat
-        /// </summary> TODO: Intentional Typeo!!!!!!!!!!!!!!!!!!!!!!
-        public static string PathName { get; set; } = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + @"\Andyroid\Sdk";
+        #region Public Properties
+     
         /// <summary>
         /// A string representation of the output from sdkmanager.bat --list --verbose
         /// </summary>
         public static string VerboseOutput { get; private set; }
 
         /// <summary>
+        /// The path to sdkmanager.bat
+        /// </summary> TODO: Intentional Typeo!!!!!!!!!!!!!!!!!!!!!!
+        public static string PathName { get; set; } = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + @"\Andyroid\Sdk";
+
+        #endregion
+
+        #region Events/Actions
+
+        /// <summary>
         /// Listen for this event to get the output from the hidden console window.
         /// </summary>
-        public static Action<string> SendOutput { get; set; }
+        public static event Action<string> SendOutput;
 
+        #endregion
+
+        #region Public Methods
+
+        /// <summary>
+        /// Will create a list of package items based on VerboseOutput.
+        /// </summary>
+        /// <returns></returns>
+        public static List<SDK_PlatformItem> CreatePackageItems()
+        {
+            if (_body == null)
+            {
+                _body = Regex.Matches(VerboseOutput, Patterns.TestString, _options);
+            }
+
+            List<SDK_PlatformItem> packageItems = new List<SDK_PlatformItem>();
+
+            for (int i = 0; i < _body.Count; i++)
+            {
+                var platform = _body[i].Groups["Platform"].ToString().Trim();
+                var apilevel = _body[i].Groups["APILevel"].ToString().Trim();
+                var description = LookUpTable.CoolNames[_body[i].Groups["Description"].ToString().Trim()];
+                var version = _body[i].Groups["Version"].ToString().Trim();
+                var installLocation = _body[i].Groups["Installed_Location"].ToString().Trim();
+
+                if (packageItems.Any(x => x.Platform == platform) == false)
+                {
+                    packageItems.Add(
+                        new SDK_PlatformItem
+                        {
+                            Platform = platform,
+                            ApiLevel = int.Parse(apilevel = apilevel.Substring(0, apilevel.IndexOf('.') > -1 ? apilevel.IndexOf('.') : apilevel.Length)),
+                            Description = description,
+                            Version = version,
+                            InstallLocation = installLocation,
+                            IsInstalled = string.IsNullOrEmpty(installLocation) == false,
+                            Status = string.IsNullOrEmpty(installLocation) ? PackageStatus.NOT_INSTALLED : PackageStatus.INSTALLED,
+                            IsChild = false
+                        });
+                }
+            }
+            packageItems.Sort();
+            return packageItems;
+        }
+      
         /// <summary>
         /// Returns the output VerboseOutput from running sdkmanager.bat --list --verbose
         /// </summary>
@@ -197,7 +249,7 @@ namespace GTS_SDK_Manager
         /// <summary>
         /// Reset the static members to prepare to gather new data. Called when changes to installed sdks are made.
         /// </summary>
-        public static void Reset()
+        public static void ClearCache()
         {
             _body = null;
             _updates = null;
@@ -205,8 +257,13 @@ namespace GTS_SDK_Manager
             _systemImages = null;
             _sources = null;
             _googleGlass = null;
+
             VerboseOutput = null;
         }
+
+        #endregion
+
+        #region Helper Methods
 
         /// <summary>
         /// Helper method to get setup a new process.
@@ -215,7 +272,6 @@ namespace GTS_SDK_Manager
         /// <returns></returns>
         private static ProcessStartInfo NoShellProcessInfo(string pathName)
         {
-            string sdkManagerPath = $"{pathName}{@"\tools\bin\sdkmanager.bat"}";
             return new ProcessStartInfo
             {
                 UseShellExecute = false,
@@ -223,7 +279,7 @@ namespace GTS_SDK_Manager
                 RedirectStandardOutput = true,
                 RedirectStandardError = true,
                 RedirectStandardInput = true,
-                FileName = sdkManagerPath
+                FileName = $"{pathName}{@"\tools\bin\sdkmanager.bat"}"
             };
         }
 
@@ -240,48 +296,9 @@ namespace GTS_SDK_Manager
                 "'";
         }
 
-        /// <summary>
-        /// Will create a list of package items based on VerboseOutput.
-        /// </summary>
-        /// <returns></returns>
-        public static List<SDK_PlatformItem> CreatePackageItems()
-        {
-            if (_body == null)
-            {
-                _body = Regex.Matches(VerboseOutput, Patterns.test_string, _options);
-            }
+        #endregion
 
-            List<SDK_PlatformItem> packageItems = new List<SDK_PlatformItem>();
-
-            for (int i = 0; i < _body.Count; i++)
-            {
-                var platform = _body[i].Groups["Platform"].ToString().Trim();
-                var apilevel = _body[i].Groups["APILevel"].ToString().Trim();
-                var description = LookUpTable.CoolNames[_body[i].Groups["Description"].ToString().Trim()];
-                var version = _body[i].Groups["Version"].ToString().Trim();
-                var installLocation = _body[i].Groups["Installed_Location"].ToString().Trim();
-
-                if (packageItems.Any(x => x.Platform == platform) == false)
-                {
-                    packageItems.Add(
-                        new SDK_PlatformItem
-                        {
-                            Platform = platform,
-                            ApiLevel = int.Parse(apilevel = apilevel.Substring(0, apilevel.IndexOf('.') > -1 ? apilevel.IndexOf('.') : apilevel.Length)),
-                            Description = description,
-                            Version = version,
-                            InstallLocation = installLocation,
-                            IsInstalled = string.IsNullOrEmpty(installLocation) == false,
-                            Status = string.IsNullOrEmpty(installLocation) ? PackageStatus.NOT_INSTALLED : PackageStatus.INSTALLED,
-                            IsChild = false
-                        });
-                }
-            }
-            packageItems.Sort();
-            return packageItems;
-        }
-
-        #region SDK_PlatformItem Extension Methods
+        #region SDK_PlatformItem Extension Methods (only here for use of the MatchCollection)
 
         /// <summary>
         /// Check this SDK_PlatformItem for updates.
@@ -309,6 +326,7 @@ namespace GTS_SDK_Manager
             }
             return packageItem;
         }
+        
         /// <summary>
         /// Get all low-level packages for this SDK_PlatformItem.
         /// </summary>
@@ -341,6 +359,7 @@ namespace GTS_SDK_Manager
 
             return packageItem;
         }
+       
         /// <summary>
         /// Helper method to get specific children of this SDK_PlatformItem. Use by CreatePackageChildren().
         /// </summary>

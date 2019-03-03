@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace GTS_SDK_Manager
 {
-    public class SDKManagerViewModel : BaseViewModel
+    public class SdkManagerBatViewModel : BaseViewModel
     {
         private string _pathName;
 
@@ -18,10 +18,10 @@ namespace GTS_SDK_Manager
                 if (_pathName != value)
                 {
                     _pathName = value;
-                    SDKManagerBat.PathName = value;
+                    SdkManagerBat.PathName = value;
                     Console.WriteLine("Me : " + _pathName);
                     NotifyPropertyChanged();
-                    Console.WriteLine("It : " + SDKManagerBat.PathName);
+                    Console.WriteLine("It : " + SdkManagerBat.PathName);
                 }
             }
         }
@@ -40,21 +40,21 @@ namespace GTS_SDK_Manager
             }
         }
 
-        public SDKManagerViewModel()
+        public SdkManagerBatViewModel()
         {
-            SDKManagerBat.SendOutput += GetSKDManagerOutput;
-            PathName = SDKManagerBat.PathName;
+            SdkManagerBat.SendOutput += GetSKDManagerOutput;
+            PathName = SdkManagerBat.PathName;
         }
 
         public async Task<string> InstallOrUpdatePackages(string args)
         {
-            var t = await Task.Run(() => SDKManagerBat.InstallPackagesAsync(args));
+            var t = await Task.Run(() => SdkManagerBat.InstallPackagesAsync(args));
             return t;
         }
 
         public async Task<string> UninstallPackages(string args)
         {
-            var t = await Task.Run(() => SDKManagerBat.UninstallPackagesAsync(args));
+            var t = await Task.Run(() => SdkManagerBat.UninstallPackagesAsync(args));
             return t;
         }
 
@@ -65,7 +65,7 @@ namespace GTS_SDK_Manager
 
         public void Reset()
         {
-            SDKManagerBat.Reset();
+            SdkManagerBat.ClearCache();
         }
     }
 }

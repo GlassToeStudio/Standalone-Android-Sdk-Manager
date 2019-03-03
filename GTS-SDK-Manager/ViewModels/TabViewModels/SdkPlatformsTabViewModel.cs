@@ -3,17 +3,17 @@ using System.Linq;
 
 namespace GTS_SDK_Manager
 {
-    public class SDK_PlatformsTabViewModel : TabBaseViewModel
+    public class SdkPlatformsTabViewModel : TabBaseViewModel
     {
         /// <summary>
         /// Data container for all currently available platform items
         /// </summary>
         private SDK_PlatformStructure _packageItemStructure;
-        private ObservableCollection<SDK_PlaformItemViewModel> _packageItems;
+        private ObservableCollection<SdkPlaformItemViewModel> _packageItems;
         /// <summary>
         /// List of all high-level platform items and their lower level packages.
         /// </summary>
-        public ObservableCollection<SDK_PlaformItemViewModel> PackageItems { get => _packageItems;
+        public ObservableCollection<SdkPlaformItemViewModel> PackageItems { get => _packageItems;
             set
             {
                 if(_packageItems != value)
@@ -24,7 +24,7 @@ namespace GTS_SDK_Manager
             }
         }
 
-        public SDK_PlatformsTabViewModel() : base()
+        public SdkPlatformsTabViewModel() : base()
         {
 
         }
@@ -34,8 +34,8 @@ namespace GTS_SDK_Manager
             _packageItemStructure = new SDK_PlatformStructure();
 
             var children = _packageItemStructure.PackageItems;
-            this.PackageItems = new ObservableCollection<SDK_PlaformItemViewModel>(
-                children.Select(package => new SDK_PlaformItemViewModel(package))
+            this.PackageItems = new ObservableCollection<SdkPlaformItemViewModel>(
+                children.Select(package => new SdkPlaformItemViewModel(package))
                 );
         }
     }

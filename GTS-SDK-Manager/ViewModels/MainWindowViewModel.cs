@@ -13,15 +13,16 @@ namespace GTS_SDK_Manager
 {
     public class MainWindowViewModel : BaseViewModel
     {
-        public SDKManagerViewModel sdkManager { get; set; }
-
-        public string LabelLocation = "Android SDK Location";
-
-        public string TxtSDKPath { get; set; }
-
-        public string TxtBroweFolder { get; set; }
+        #region Private Properties
 
         private string _pathName;
+
+        #endregion
+
+        #region Public Properties
+
+        public SdkManagerBatViewModel SdkManager { get; set; }
+
         public string PathName
         {
             get => _pathName;
@@ -30,13 +31,13 @@ namespace GTS_SDK_Manager
                 if (_pathName != value)
                 {
                     _pathName = value;
-                    sdkManager.PathName = value;
+                    SdkManager.PathName = value;
                     if (IsValidPath)
                     {
                         NotifyPropertyChanged();
                         if (TabViewModels != null)
                         {
-                            sdkManager.Reset();
+                            SdkManager.Reset();
                             PopulatePlatformsTab();
                         }
                     }
@@ -49,27 +50,38 @@ namespace GTS_SDK_Manager
             get => ValidatePath();
         }
 
+        public ObservableCollection<TabBaseViewModel> TabViewModels { get; set; }
+        
+        #endregion
+
+
+        #region Commands
+
         public ICommand ChangePathCommand { get; set; }
 
         public ICommand UpdatePackagesCommand { get; set; }
 
-        public ObservableCollection<TabBaseViewModel> TabViewModels { get; set; }
+        #endregion
+
+        #region Constructor
 
         public MainWindowViewModel()
         {
             ChangePathCommand = new RelayCommandString(ChangePath);
             UpdatePackagesCommand = new RelayCommand(UpdatePackages);
 
-            sdkManager = new SDKManagerViewModel();
-            PathName = sdkManager.PathName;
+            SdkManager = new SdkManagerBatViewModel();
+            PathName = SdkManager.PathName;
             CreateTabViewModels();
         }
+
+        #endregion
 
         private void CreateTabViewModels()
         {
             TabViewModels = new ObservableCollection<TabBaseViewModel>
             {
-                new SDK_PlatformsTabViewModel
+                new SdkPlatformsTabViewModel
                 {
                     TxtTabName = "SDK Packages",
                     TxtInformation = "Each Android SDK Platform package includes the Android platform and sources pertaining to an API level by default. Once installed, Android Studio will automatically check for updates. Check \"show package details\" to display individual SDK components.",
@@ -78,11 +90,11 @@ namespace GTS_SDK_Manager
                     TxtRevision = "Revision",
                     TxtStatus = "Status"
                 },
-                new SDK_ToolsTabViewModel
+                new SdkToolsTabViewModel
                 {
                     TxtTabName = "SDK Tools",
                 },
-                new SDK_UpdateSitesTabViewModel { TxtTabName = "Package Updates", },
+                new SdkUpdateSitesTabViewModel { TxtTabName = "Package Updates", },
                 new CommandLineTabViewModel { TxtTabName = "Command Line", }
             };
 
@@ -91,8 +103,8 @@ namespace GTS_SDK_Manager
 
         private void PopulatePlatformsTab()
         {
-            sdkManager.Reset();
-            ((SDK_PlatformsTabViewModel)TabViewModels[0])?.Populate();
+            SdkManager.Reset();
+            ((SdkPlatformsTabViewModel)TabViewModels[0])?.Populate();
         }
 
         private void UpdatePackages()
@@ -101,7 +113,7 @@ namespace GTS_SDK_Manager
             StringBuilder sbUninstall = new StringBuilder();
             StringBuilder descriptions = new StringBuilder();
 
-            var packageTabs = (SDK_PlatformsTabViewModel)TabViewModels[0];
+            var packageTabs = (SdkPlatformsTabViewModel)TabViewModels[0];
             foreach (var item in packageTabs.PackageItems)
             {
                 if(item.InitialState != item.IsChecked)
@@ -127,7 +139,7 @@ namespace GTS_SDK_Manager
                     {
                         Console.WriteLine(sbInstall.ToString());
                         var t = Task.Run( async () => {
-                            await sdkManager.InstallOrUpdatePackages(sbInstall.ToString());
+                            await SdkManager.InstallOrUpdatePackages(sbInstall.ToString());
                             PopulatePlatformsTab();
                         });
                     }
@@ -136,7 +148,7 @@ namespace GTS_SDK_Manager
                     {
                         Console.WriteLine(sbUninstall.ToString());
                         var t = Task.Run(async () => {
-                            await sdkManager.UninstallPackages(sbUninstall.ToString());
+                            await SdkManager.UninstallPackages(sbUninstall.ToString());
                             PopulatePlatformsTab();
                         });
                     }
@@ -168,6 +180,8 @@ namespace GTS_SDK_Manager
         }
     }
 
+    #region Validate Class
+
     public class FileExistsValidationRule : ValidationRule
     {
         public override ValidationResult Validate(object value, System.Globalization.CultureInfo cultureInfo)
@@ -182,4 +196,6 @@ namespace GTS_SDK_Manager
             }
         }
     }
+    
+    #endregion
 }
