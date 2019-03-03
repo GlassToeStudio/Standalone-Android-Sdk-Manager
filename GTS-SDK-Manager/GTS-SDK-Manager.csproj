@@ -77,14 +77,14 @@
       <DependentUpon>CommandLineTabView.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
-    <Compile Include="Views\TabViews\SDK_PlatformsTabView.xaml.cs">
-      <DependentUpon>SDK_PlatformsTabView.xaml</DependentUpon>
+    <Compile Include="Views\TabViews\SdkPlatformsTabView.xaml.cs">
+      <DependentUpon>SdkPlatformsTabView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\TabViews\SDK_ToolsTabView.xaml.cs">
-      <DependentUpon>SDK_ToolsTabView.xaml</DependentUpon>
+    <Compile Include="Views\TabViews\SdkToolsTabView.xaml.cs">
+      <DependentUpon>SdkToolsTabView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\TabViews\SDK_UpdateSitesTabView.xaml.cs">
-      <DependentUpon>SDK_UpdateSitesTabView.xaml</DependentUpon>
+    <Compile Include="Views\TabViews\SdkUpdateSitesTabView.xaml.cs">
+      <DependentUpon>SdkUpdateSitesTabView.xaml</DependentUpon>
     </Compile>
     <Page Include="Windows\ConfirmChangeWindow.xaml">
       <SubType>Designer</SubType>
@@ -111,15 +111,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\TabViews\SDK_PlatformsTabView.xaml">
+    <Page Include="Views\TabViews\SdkPlatformsTabView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\TabViews\SDK_ToolsTabView.xaml">
+    <Page Include="Views\TabViews\SdkToolsTabView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\TabViews\SDK_UpdateSitesTabView.xaml">
+    <Page Include="Views\TabViews\SdkUpdateSitesTabView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
