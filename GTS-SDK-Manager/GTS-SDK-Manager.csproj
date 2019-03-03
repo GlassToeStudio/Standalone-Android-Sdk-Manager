@@ -90,6 +90,18 @@
     <Compile Include="Views\TabViews\SdkUpdateSitesTabView.xaml.cs">
       <DependentUpon>SdkUpdateSitesTabView.xaml</DependentUpon>
     </Compile>
+    <Page Include="Styles\Buttons.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\Scrolls.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\Texts.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\SdkPlatformItemChildView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
