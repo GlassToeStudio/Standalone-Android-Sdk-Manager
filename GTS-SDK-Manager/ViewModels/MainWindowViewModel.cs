@@ -126,33 +126,11 @@ namespace GTS_SDK_Manager
             var packageTabs = (SdkPlatformsTabViewModel)TabViewModels[0];
             foreach (var item in packageTabs.PackageItems)
             {
-                if(item.InitialState != item.IsChecked)
-                {
-                    if(item.InitialState == false)
-                    {
-                        descriptions.Append($"{item.Description}\n");
-                        sbInstall.Append($"{item.Platform} ");
-                    }
-                    else
-                    {
-                        sbUninstall.Append($"{item.Platform} ");
-                    }
-                }
+                CheckStatus(sbInstall, sbUninstall, descriptions, item);
 
                 foreach (var child in item.OtherPackages)
                 {
-                    if (child.InitialState != child.IsChecked)
-                    {
-                        if (child.InitialState == false)
-                        {
-                            descriptions.Append($"{child.Description}\n");
-                            sbInstall.Append($"{child.Platform} ");
-                        }
-                        else
-                        {
-                            sbUninstall.Append($"{child.Platform} ");
-                        }
-                    }
+                    CheckStatus(sbInstall, sbUninstall, descriptions, child);
                 }
             }
             Console.WriteLine(sbInstall.ToString());
@@ -162,24 +140,8 @@ namespace GTS_SDK_Manager
             switch (result)
             {
                 case true:
-                    if(sbInstall.Length > 0)
-                    {
-                        Console.WriteLine(sbInstall.ToString());
-                        var t = Task.Run( async () => {
-                            await SdkManager.InstallOrUpdatePackages(sbInstall.ToString());
-                            PopulatePlatformsTab();
-                        });
-                    }
-
-                    if(sbUninstall.Length > 0)
-                    {
-                        Console.WriteLine(sbUninstall.ToString());
-                        var t = Task.Run(async () => {
-                            await SdkManager.UninstallPackages(sbUninstall.ToString());
-                            PopulatePlatformsTab();
-                        });
-                    }
-                                       
+                    Install(sbInstall);
+                    Uninstall(sbUninstall);
                     break;
                 case false:
                     Console.WriteLine("User Canceled");
@@ -188,6 +150,49 @@ namespace GTS_SDK_Manager
                     break;
             }
         }
+
+        private void CheckStatus(StringBuilder sbInstall, StringBuilder sbUninstall, StringBuilder descriptions, SdkPlaformItemViewModel item)
+        {
+            if (item.InitialState != item.IsChecked)
+            {
+                if (item.InitialState == false)
+                {
+                    descriptions.Append($"{item.Description}\n");
+                    sbInstall.Append($"{item.Platform} ");
+                }
+                else
+                {
+                    sbUninstall.Append($"{item.Platform} ");
+                }
+            }
+        }
+
+        private void Install(StringBuilder sbInstall)
+        {
+            if (sbInstall.Length > 0)
+            {
+                Console.WriteLine(sbInstall.ToString());
+                var t = Task.Run(async () =>
+                {
+                    await SdkManager.InstallOrUpdatePackages(sbInstall.ToString());
+                    PopulatePlatformsTab();
+                });
+            }
+        }
+
+        private void Uninstall(StringBuilder sbUninstall)
+        {
+            if (sbUninstall.Length > 0)
+            {
+                Console.WriteLine(sbUninstall.ToString());
+                var t = Task.Run(async () =>
+                {
+                    await SdkManager.UninstallPackages(sbUninstall.ToString());
+                    PopulatePlatformsTab();
+                });
+            }
+        }
+
 
         private bool ValidatePath()
         {
