@@ -55,6 +55,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="ObservableCollectionEx.cs" />
     <Compile Include="SDKManager\Models\SdkPlatformItem.cs" />
     <Compile Include="SDKManager\Models\SdkPlatformStructure.cs" />
     <Compile Include="SDKManager\Utilities\Patterns.cs" />
@@ -91,6 +92,10 @@
       <DependentUpon>SdkUpdateSitesTabView.xaml</DependentUpon>
     </Compile>
     <Page Include="Styles\Buttons.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\CheckBoxes.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

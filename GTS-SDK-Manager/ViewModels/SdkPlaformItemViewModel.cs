@@ -24,6 +24,10 @@ namespace GTS_SDK_Manager
         /// </summary>
         private bool _isExpanded;
 
+        private bool _canExpand;
+
+        private SdkPlatformItem _package;
+
         #endregion
 
         #region Public Properties
@@ -66,8 +70,14 @@ namespace GTS_SDK_Manager
         /// </summary>
         public ObservableCollection<SdkPlaformItemViewModel> OtherPackages
         {
-            get { return IsChild ? null : _otherPackages; }
-            set { _otherPackages = value; }
+            get => _otherPackages;
+            set {
+                if(_otherPackages != value)
+                {
+                    _otherPackages = value;
+                    NotifyPropertyChanged();
+                }
+            }
         }
 
         #endregion
@@ -115,6 +125,20 @@ namespace GTS_SDK_Manager
             }
         }
 
+        public bool CanExpand
+        {
+            get => _canExpand;
+            set
+            {
+                if (_canExpand != value)
+                {
+                    _canExpand = value;
+                    GetOtherPackages();
+                    NotifyPropertyChanged();
+                }
+            }
+        }
+
         #endregion
 
         #region Constructor
@@ -123,8 +147,11 @@ namespace GTS_SDK_Manager
         /// Constructor
         /// </summary>
         /// <param name="package"></param>
-        public SdkPlaformItemViewModel(SdkPlatformItem package)
+        public SdkPlaformItemViewModel(SdkPlatformItem package, bool canExpand)
         {
+            _package = package;
+            CanExpand = canExpand;
+
             Platform = package.Platform;
             ApiLevel = package.ApiLevel;
             Description = package.Description;
@@ -135,18 +162,31 @@ namespace GTS_SDK_Manager
             IsChild = package.IsChild;
             InitialState = string.IsNullOrEmpty(InstallLocation) ? false : true;
             IsChecked = InitialState;
+            IsExpanded = true;
 
-            var children = package.Children;
-            if (package.IsChild == false)
+            GetOtherPackages();
+        }
+
+        private void GetOtherPackages()
+        {
+            if(!CanExpand)
             {
-                _otherPackages = new ObservableCollection<SdkPlaformItemViewModel>(
-                    children.Select(p => new SdkPlaformItemViewModel(p))
-                    );
+                _otherPackages = new ObservableCollection<SdkPlaformItemViewModel>();
+            }
+            else
+            {
+                var children = _package.Children;
+                if (_package.IsChild == false)
+                {
+                    _otherPackages = new ObservableCollection<SdkPlaformItemViewModel>(
+                        children.Select(p => new SdkPlaformItemViewModel(p, false))
+                        );
+                }
             }
 
-            IsExpanded = false;
+
         }
-        
+
         #endregion
     }
 }

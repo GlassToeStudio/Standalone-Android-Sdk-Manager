@@ -9,7 +9,6 @@
 
 	<Grid Background="#3C3F41" Margin="-2,1,-2,-2">
 		<TextBlock HorizontalAlignment="Left" Height="52" Margin="10,10,0,0" TextWrapping="Wrap" Text="{Binding TxtInformation}" VerticalAlignment="Top" Width="596"/>
-
 		<!-- Column Headers -->
 		<Border BorderThickness="0" Margin="10,64,10,370" >
 			<Grid>
@@ -104,7 +103,7 @@
 					</Style>
 				</TreeView.ItemContainerStyle>
 				<TreeView.ItemTemplate>
-					<HierarchicalDataTemplate ItemsSource="{Binding OtherPackages}">
+					<HierarchicalDataTemplate ItemsSource="{Binding OtherPackages, Mode=TwoWay}">
 						<local:SdkPlatformItemView />
 						<HierarchicalDataTemplate.ItemTemplate>
 							<DataTemplate>
@@ -115,6 +114,9 @@
 				</TreeView.ItemTemplate>
 			</TreeView>
 		</Border>
+		<StackPanel Margin="10,438,10,-15">
+			<CheckBox Content="Show Package Details" Height="25" Margin="603,0,0,0" IsChecked="{Binding ShowPackageItems, Mode=TwoWay}" />
+		</StackPanel>
 	</Grid>
 
 </UserControl>

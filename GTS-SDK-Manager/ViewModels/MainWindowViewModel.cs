@@ -114,7 +114,7 @@ namespace GTS_SDK_Manager
         private void PopulatePlatformsTab()
         {
             SdkManager.ClearCache();
-            ((SdkPlatformsTabViewModel)TabViewModels[0])?.PopulatePackageItemStructure();
+            ((SdkPlatformsTabViewModel)TabViewModels[0])?.PopulatePackageItemStructure(false);
         }
 
         private void UpdatePackages()

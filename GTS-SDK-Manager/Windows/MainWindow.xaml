@@ -97,7 +97,7 @@
 							<ControlTemplate TargetType="TabItem">
 								<Border Name="Border" BorderThickness="1,1,1,0" 
 										BorderBrush="#292B2D" 
-										CornerRadius="4,4,0,0" Margin="2,0" >
+										CornerRadius="4,4,0,0" Margin="2,0" Width="Auto" Background="{x:Null}" >
 									<ContentPresenter x:Name="ContentSite"
                                         VerticalAlignment="Center"
                                         HorizontalAlignment="Center"

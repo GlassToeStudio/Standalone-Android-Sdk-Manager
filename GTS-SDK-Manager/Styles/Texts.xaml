@@ -19,5 +19,5 @@
 	<Style TargetType="Label" x:Key="YellowTextLabel">
 		<Setter Property="Foreground" Value ="Yellow"/>
 	</Style>
-	
+
 </ResourceDictionary>

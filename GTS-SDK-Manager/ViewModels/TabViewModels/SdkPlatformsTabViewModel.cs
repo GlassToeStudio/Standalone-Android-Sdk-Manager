@@ -8,10 +8,23 @@ namespace GTS_SDK_Manager
         #region Private Backing Feilds
 
         private ObservableCollection<SdkPlaformItemViewModel> _packageItems;
-       
+
+        private bool showPackageItems;
         #endregion
 
         #region Public Properties
+
+        public bool ShowPackageItems { get => showPackageItems;
+            set
+            {
+                if(showPackageItems != value)
+                {
+                    showPackageItems = value;
+                    PopulatePackageItemStructure(showPackageItems);
+                    NotifyPropertyChanged();
+                }
+            }
+        }
 
         /// <summary>
         /// Data container for all currently available platform items
@@ -32,6 +45,7 @@ namespace GTS_SDK_Manager
             }
         }
 
+
         #endregion
 
         #region Constructor
@@ -45,13 +59,13 @@ namespace GTS_SDK_Manager
 
         #region Public Methods
 
-        public void PopulatePackageItemStructure()
+        public void PopulatePackageItemStructure(bool showPackageItems)
         {
             PackageItemStructure = new SdkPlatformStructure();
 
             var children = PackageItemStructure.PackageItems;
             this.PackageItems = new ObservableCollection<SdkPlaformItemViewModel>(
-                children.Select(package => new SdkPlaformItemViewModel(package))
+                children.Select(package => new SdkPlaformItemViewModel(package, showPackageItems))
                 );
         }
         
