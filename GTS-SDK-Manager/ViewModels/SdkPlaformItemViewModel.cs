@@ -39,38 +39,38 @@ namespace GTS_SDK_Manager
         /// <summary>
         /// The name of this platform, as read from sdk manager: platforms;android-23
         /// </summary>
-        public string Platform { get; set; }
+        public string Platform { get; private set; }
      
         /// <summary>
         /// The current API Level of this package, as read from sdk manager: 23
         /// </summary>
-        public int ApiLevel { get; set; }
+        public int ApiLevel { get; private set; }
      
         /// <summary>
         /// Android SDK Platform 23 => Android 6.0 (Marshmallow)
         /// </summary>
-        public string Description { get; set; }
+        public string Description { get; private set; }
      
         /// <summary>
         ///  The current version fo this package, as read from sdk manager: 3
         /// </summary>
-        public string Version { get; set; }
+        public string Version { get; private set; }
      
         /// <summary>
         /// The installed lcoation of this package.
         /// C:\Users\GlassToe\AppData\Local\Android\Sdk\platforms\android-23
         /// </summary>
-        public string InstallLocation { get; set; }
+        public string InstallLocation { get; private set; }
       
         /// <summary>
         /// Returns true if Install Location is not null, false otherwise.
         /// </summary>
-        public bool IsInstalled { get; set; }
+        public bool IsInstalled { get; private set; }
        
         /// <summary>
         /// Status: Installed, Not Installed, or Update Available
         /// </summary>
-        public PackageStatus Status { get; set; }
+        public PackageStatus Status { get; private set; }
       
         /// <summary>
         /// True if this is a child of a Package Item, false otherwise.

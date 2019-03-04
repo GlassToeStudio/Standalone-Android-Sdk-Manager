@@ -6,10 +6,10 @@
              xmlns:local="clr-namespace:GTS_SDK_Manager"
              mc:Ignorable="d" Width="689" Height="15.25">
 
-	<StackPanel Margin="0,0,0,-7">
+	<StackPanel Margin="10,0,0,-7">
 		<Grid Height="18">
 			<Grid.ColumnDefinitions>
-				<ColumnDefinition Width="391"/>
+				<ColumnDefinition Width="381"/>
 				<ColumnDefinition Width="100"/>
 				<ColumnDefinition Width="100"/>
 				<ColumnDefinition Width="131*"/>
