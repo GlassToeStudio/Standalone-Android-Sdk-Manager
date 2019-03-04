@@ -10,21 +10,10 @@ namespace GTS_SDK_Manager
         private ObservableCollection<SdkPlaformItemViewModel> _packageItems;
 
         private bool showPackageItems;
+
         #endregion
 
         #region Public Properties
-
-        public bool ShowPackageItems { get => showPackageItems;
-            set
-            {
-                if(showPackageItems != value)
-                {
-                    showPackageItems = value;
-                    PopulatePackageItemStructure(showPackageItems);
-                    NotifyPropertyChanged();
-                }
-            }
-        }
 
         /// <summary>
         /// Data container for all currently available platform items
@@ -45,6 +34,20 @@ namespace GTS_SDK_Manager
             }
         }
 
+        /// <summary>
+        ///CheckBox, if true, show foldout for low-level package items, onlu high-level otherwise.
+        /// </summary>
+        public bool ShowPackageItems { get => showPackageItems;
+            set
+            {
+                if(showPackageItems != value)
+                {
+                    showPackageItems = value;
+                    PopulatePackageItemStructure(showPackageItems);
+                    NotifyPropertyChanged();
+                }
+            }
+        }
 
         #endregion
 
@@ -53,19 +56,26 @@ namespace GTS_SDK_Manager
         /// <summary>
         /// View model to hold a list of Platform Items.
         /// </summary>
-        public SdkPlatformsTabViewModel() : base() { }
+        public SdkPlatformsTabViewModel() : base()
+        {
+
+        }
 
         #endregion
 
         #region Public Methods
 
+        /// <summary>
+        /// Get all high-level packages. If showpackageItems == true, get lower-level packages items also.
+        /// </summary>
+        /// <param name="showPackageItems"></param>
         public void PopulatePackageItemStructure(bool showPackageItems)
         {
             PackageItemStructure = new SdkPlatformStructure();
 
-            var children = PackageItemStructure.PackageItems;
+            var topLevelItems = PackageItemStructure.PackageItems;
             this.PackageItems = new ObservableCollection<SdkPlaformItemViewModel>(
-                children.Select(package => new SdkPlaformItemViewModel(package, showPackageItems))
+                topLevelItems.Select(package => new SdkPlaformItemViewModel(package, showPackageItems))
                 );
         }
         
