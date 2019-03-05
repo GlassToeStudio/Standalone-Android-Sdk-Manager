@@ -1,6 +1,6 @@
 ﻿namespace SdkManager.Core
 {
-    public class SdkPlatformItem : SdkItemBase
+    public class SdkPlatformItems : SdkItemBase
     {
 
     }

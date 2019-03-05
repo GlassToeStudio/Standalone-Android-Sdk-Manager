@@ -6,7 +6,7 @@ namespace SdkManager.Core
     /// <summary>
     /// Standard data container for each high-level sdk platform,
     /// </summary>
-    public class SdkItemBase : IComparable<SdkToolsItem>
+    public class SdkItemBase : IComparable<SdkItemBase>
     {
         /// <summary>
         /// The name of this platform, as read from sdk manager: platforms;android-23
@@ -57,7 +57,7 @@ namespace SdkManager.Core
 
         #region Overrides
 
-        public int CompareTo(SdkToolsItem packageData)
+        public int CompareTo(SdkItemBase packageData)
         {
             // A null value means that this object is greater.
             if (packageData == null)
@@ -72,7 +72,7 @@ namespace SdkManager.Core
 
         public override string ToString()
         {
-            return $"Platform: {Platform}, API Level: {ApiLevel}, Description: {Description}, Version: {Version}, Installed = {IsInstalled}, Status: {Status} Location: {InstallLocation}.";
+            return $"Platform: {Platform}, API Level: {ApiLevel}, Description: {Description}, Version: {Version}, Installed = {IsInstalled}, IsChild: {IsChild}, Status: {Status} Location: {InstallLocation}.";
         }
         #endregion
     }

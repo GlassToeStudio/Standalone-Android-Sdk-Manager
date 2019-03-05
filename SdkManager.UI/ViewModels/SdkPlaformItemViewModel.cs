@@ -30,7 +30,7 @@ namespace SdkManager.UI
         /// <summary>
         /// Cached reference to this ViewModel's model.
         /// </summary>
-        private SdkPlatformItem _package;
+        private SdkItemBase _package;
 
         #endregion
 
@@ -164,7 +164,7 @@ namespace SdkManager.UI
         /// Constructor
         /// </summary>
         /// <param name="package"></param>
-        public SdkPlaformItemViewModel(SdkPlatformItem package, bool canExpand)
+        public SdkPlaformItemViewModel(SdkItemBase package, bool canExpand)
         {
             _package = package;
             CanExpand = canExpand;
@@ -203,7 +203,7 @@ namespace SdkManager.UI
                 if (_package.IsChild == false)
                 {
                     _otherPackages = new ObservableCollection<SdkPlaformItemViewModel>(
-                        children.Select(p => new SdkPlaformItemViewModel((SdkPlatformItem)p, false))
+                        children.Select(p => new SdkPlaformItemViewModel(p, false))
                         );
                 }
             }

@@ -55,7 +55,7 @@
         #region SDK Tools
 
         public const string BUILD_TOOLS_PATTERN = @"(?<Platform>(?:build-tools;)(?<APILevel>[\d]*[.][\d]*[.][\d]*)(?:[-\w]*))(?:[\s\w]*[:][\s]*)(?<Description>Android[\s\w-.]*\n)(?:[\s]*[\w\s]*[:][\s]*)(?<Version>[\d]*[.][\d]*[.][\d]*[\s][\w]*)(?:(?:[\s]*Installed Location[:][\s]*)(?<Installed_Location>[\s]*[\w\:\\\-]*[\d.]*))?"; // Need to get the laterst version
-        public const string GPU_DEBUGGING_TOOLS_PATTERN = @"(?<Platform>(?:extras;android;gapid;)(?<APILevel>[\d]*))(?:[\s\w]*[:][\s]*)(?<Description>GPU[\s\w]*\n)(?:[\s]*[\w\s]*[:][\s]*)(?<Version>[\d]*.[\d]*.[\d]*.)";
+        public const string GPU_DEBUGGING_TOOLS_PATTERN = @"(?<Platform>(?:extras;android;gapid;)(?<APILevel>[\d]*))(?:[\s\w]*[:][\s]*)(?<Description>GPU[\s\w]*\n)(?:[\s]*[\w\s]*[:][\s]*)(?<Version>[\d]*.[\d]*.[\d]*.)(?:(?:[\s]*Installed Location[:][\s]*)(?<Installed_Location>[\s]*[\w\:\\\-]*))?";
         public const string LLDB_PATTERN = @"(?<Platform>(?:lldb;)(?<APILevel>[.\d]*))(?:[\s\w]*[:][\s]*)(?<Description>LLDB[.\s\w]*\n)(?:[\s]*[\w\s]*[:][\s]*)(?<Version>[.\d]*)";
         public const string ANDROID_AUTO_API_SIM_PATTERN = @"(?<Platform>(?:extras;google;simulators))(?:[\s\w]*[:][\s]*)(?<Description>Android[-\s\w]*\n)(?:[\s]*[\w\s]*[:][\s]*)(?<Version>[\d.]*)"; // NO API LEVEL
         public const string ANDROID_AUTO_EMULATOR_PATTERN = @"(?<Platform>(?:extras;google;auto))(?:[\s\w]*[:][\s]*)(?<Description>Android[-\s\w]*\n)(?:[\s]*[\w\s]*[:][\s]*)(?<Version>[\d.]*)"; // NO API LEVEL

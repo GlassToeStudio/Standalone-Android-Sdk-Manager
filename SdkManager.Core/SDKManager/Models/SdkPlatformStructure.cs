@@ -11,11 +11,11 @@ namespace SdkManager.Core
         /// <summary>
         /// List of all high-level Platform items, with their lower-level packages.
         /// </summary>
-        public List<SdkPlatformItem> PlatformItems { get; set; } = new List<SdkPlatformItem>();
+        public List<SdkItemBase> PlatformItems { get; set; } = new List<SdkItemBase>();
         /// <summary>
         /// List of all high-level Tools items, with their lower-level packages.
         /// </summary>
-        public List<SdkToolsItem> ToolsItems { get; set; } = new List<SdkToolsItem>();
+        public List<SdkItemBase> ToolsItems { get; set; } = new List<SdkItemBase>();
 
         /// <summary>
         /// Default constructor:
@@ -47,7 +47,7 @@ namespace SdkManager.Core
                 p.CheckForUpdates();
                 p.CreatePackageChildren();
 
-                foreach (SdkPlatformItem c in p.Children)
+                foreach (SdkItemBase c in p.Children)
                 {
                     c.CheckForUpdates();
                 }
@@ -58,16 +58,16 @@ namespace SdkManager.Core
         {
             ToolsItems = SdkManagerBat.CreateToolsItems();
 
-            //foreach (var p in ToolsItems)
-            //{
-            //    p.CheckForUpdates();
-            //    p.CreatePackageChildren();
+            foreach (var p in ToolsItems)
+            {
+                p.CheckForUpdates();
+                p.CreatePackageChildren();
 
-            //    foreach (var c in p.Children)
-            //    {
-            //        c.CheckForUpdates();
-            //    }
-            //}
+                foreach (var c in p.Children)
+                {
+                    c.CheckForUpdates();
+                }
+            }
         }
     }
 }
