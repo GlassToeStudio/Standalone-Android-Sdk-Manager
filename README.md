@@ -1,0 +1,1 @@
+# Standalone-Android-Sdk-Manager
