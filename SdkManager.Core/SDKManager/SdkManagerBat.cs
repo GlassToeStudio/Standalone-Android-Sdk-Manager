@@ -25,9 +25,9 @@ namespace SdkManager.Core
         private static MatchCollection _sources;
         private static MatchCollection _googleGlass;
 
-
         private static MatchCollection _buildToolsBody;
         private static MatchCollection _gpuDebuggingToolsBody;
+        private static MatchCollection _lldbBody;
 
         #endregion
 
@@ -145,6 +145,7 @@ namespace SdkManager.Core
             List<SdkItemBase> toolsItems = new List<SdkItemBase>();
             toolsItems.Add(CreateBuildTools());
             toolsItems.Add(CreateGPUDebuggingTools());
+            toolsItems.Add(CreateLLDBTools());
             return toolsItems;
         }
               
@@ -245,6 +246,56 @@ namespace SdkManager.Core
 
             gpuDebuggingTools.Remove(mainItem);
             foreach (var c in gpuDebuggingTools)
+            {
+                mainItem.Children.Add(c);
+            }
+            return mainItem;
+        }
+
+        /// <summary>
+        /// Will create a list of package items based on VerboseOutput.
+        /// </summary>
+        /// <returns></returns>
+        public static SdkItemBase CreateLLDBTools()
+        {
+            if (_lldbBody == null)
+            {
+                _lldbBody = Regex.Matches(VerboseOutput, Patterns.LLDB_PATTERN, _options);
+            }
+
+            List<SdkItemBase> lldbTools = new List<SdkItemBase>();
+
+            for (int i = 0; i < _lldbBody.Count; i++)
+            {
+                var platform = _lldbBody[i].Groups["Platform"].ToString().Trim();
+                var apilevel = _lldbBody[i].Groups["APILevel"].ToString().Trim();
+                var description = _lldbBody[i].Groups["Description"].ToString().Trim();
+                var version = _lldbBody[i].Groups["Version"].ToString().Trim();
+                var installLocation = _lldbBody[i].Groups["Installed_Location"].ToString().Trim();
+
+                if (lldbTools.Any(x => x.Platform == platform) == false)
+                {
+                    lldbTools.Add(
+                        new SdkItemBase
+                        {
+                            Platform = platform,
+                            ApiLevel = ConvertToolsAPILevelToInt(apilevel),
+                            Description = description,
+                            Version = version,
+                            InstallLocation = installLocation,
+                            IsInstalled = string.IsNullOrEmpty(installLocation) == false,
+                            Status = string.IsNullOrEmpty(installLocation) ? PackageStatus.NOT_INSTALLED : PackageStatus.INSTALLED,
+                            IsChild = true
+                        });
+                }
+
+            }
+            lldbTools.Sort();
+            var mainItem = lldbTools[0];
+            mainItem.IsChild = false;
+
+            lldbTools.Remove(mainItem);
+            foreach (var c in lldbTools)
             {
                 mainItem.Children.Add(c);
             }
@@ -382,6 +433,8 @@ namespace SdkManager.Core
 
             // SDK Tools
             _buildToolsBody = null;
+            _gpuDebuggingToolsBody = null;
+            _lldbBody = null;
         }
 
         #endregion
