@@ -52,18 +52,20 @@
             TextDecorations="Underline"/>
 
 		<Label Content="{Binding Path=SdkManager.ConsoleOutput}" 
-            HorizontalAlignment="Left"
             Height="41" Margin="10,548,0,0" 
-            VerticalAlignment="Top" 
-            Width="608" />
+            Width="608"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"/>
 
 		<Button Content="Apply" 
 			Command="{Binding UpdatePackagesCommand}"
-			HorizontalAlignment="Left"
+			Style="{StaticResource BlueButton}"
 			Height="32" 
-			Margin="646,557,0,0"
-			VerticalAlignment="Top"
-			Width="136" />
+			Width="81"
+			Margin="701,557,0,0"
+			HorizontalAlignment="Left"
+			VerticalAlignment="Top" 
+			IsEnabled="False"/>
 
 		<TabControl Name="MainTabControl" 
 			ItemsSource="{Binding TabViewModels}"
@@ -114,7 +116,7 @@
 										<Setter TargetName="Border" Property="Background" Value="#36393A" />
 									</Trigger>
 								</ControlTemplate.Triggers>
-								
+
 							</ControlTemplate>
 						</Setter.Value>
 					</Setter>
