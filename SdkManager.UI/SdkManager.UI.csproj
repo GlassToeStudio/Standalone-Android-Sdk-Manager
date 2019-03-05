@@ -181,7 +181,7 @@
     <Resource Include="Images\downarrow.png" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\SdkManger.Core\SdkManager.Core.csproj">
+    <ProjectReference Include="..\SdkManager.Core\SdkManager.Core.csproj">
       <Project>{a0a3b5ae-80b3-4ce1-9279-eeb741861046}</Project>
       <Name>SdkManager.Core</Name>
     </ProjectReference>
