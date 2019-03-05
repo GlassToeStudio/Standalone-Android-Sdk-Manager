@@ -1,10 +1,11 @@
-﻿using System;
+﻿using SdkManger.Core;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GTS_SDK_Manager
+namespace SdkManger.UI
 {
     public class SdkManagerBatViewModel : BaseViewModel
     {

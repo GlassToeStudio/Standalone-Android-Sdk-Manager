@@ -1,4 +1,4 @@
-﻿namespace GTS_SDK_Manager
+﻿namespace SdkManger.UI
 {
     public class CommandLineTabViewModel : TabBaseViewModel
     {

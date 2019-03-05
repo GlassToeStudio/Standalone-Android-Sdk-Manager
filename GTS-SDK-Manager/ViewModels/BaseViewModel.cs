@@ -2,7 +2,7 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-namespace GTS_SDK_Manager
+namespace SdkManger.UI
 {
     /// <summary>
     /// A base ViewModel from which all ViewModels inherit.

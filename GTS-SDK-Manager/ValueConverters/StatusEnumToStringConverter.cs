@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SdkManger.Core;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -6,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Data;
 
-namespace GTS_SDK_Manager
+namespace SdkManger.UI
 {
     [ValueConversion(typeof(PackageStatus), typeof(string))]
     public class StatusEnumToStringConverter : IValueConverter

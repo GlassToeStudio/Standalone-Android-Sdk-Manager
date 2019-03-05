@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace GTS_SDK_Manager.Properties
+namespace SdkManger.UI.Properties
 {
 
 

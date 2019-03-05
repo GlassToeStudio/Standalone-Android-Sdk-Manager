@@ -1,6 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 
-namespace GTS_SDK_Manager
+namespace SdkManger.UI
 {
     public class SdkUpdateSitesTabViewModel : TabBaseViewModel
     {

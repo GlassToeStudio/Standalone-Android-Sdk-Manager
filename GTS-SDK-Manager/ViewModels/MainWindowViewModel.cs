@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Input;
 
-namespace GTS_SDK_Manager
+namespace SdkManger.UI
 {
     public class MainWindowViewModel : BaseViewModel
     {

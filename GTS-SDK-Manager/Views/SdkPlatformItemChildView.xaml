@@ -1,9 +1,9 @@
-﻿<UserControl x:Class="GTS_SDK_Manager.SdkPlatformItemChildView"
+﻿<UserControl x:Class="SdkManger.UI.SdkPlatformItemChildView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:GTS_SDK_Manager"
+             xmlns:local="clr-namespace:SdkManger.UI"
              mc:Ignorable="d" Width="689" Height="15.25">
 
 	<StackPanel Margin="10,0,0,-7">

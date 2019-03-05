@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace GTS_SDK_Manager
+namespace SdkManger.UI
 {
     /// <summary>
     /// Interaction logic for SDKToolsView.xaml

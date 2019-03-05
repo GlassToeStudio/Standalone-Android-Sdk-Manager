@@ -55,14 +55,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="ObservableCollectionEx.cs" />
-    <Compile Include="SDKManager\Models\Enums.cs" />
-    <Compile Include="SDKManager\Models\SdkItemBase.cs" />
-    <Compile Include="SDKManager\Models\SdkPlatformItem.cs" />
-    <Compile Include="SDKManager\Models\SdkPlatformStructure.cs" />
-    <Compile Include="SDKManager\Models\SdkToolsItem.cs" />
-    <Compile Include="SDKManager\Utilities\Patterns.cs" />
-    <Compile Include="SDKManager\SdkManagerBat.cs" />
     <Compile Include="ValueConverters\StatusEnumToStringConverter.cs" />
     <Compile Include="ViewModels\BaseViewModel.cs" />
     <Compile Include="ViewModels\Commands\RelayCommand.cs" />
@@ -134,7 +126,6 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="SDKManager\Utilities\LookUpTable.cs" />
     <Compile Include="Windows\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -188,6 +179,12 @@
   <ItemGroup>
     <Resource Include="Images\rightarrow.png" />
     <Resource Include="Images\downarrow.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SdkManger.Core\SdkManger.Core.csproj">
+      <Project>{a0a3b5ae-80b3-4ce1-9279-eeb741861046}</Project>
+      <Name>SdkManger.Core</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GTS_SDK_Manager   
+namespace SdkManger.Core   
 {
     /// <summary>
     /// Static class containing all necessary regular expressions. Useful to parse sdkmanger.bat -- list --verbose output.

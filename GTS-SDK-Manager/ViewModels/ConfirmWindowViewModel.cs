@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 
-namespace GTS_SDK_Manager
+namespace SdkManger.UI
 {
     /// <summary>
     /// A window to diplay when updating, intalling, uninstalling packages.

@@ -1,8 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using SdkManger.Core;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 
-namespace GTS_SDK_Manager
+namespace SdkManger.UI
 {
     /// <summary>
     /// Standard data container view model for each high-level sdk platform,

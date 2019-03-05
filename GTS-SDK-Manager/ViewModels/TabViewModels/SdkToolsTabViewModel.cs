@@ -2,7 +2,7 @@
 using System.Collections.ObjectModel;
 
 
-namespace GTS_SDK_Manager
+namespace SdkManger.UI
 {
     class SdkToolsTabViewModel : TabBaseViewModel
     {

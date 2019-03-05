@@ -1,4 +1,4 @@
-﻿namespace GTS_SDK_Manager
+﻿namespace SdkManger.UI
 {
     /// <summary>
     /// Base class from which all Tab ViewModels inherit.

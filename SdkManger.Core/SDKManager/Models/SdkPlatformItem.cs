@@ -1,12 +1,13 @@
 ﻿using System;
 
-namespace GTS_SDK_Manager
+namespace SdkManger.Core
 {
-    public class SdkToolsItem : SdkItemBase, IComparable<SdkToolsItem>
+    public class SdkPlatformItem : SdkItemBase, IComparable<SdkPlatformItem>
     {
+
         #region Overrides
 
-        public int CompareTo(SdkToolsItem packageData)
+        public int CompareTo(SdkPlatformItem packageData)
         {
             // A null value means that this object is greater.
             if (packageData == null)

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Input;
 
-namespace GTS_SDK_Manager
+namespace SdkManger.UI
 {
     class RelayCommand : ICommand
     {

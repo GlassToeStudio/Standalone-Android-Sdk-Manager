@@ -1,9 +1,9 @@
-﻿<Window x:Class="GTS_SDK_Manager.ConfirmChangeWindow"
+﻿<Window x:Class="SdkManger.UI.ConfirmChangeWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:GTS_SDK_Manager"
+        xmlns:local="clr-namespace:SdkManger.UI"
         mc:Ignorable="d"
         Title="Confirm Change" Height="200" Width="375" Background="#3C3F41"
 		WindowStartupLocation="CenterScreen">

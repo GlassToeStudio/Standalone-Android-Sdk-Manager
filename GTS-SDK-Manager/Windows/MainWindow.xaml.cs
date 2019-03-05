@@ -6,7 +6,7 @@ using System.Windows.Input;
 using System.Windows.Forms;
 using System.IO;
 
-namespace GTS_SDK_Manager
+namespace SdkManger.UI
 {
     public partial class MainWindow : Window
     {

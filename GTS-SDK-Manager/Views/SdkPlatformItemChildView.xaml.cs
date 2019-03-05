@@ -1,6 +1,6 @@
 ﻿using System.Windows.Controls;
 
-namespace GTS_SDK_Manager
+namespace SdkManger.UI
 {
     public partial class SdkPlatformItemChildView : UserControl
     {

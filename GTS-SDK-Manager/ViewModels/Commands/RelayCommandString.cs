@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
-namespace GTS_SDK_Manager 
+namespace SdkManger.UI 
 {
    public class RelayCommandString : ICommand
     {
