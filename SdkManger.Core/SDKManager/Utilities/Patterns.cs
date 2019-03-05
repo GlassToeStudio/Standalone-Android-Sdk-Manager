@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace SdkManger.Core   
+﻿namespace SdkManger.Core   
 {
     /// <summary>
     /// Static class containing all necessary regular expressions. Useful to parse sdkmanger.bat -- list --verbose output.

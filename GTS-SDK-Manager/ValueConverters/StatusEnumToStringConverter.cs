@@ -1,11 +1,7 @@
-﻿using SdkManger.Core;
-using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System;
+using SdkManger.Core;
 using System.Windows.Data;
+using System.Globalization;
 
 namespace SdkManger.UI
 {

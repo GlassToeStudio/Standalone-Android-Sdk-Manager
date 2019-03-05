@@ -1,6 +1,6 @@
 ﻿using System.Linq;
-using System.Collections.ObjectModel;
 using SdkManger.Core;
+using System.Collections.ObjectModel;
 
 namespace SdkManger.UI
 {
