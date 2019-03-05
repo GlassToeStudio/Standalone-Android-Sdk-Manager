@@ -73,7 +73,7 @@ namespace GTS_SDK_Manager
         {
             PackageItemStructure = new SdkPlatformStructure();
 
-            var topLevelItems = PackageItemStructure.PackageItems;
+            var topLevelItems = PackageItemStructure.PlatformItems;
             this.PackageItems = new ObservableCollection<SdkPlaformItemViewModel>(
                 topLevelItems.Select(package => new SdkPlaformItemViewModel(package, showPackageItems))
                 );

@@ -11,7 +11,11 @@ namespace GTS_SDK_Manager
         /// <summary>
         /// List of all high-level Platform items, with their lower-level packages.
         /// </summary>
-        public List<SdkPlatformItem> PackageItems { get; set; } = new List<SdkPlatformItem>();
+        public List<SdkPlatformItem> PlatformItems { get; set; } = new List<SdkPlatformItem>();
+        /// <summary>
+        /// List of all high-level Tools items, with their lower-level packages.
+        /// </summary>
+        public List<SdkToolsItem> ToolsItems { get; set; } = new List<SdkToolsItem>();
 
         /// <summary>
         /// Default constructor:
@@ -30,9 +34,14 @@ namespace GTS_SDK_Manager
                 return;
             }
 
-            PackageItems = SdkManagerBat.CreatePackageItems();
+            CreatePackageItems();
+        }
 
-            foreach (var p in PackageItems)
+        private void CreatePackageItems()
+        {
+            PlatformItems = SdkManagerBat.CreatePackageItems();
+
+            foreach (var p in PlatformItems)
             {
                 p.CheckForUpdates();
                 p.CreatePackageChildren();
@@ -41,7 +50,7 @@ namespace GTS_SDK_Manager
                 {
                     c.CheckForUpdates();
                 }
-            } 
+            }
         }
     }
 }

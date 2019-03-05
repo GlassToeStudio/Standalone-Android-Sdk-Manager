@@ -133,6 +133,47 @@ namespace GTS_SDK_Manager
         }
       
         /// <summary>
+        /// Will create a list of package items based on VerboseOutput.
+        /// </summary>
+        /// <returns></returns>
+        public static List<SdkPlatformItem> CreateToolsItems()
+        {
+            if (_body == null)
+            {
+                _body = Regex.Matches(VerboseOutput, Patterns.BUILD_TOOLS_PATTERN, _options);
+            }
+
+            List<SdkPlatformItem> packageItems = new List<SdkPlatformItem>();
+
+            for (int i = 0; i < _body.Count; i++)
+            {
+                var platform = _body[i].Groups["Platform"].ToString().Trim();
+                var apilevel = _body[i].Groups["APILevel"].ToString().Trim();
+                var description = LookUpTable.CoolNames[_body[i].Groups["Description"].ToString().Trim()];
+                var version = _body[i].Groups["Version"].ToString().Trim();
+                var installLocation = _body[i].Groups["Installed_Location"].ToString().Trim();
+
+                if (packageItems.Any(x => x.Platform == platform) == false)
+                {
+                    packageItems.Add(
+                        new SdkPlatformItem
+                        {
+                            Platform = platform,
+                            ApiLevel = int.Parse(apilevel = apilevel.Substring(0, apilevel.IndexOf('.') > -1 ? apilevel.IndexOf('.') : apilevel.Length)),
+                            Description = description,
+                            Version = version,
+                            InstallLocation = installLocation,
+                            IsInstalled = string.IsNullOrEmpty(installLocation) == false,
+                            Status = string.IsNullOrEmpty(installLocation) ? PackageStatus.NOT_INSTALLED : PackageStatus.INSTALLED,
+                            IsChild = false
+                        });
+                }
+            }
+            packageItems.Sort();
+            return packageItems;
+        }
+      
+        /// <summary>
         /// Runs sdkmanager.bat --install [package;name]
         /// </summary>
         /// <param name="args"></param>
