@@ -56,6 +56,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="ObservableCollectionEx.cs" />
+    <Compile Include="SDKManager\Models\Enums.cs" />
     <Compile Include="SDKManager\Models\SdkPlatformItem.cs" />
     <Compile Include="SDKManager\Models\SdkPlatformStructure.cs" />
     <Compile Include="SDKManager\Utilities\Patterns.cs" />
