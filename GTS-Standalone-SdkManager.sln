@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27703.2042
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SdkManager.UI", "GTS-SDK-Manager\SdkManager.UI.csproj", "{94F76DFD-AEAA-46A3-BBA0-A7580EA72FE2}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SdkManger.Core", "SdkManger.Core\SdkManger.Core.csproj", "{A0A3B5AE-80B3-4CE1-9279-EEB741861046}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SdkManager.UI", "SdkManager.UI\SdkManager.UI.csproj", "{94F76DFD-AEAA-46A3-BBA0-A7580EA72FE2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -13,14 +13,14 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{94F76DFD-AEAA-46A3-BBA0-A7580EA72FE2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{94F76DFD-AEAA-46A3-BBA0-A7580EA72FE2}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{94F76DFD-AEAA-46A3-BBA0-A7580EA72FE2}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{94F76DFD-AEAA-46A3-BBA0-A7580EA72FE2}.Release|Any CPU.Build.0 = Release|Any CPU
 		{A0A3B5AE-80B3-4CE1-9279-EEB741861046}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{A0A3B5AE-80B3-4CE1-9279-EEB741861046}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A0A3B5AE-80B3-4CE1-9279-EEB741861046}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A0A3B5AE-80B3-4CE1-9279-EEB741861046}.Release|Any CPU.Build.0 = Release|Any CPU
+		{94F76DFD-AEAA-46A3-BBA0-A7580EA72FE2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{94F76DFD-AEAA-46A3-BBA0-A7580EA72FE2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{94F76DFD-AEAA-46A3-BBA0-A7580EA72FE2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{94F76DFD-AEAA-46A3-BBA0-A7580EA72FE2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
