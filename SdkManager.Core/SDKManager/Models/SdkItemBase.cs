@@ -1,11 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace SdkManager.Core
 {
     /// <summary>
     /// Standard data container for each high-level sdk platform,
     /// </summary>
-    public class SdkItemBase
+    public class SdkItemBase : IComparable<SdkToolsItem>
     {
         /// <summary>
         /// The name of this platform, as read from sdk manager: platforms;android-23
@@ -40,17 +41,39 @@ namespace SdkManager.Core
         /// True if this is a child of a Package Item, false otherwise.
         /// </summary>
         public bool IsChild { get; set; }
+
         /// <summary>
         /// Children backing field.
         /// </summary>
-        private List<SdkPlatformItem> _children = new List<SdkPlatformItem>();
+        private List<SdkItemBase> _children = new List<SdkItemBase>();
         /// <summary>
         /// List of Children of this package item, items is this list will have null children.
         /// </summary>
-        public List<SdkPlatformItem> Children
+        public List<SdkItemBase> Children
         {
             get { return IsChild ? null : _children; }
             set { _children = value; }
         }
+
+        #region Overrides
+
+        public int CompareTo(SdkToolsItem packageData)
+        {
+            // A null value means that this object is greater.
+            if (packageData == null)
+            {
+                return 1;
+            }
+            else
+            {
+                return packageData.ApiLevel.CompareTo(this.ApiLevel);
+            }
+        }
+
+        public override string ToString()
+        {
+            return $"Platform: {Platform}, API Level: {ApiLevel}, Description: {Description}, Version: {Version}, Installed = {IsInstalled}, Status: {Status} Location: {InstallLocation}.";
+        }
+        #endregion
     }
 }

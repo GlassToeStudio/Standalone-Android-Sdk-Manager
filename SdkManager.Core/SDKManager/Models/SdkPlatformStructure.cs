@@ -35,6 +35,7 @@ namespace SdkManager.Core
             }
 
             CreatePackageItems();
+            CreateToolItems();
         }
 
         private void CreatePackageItems()
@@ -46,11 +47,27 @@ namespace SdkManager.Core
                 p.CheckForUpdates();
                 p.CreatePackageChildren();
 
-                foreach (var c in p.Children)
+                foreach (SdkPlatformItem c in p.Children)
                 {
                     c.CheckForUpdates();
                 }
             }
+        }
+
+        private void CreateToolItems()
+        {
+            ToolsItems = SdkManagerBat.CreateToolsItems();
+
+            //foreach (var p in ToolsItems)
+            //{
+            //    p.CheckForUpdates();
+            //    p.CreatePackageChildren();
+
+            //    foreach (var c in p.Children)
+            //    {
+            //        c.CheckForUpdates();
+            //    }
+            //}
         }
     }
 }

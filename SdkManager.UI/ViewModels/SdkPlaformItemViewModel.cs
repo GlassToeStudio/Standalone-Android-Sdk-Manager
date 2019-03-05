@@ -203,7 +203,7 @@ namespace SdkManager.UI
                 if (_package.IsChild == false)
                 {
                     _otherPackages = new ObservableCollection<SdkPlaformItemViewModel>(
-                        children.Select(p => new SdkPlaformItemViewModel(p, false))
+                        children.Select(p => new SdkPlaformItemViewModel((SdkPlatformItem)p, false))
                         );
                 }
             }

@@ -18,7 +18,8 @@ namespace SdkManager.Core
 
         private static readonly RegexOptions _options = RegexOptions.Multiline;
 
-        private static MatchCollection _body;
+        private static MatchCollection _platformBody;
+        private static MatchCollection _toolsBody;
         private static MatchCollection _updates;
         private static MatchCollection _googleApis;
         private static MatchCollection _systemImages;
@@ -37,7 +38,7 @@ namespace SdkManager.Core
         /// <summary>
         /// The path to sdkmanager.bat
         /// </summary> TODO: Intentional Typeo!!!!!!!!!!!!!!!!!!!!!!
-        public static string PathName { get; set; } = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + @"\Andyroid\Sdk";
+        public static string PathName { get; set; } = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + @"\Android\Sdk";
 
         #endregion
 
@@ -97,20 +98,20 @@ namespace SdkManager.Core
         /// <returns></returns>
         public static List<SdkPlatformItem> CreatePackageItems()
         {
-            if (_body == null)
+            if (_platformBody == null)
             {
-                _body = Regex.Matches(VerboseOutput, Patterns.TestString, _options);
+                _platformBody = Regex.Matches(VerboseOutput, Patterns.TestString, _options);
             }
 
             List<SdkPlatformItem> packageItems = new List<SdkPlatformItem>();
 
-            for (int i = 0; i < _body.Count; i++)
+            for (int i = 0; i < _platformBody.Count; i++)
             {
-                var platform = _body[i].Groups["Platform"].ToString().Trim();
-                var apilevel = _body[i].Groups["APILevel"].ToString().Trim();
-                var description = LookUpTable.CoolNames[_body[i].Groups["Description"].ToString().Trim()];
-                var version = _body[i].Groups["Version"].ToString().Trim();
-                var installLocation = _body[i].Groups["Installed_Location"].ToString().Trim();
+                var platform = _platformBody[i].Groups["Platform"].ToString().Trim();
+                var apilevel = _platformBody[i].Groups["APILevel"].ToString().Trim();
+                var description = LookUpTable.CoolNames[_platformBody[i].Groups["Description"].ToString().Trim()];
+                var version = _platformBody[i].Groups["Version"].ToString().Trim();
+                var installLocation = _platformBody[i].Groups["Installed_Location"].ToString().Trim();
 
                 if (packageItems.Any(x => x.Platform == platform) == false)
                 {
@@ -138,20 +139,20 @@ namespace SdkManager.Core
         /// <returns></returns>
         public static List<SdkToolsItem> CreateToolsItems()
         {
-            if (_body == null)
+            if (_toolsBody == null)
             {
-                _body = Regex.Matches(VerboseOutput, Patterns.BUILD_TOOLS_PATTERN, _options);
+                _toolsBody = Regex.Matches(VerboseOutput, Patterns.BUILD_TOOLS_PATTERN, _options);
             }
 
             List<SdkToolsItem> toolsItems = new List<SdkToolsItem>();
 
-            for (int i = 0; i < _body.Count; i++)
+            for (int i = 0; i < _toolsBody.Count; i++)
             {
-                var platform = _body[i].Groups["Platform"].ToString().Trim();
-                var apilevel = _body[i].Groups["APILevel"].ToString().Trim();
-                var description = LookUpTable.CoolNames[_body[i].Groups["Description"].ToString().Trim()];
-                var version = _body[i].Groups["Version"].ToString().Trim();
-                var installLocation = _body[i].Groups["Installed_Location"].ToString().Trim();
+                var platform = _toolsBody[i].Groups["Platform"].ToString().Trim();
+                var apilevel = _toolsBody[i].Groups["APILevel"].ToString().Trim();
+                var description = _toolsBody[i].Groups["Description"].ToString().Trim();
+                var version = _toolsBody[i].Groups["Version"].ToString().Trim();
+                var installLocation = _toolsBody[i].Groups["Installed_Location"].ToString().Trim();
 
                 if (toolsItems.Any(x => x.Platform == platform) == false)
                 {
@@ -173,17 +174,14 @@ namespace SdkManager.Core
 
             }
             toolsItems.Sort();
-            return toolsItems;
-        }
-
-        private static int ConvertPlatformAPILevelToInt(string apilevel)
-        {
-            return int.Parse(apilevel = apilevel.Substring(0, apilevel.IndexOf('.') > -1 ? apilevel.IndexOf('.') : apilevel.Length));
-        }
-
-        private static int ConvertToolsAPILevelToInt(string apilevel)
-        {
-            return int.Parse(apilevel.Remove('.').Trim());
+            List<SdkToolsItem> mainItem = new List<SdkToolsItem>();
+            mainItem.Add(toolsItems[0]);
+            toolsItems.Remove(mainItem[0]);
+            foreach (var c in toolsItems)
+            {
+                mainItem[0].Children.Add(c);
+            }
+            return mainItem;
         }
 
         /// <summary>
@@ -305,7 +303,7 @@ namespace SdkManager.Core
         /// </summary>
         public static void ClearCache()
         {
-            _body = null;
+            _platformBody = null;
             _updates = null;
             _googleApis = null;
             _systemImages = null;
@@ -335,6 +333,16 @@ namespace SdkManager.Core
                 RedirectStandardInput = true,
                 FileName = $"{pathName}{@"\tools\bin\sdkmanager.bat"}"
             };
+        }
+
+        private static int ConvertPlatformAPILevelToInt(string apilevel)
+        {
+            return int.Parse(apilevel = apilevel.Substring(0, apilevel.IndexOf('.') > -1 ? apilevel.IndexOf('.') : apilevel.Length));
+        }
+
+        private static int ConvertToolsAPILevelToInt(string apilevel)
+        {
+            return int.Parse(apilevel.Replace(".", "").Trim());
         }
 
         /// <summary>
