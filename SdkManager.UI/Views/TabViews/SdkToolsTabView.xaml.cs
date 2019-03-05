@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace SdkManger.UI
+namespace SdkManager.UI
 {
     /// <summary>
     /// Interaction logic for SDKToolsView.xaml

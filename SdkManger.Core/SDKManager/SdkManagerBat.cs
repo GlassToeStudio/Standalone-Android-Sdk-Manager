@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
-namespace SdkManger.Core
+namespace SdkManager.Core
 {
     /// <summary>
     /// Simulate the built-in sdkmanger.bat

@@ -1,7 +1,7 @@
-﻿using SdkManger.Core;
+﻿using SdkManager.Core;
 using System.Threading.Tasks;
 
-namespace SdkManger.UI
+namespace SdkManager.UI
 {
     public class SdkManagerBatViewModel : BaseViewModel
     {

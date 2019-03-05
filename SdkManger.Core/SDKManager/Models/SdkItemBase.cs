@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace SdkManger.Core
+namespace SdkManager.Core
 {
     /// <summary>
     /// Standard data container for each high-level sdk platform,

@@ -1,6 +1,6 @@
 ﻿using System.Windows.Controls;
 
-namespace SdkManger.UI
+namespace SdkManager.UI
 {
     public partial class SdkPlatformItemChildView : UserControl
     {

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Input;
 
-namespace SdkManger.UI 
+namespace SdkManager.UI 
 {
    public class RelayCommandString : ICommand
     {

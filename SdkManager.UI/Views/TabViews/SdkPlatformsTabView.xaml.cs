@@ -1,6 +1,6 @@
 ﻿using System.Windows.Controls;
 
-namespace SdkManger.UI
+namespace SdkManager.UI
 {
     /// <summary>
     /// Interaction logic for SDKPlatformView.xaml

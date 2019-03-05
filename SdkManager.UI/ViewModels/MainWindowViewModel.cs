@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Collections.ObjectModel;
 
-namespace SdkManger.UI
+namespace SdkManager.UI
 {
     public class MainWindowViewModel : BaseViewModel
     {

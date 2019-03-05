@@ -1,4 +1,4 @@
-﻿namespace SdkManger.UI
+﻿namespace SdkManager.UI
 {
     /// <summary>
     /// Base class from which all Tab ViewModels inherit.

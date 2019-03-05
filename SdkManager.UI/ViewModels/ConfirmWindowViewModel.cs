@@ -2,7 +2,7 @@
 using System.Windows;
 using System.Windows.Input;
 
-namespace SdkManger.UI
+namespace SdkManager.UI
 {
     /// <summary>
     /// A window to diplay when updating, intalling, uninstalling packages.

@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Windows.Forms;
 
-namespace SdkManger.UI
+namespace SdkManager.UI
 {
     public partial class ConfirmChangeWindow : Window
     {

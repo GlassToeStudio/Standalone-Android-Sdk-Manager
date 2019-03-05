@@ -1,4 +1,4 @@
-﻿namespace SdkManger.UI
+﻿namespace SdkManager.UI
 {
     public class CommandLineTabViewModel : TabBaseViewModel
     {

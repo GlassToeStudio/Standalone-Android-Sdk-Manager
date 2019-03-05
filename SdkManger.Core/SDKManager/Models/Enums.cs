@@ -1,4 +1,4 @@
-﻿namespace SdkManger.Core
+﻿namespace SdkManager.Core
 {
     public enum PackageStatus
     {

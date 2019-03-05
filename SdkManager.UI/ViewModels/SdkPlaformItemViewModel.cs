@@ -1,8 +1,8 @@
 ﻿using System.Linq;
-using SdkManger.Core;
+using SdkManager.Core;
 using System.Collections.ObjectModel;
 
-namespace SdkManger.UI
+namespace SdkManager.UI
 {
     /// <summary>
     /// Standard data container view model for each high-level sdk platform,

@@ -1,4 +1,4 @@
-﻿namespace SdkManger.Core   
+﻿namespace SdkManager.Core   
 {
     /// <summary>
     /// Static class containing all necessary regular expressions. Useful to parse sdkmanger.bat -- list --verbose output.

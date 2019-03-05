@@ -1,8 +1,8 @@
 ﻿using System.Linq;
-using SdkManger.Core;
+using SdkManager.Core;
 using System.Collections.ObjectModel;
 
-namespace SdkManger.UI
+namespace SdkManager.UI
 {
     public class SdkPlatformsTabViewModel : TabBaseViewModel
     {

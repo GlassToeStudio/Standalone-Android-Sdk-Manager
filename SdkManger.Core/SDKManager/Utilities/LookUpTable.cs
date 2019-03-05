@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace SdkManger.Core
+namespace SdkManager.Core
 {
     /// <summary>
     /// static class for converting from standard description to alias description.

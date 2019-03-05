@@ -181,9 +181,9 @@
     <Resource Include="Images\downarrow.png" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\SdkManger.Core\SdkManger.Core.csproj">
+    <ProjectReference Include="..\SdkManger.Core\SdkManager.Core.csproj">
       <Project>{a0a3b5ae-80b3-4ce1-9279-eeb741861046}</Project>
-      <Name>SdkManger.Core</Name>
+      <Name>SdkManager.Core</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

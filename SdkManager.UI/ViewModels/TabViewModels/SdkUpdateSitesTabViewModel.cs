@@ -1,6 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 
-namespace SdkManger.UI
+namespace SdkManager.UI
 {
     public class SdkUpdateSitesTabViewModel : TabBaseViewModel
     {

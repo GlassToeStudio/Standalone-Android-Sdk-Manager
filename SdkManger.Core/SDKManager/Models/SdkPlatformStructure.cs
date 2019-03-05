@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using System.Collections.Generic;
 
-namespace SdkManger.Core
+namespace SdkManager.Core
 {
     /// <summary>
     /// Data container for all platforns currently available.

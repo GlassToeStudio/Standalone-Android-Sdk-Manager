@@ -1,9 +1,9 @@
 ﻿using System;
-using SdkManger.Core;
+using SdkManager.Core;
 using System.Windows.Data;
 using System.Globalization;
 
-namespace SdkManger.UI
+namespace SdkManager.UI
 {
     [ValueConversion(typeof(PackageStatus), typeof(string))]
     public class StatusEnumToStringConverter : IValueConverter
