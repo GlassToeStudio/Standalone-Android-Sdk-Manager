@@ -92,7 +92,7 @@ namespace SdkManager.UI
                 {
                     TxtTabName = "SDK Packages",
                     TxtInformation = "Each Android SDK Platform package includes the Android platform and sources pertaining to an API level by default. Once installed, Android Studio will automatically check for updates. Check \"show package details\" to display individual SDK components.",
-                    TxtPackageName = "Package Name",
+                    TxtPackageName = "Name",
                     TxtAPILevel = "API Level",
                     TxtRevision = "Revision",
                     TxtStatus = "Status"
@@ -100,6 +100,11 @@ namespace SdkManager.UI
                 new SdkToolsTabViewModel
                 {
                     TxtTabName = "SDK Tools",
+                    TxtInformation = "Below are the available SDK developer tools. Once installed, Standalone SDK Manager will automatically check for updates. Check \"show package details\" to display available versions of an SDK Tool.",
+                    TxtPackageName = "Name",
+                    TxtAPILevel = "API Level",
+                    TxtRevision = "Revision",
+                    TxtStatus = "Status"
                 },
                 new SdkUpdateSitesTabViewModel { TxtTabName = "Package Updates", },
                 new CommandLineTabViewModel { TxtTabName = "Command Line", }
@@ -112,6 +117,7 @@ namespace SdkManager.UI
         {
             SdkManager.ClearCache();
             ((SdkPlatformsTabViewModel)TabViewModels[0])?.PopulatePackageItemStructure(false);
+            ((SdkToolsTabViewModel)TabViewModels[1])?.PopulatePackageItemStructure(false);
         }
 
         private void UpdatePackages()
