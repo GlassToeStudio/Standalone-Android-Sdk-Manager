@@ -118,7 +118,7 @@ namespace GTS_SDK_Manager
                         new SdkPlatformItem
                         {
                             Platform = platform,
-                            ApiLevel = int.Parse(apilevel = apilevel.Substring(0, apilevel.IndexOf('.') > -1 ? apilevel.IndexOf('.') : apilevel.Length)),
+                            ApiLevel = ConvertPlatformAPILevelToInt(apilevel),
                             Description = description,
                             Version = version,
                             InstallLocation = installLocation,
@@ -136,14 +136,14 @@ namespace GTS_SDK_Manager
         /// Will create a list of package items based on VerboseOutput.
         /// </summary>
         /// <returns></returns>
-        public static List<SdkPlatformItem> CreateToolsItems()
+        public static List<SdkToolsItem> CreateToolsItems()
         {
             if (_body == null)
             {
                 _body = Regex.Matches(VerboseOutput, Patterns.BUILD_TOOLS_PATTERN, _options);
             }
 
-            List<SdkPlatformItem> packageItems = new List<SdkPlatformItem>();
+            List<SdkToolsItem> toolsItems = new List<SdkToolsItem>();
 
             for (int i = 0; i < _body.Count; i++)
             {
@@ -153,14 +153,16 @@ namespace GTS_SDK_Manager
                 var version = _body[i].Groups["Version"].ToString().Trim();
                 var installLocation = _body[i].Groups["Installed_Location"].ToString().Trim();
 
-                if (packageItems.Any(x => x.Platform == platform) == false)
+                if (toolsItems.Any(x => x.Platform == platform) == false)
                 {
-                    packageItems.Add(
-                        new SdkPlatformItem
+                    toolsItems.Add(
+                        new SdkToolsItem
                         {
                             Platform = platform,
-                            ApiLevel = int.Parse(apilevel = apilevel.Substring(0, apilevel.IndexOf('.') > -1 ? apilevel.IndexOf('.') : apilevel.Length)),
+                            // Need to accept 28.0.1 and convert
+                            ApiLevel = ConvertToolsAPILevelToInt(apilevel),
                             Description = description,
+                            // Need to accept 28.0.1 or 28.0.0-rc1
                             Version = version,
                             InstallLocation = installLocation,
                             IsInstalled = string.IsNullOrEmpty(installLocation) == false,
@@ -168,11 +170,22 @@ namespace GTS_SDK_Manager
                             IsChild = false
                         });
                 }
+
             }
-            packageItems.Sort();
-            return packageItems;
+            toolsItems.Sort();
+            return toolsItems;
         }
-      
+
+        private static int ConvertPlatformAPILevelToInt(string apilevel)
+        {
+            return int.Parse(apilevel = apilevel.Substring(0, apilevel.IndexOf('.') > -1 ? apilevel.IndexOf('.') : apilevel.Length));
+        }
+
+        private static int ConvertToolsAPILevelToInt(string apilevel)
+        {
+            return int.Parse(apilevel.Remove('.').Trim());
+        }
+
         /// <summary>
         /// Runs sdkmanager.bat --install [package;name]
         /// </summary>
