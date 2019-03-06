@@ -143,9 +143,23 @@ namespace SdkManager.Core
         public static List<SdkItemBase> CreateToolsItems()
         {
             List<SdkItemBase> toolsItems = new List<SdkItemBase>();
-            toolsItems.Add(CreateBuildTools());
-            toolsItems.Add(CreateGPUDebuggingTools());
-            toolsItems.Add(CreateLLDBTools());
+            toolsItems.Add(CreateGenericSDKTools(Patterns.BUILD_TOOLS_PATTERN));
+            toolsItems.Add(CreateGenericSDKTools(Patterns.GPU_DEBUGGING_TOOLS_PATTERN));
+            toolsItems.Add(CreateGenericSDKTools(Patterns.LLDB_PATTERN));
+            toolsItems.Add(CreateGenericSDKTools(Patterns.ANDROID_AUTO_API_SIM_PATTERN));
+            toolsItems.Add(CreateGenericSDKTools(Patterns.ANDROID_AUTO_EMULATOR_PATTERN));
+            toolsItems.Add(CreateGenericSDKTools(Patterns.EMULATOR_PATTERN));
+            toolsItems.Add(CreateGenericSDKTools(Patterns.PLATFORM_TOOLS_PATTERN));
+            toolsItems.Add(CreateGenericSDKTools(Patterns.SDK_TOOLS_PATTERN));
+            toolsItems.Add(CreateGenericSDKTools(Patterns.DOCS_PATTERN));
+            toolsItems.Add(CreateGenericSDKTools(Patterns.GOOGLE_APK_EXT_LIBRARY_PATTERN));
+            toolsItems.Add(CreateGenericSDKTools(Patterns.GOOLGE_PLAY_INSTANT_SDK_PATTERN));
+            toolsItems.Add(CreateGenericSDKTools(Patterns.GOOGLE_PLAY_LICENSE_LIBRARY_PATTERN));
+            toolsItems.Add(CreateGenericSDKTools(Patterns.GOOGLE_PLAY_SERVICES_PATTERN));
+            toolsItems.Add(CreateGenericSDKTools(Patterns.GOOGLE_USB_DRIVER_PATTERN));
+            toolsItems.Add(CreateGenericSDKTools(Patterns.GOOGLE_WEB_DRIVER_PATTERN));
+            toolsItems.Add(CreateGenericSDKTools(Patterns.INTEL_86_EMULATOR_PATTERN));
+            toolsItems.Add(CreateGenericSDKTools(Patterns.NDK_PATTERN));
             return toolsItems;
         }
               
@@ -296,6 +310,53 @@ namespace SdkManager.Core
 
             lldbTools.Remove(mainItem);
             foreach (var c in lldbTools)
+            {
+                mainItem.Children.Add(c);
+            }
+            return mainItem;
+        }
+        
+        /// <summary>
+        /// Will create a list of package items based on VerboseOutput.
+        /// </summary>
+        /// <returns></returns>
+        public static SdkItemBase CreateGenericSDKTools(string pattern)
+        {
+            MatchCollection collection = Regex.Matches(VerboseOutput, pattern, _options);
+
+            List<SdkItemBase> items = new List<SdkItemBase>();
+
+            for (int i = 0; i < collection.Count; i++)
+            {
+                var platform = collection[i].Groups["Platform"].ToString().Trim();
+                var apilevel = collection[i].Groups["APILevel"].ToString().Trim();
+                var description = collection[i].Groups["Description"].ToString().Trim();
+                var version = collection[i].Groups["Version"].ToString().Trim();
+                var installLocation = collection[i].Groups["Installed_Location"].ToString().Trim();
+
+                if (items.Any(x => x.Platform == platform) == false)
+                {
+                    items.Add(
+                        new SdkItemBase
+                        {
+                            Platform = platform,
+                            ApiLevel = ConvertToolsAPILevelToInt(apilevel),
+                            Description = description,
+                            Version = version,
+                            InstallLocation = installLocation,
+                            IsInstalled = string.IsNullOrEmpty(installLocation) == false,
+                            Status = string.IsNullOrEmpty(installLocation) ? PackageStatus.NOT_INSTALLED : PackageStatus.INSTALLED,
+                            IsChild = true
+                        });
+                }
+
+            }
+            items.Sort();
+            var mainItem = items[0];
+            mainItem.IsChild = false;
+
+            items.Remove(mainItem);
+            foreach (var c in items)
             {
                 mainItem.Children.Add(c);
             }
@@ -461,11 +522,17 @@ namespace SdkManager.Core
 
         private static int ConvertPlatformAPILevelToInt(string apilevel)
         {
+            if (string.IsNullOrEmpty(apilevel))
+                return 0;
+
             return int.Parse(apilevel = apilevel.Substring(0, apilevel.IndexOf('.') > -1 ? apilevel.IndexOf('.') : apilevel.Length));
         }
 
         private static int ConvertToolsAPILevelToInt(string apilevel)
         {
+            if (string.IsNullOrEmpty(apilevel))
+                return 0;
+
             return int.Parse(apilevel.Replace(".", "").Trim());
         }
 
