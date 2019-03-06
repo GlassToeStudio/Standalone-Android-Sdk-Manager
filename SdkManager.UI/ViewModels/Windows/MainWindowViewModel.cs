@@ -136,6 +136,17 @@ namespace SdkManager.UI
                     CheckStatus(sbInstall, sbUninstall, descriptions, child);
                 }
             }
+
+            var toolsTabs = (SdkToolsTabViewModel)TabViewModels[1];
+            foreach (var item in toolsTabs.ToolsItems)
+            {
+                CheckStatus(sbInstall, sbUninstall, descriptions, item);
+
+                foreach (var child in item.OtherPackages)
+                {
+                    CheckStatus(sbInstall, sbUninstall, descriptions, child);
+                }
+            }
             Console.WriteLine(sbInstall.ToString());
 
             ConfirmChangeWindow win = new ConfirmChangeWindow(descriptions.ToString());
@@ -155,6 +166,21 @@ namespace SdkManager.UI
         }
 
         private void CheckStatus(StringBuilder sbInstall, StringBuilder sbUninstall, StringBuilder descriptions, SdkPlaformItemViewModel item)
+        {
+            if (item.InitialState != item.IsChecked)
+            {
+                if (item.InitialState == false)
+                {
+                    descriptions.Append($"{item.Description}\n");
+                    sbInstall.Append($"{item.Platform} ");
+                }
+                else
+                {
+                    sbUninstall.Append($"{item.Platform} ");
+                }
+            }
+        }
+        private void CheckStatus(StringBuilder sbInstall, StringBuilder sbUninstall, StringBuilder descriptions, SdkToolItemViewModel item)
         {
             if (item.InitialState != item.IsChecked)
             {

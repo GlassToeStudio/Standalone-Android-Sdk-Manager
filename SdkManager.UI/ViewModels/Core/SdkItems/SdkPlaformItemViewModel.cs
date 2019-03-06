@@ -32,6 +32,8 @@ namespace SdkManager.UI
         /// </summary>
         private SdkItemBase _package;
 
+        private bool isEnabled = true;
+
         #endregion
 
         #region Public Properties
@@ -40,51 +42,52 @@ namespace SdkManager.UI
         /// The name of this platform, as read from sdk manager: platforms;android-23
         /// </summary>
         public string Platform { get; private set; }
-     
+
         /// <summary>
         /// The current API Level of this package, as read from sdk manager: 23
         /// </summary>
-        public int ApiLevel { get; private set; }
-     
+        public int? ApiLevel { get; private set; }
+
         /// <summary>
         /// Android SDK Platform 23 => Android 6.0 (Marshmallow)
         /// </summary>
-        public string Description { get; private set; }
-     
+        public string Description { get; set; }
+
         /// <summary>
         ///  The current version fo this package, as read from sdk manager: 3
         /// </summary>
         public string Version { get; private set; }
-     
+
         /// <summary>
         /// The installed lcoation of this package.
         /// C:\Users\GlassToe\AppData\Local\Android\Sdk\platforms\android-23
         /// </summary>
         public string InstallLocation { get; private set; }
-      
+
         /// <summary>
         /// Returns true if Install Location is not null, false otherwise.
         /// </summary>
         public bool IsInstalled { get; private set; }
-       
+
         /// <summary>
         /// Status: Installed, Not Installed, or Update Available
         /// </summary>
-        public PackageStatus Status { get; private set; }
-      
+        public PackageStatus? Status { get; private set; }
+
         /// <summary>
         /// True if this is a child of a Package Item, false otherwise.
         /// </summary>
         public bool IsChild { get; private set; }
-      
+
         /// <summary>
         /// List of OtherPackages of this package item, items is this list will have null OtherPackages.
         /// </summary>
         public ObservableCollection<SdkPlaformItemViewModel> OtherPackages
         {
             get => _otherPackages;
-            set {
-                if(_otherPackages != value)
+            set
+            {
+                if (_otherPackages != value)
                 {
                     _otherPackages = value;
                     NotifyPropertyChanged();
@@ -92,6 +95,19 @@ namespace SdkManager.UI
             }
         }
 
+        public bool IsEnabled
+        {
+            get => isEnabled;
+            set
+            {
+                if(value != isEnabled)
+                {
+
+                    isEnabled = value;
+                    NotifyPropertyChanged();
+                }
+            }
+        }
         #endregion
 
         #region UI Properties
@@ -101,7 +117,7 @@ namespace SdkManager.UI
         /// <para>Used to determine how to handle this package if its Checkbox is toggled.</para>
         /// </summary>
         public bool InitialState { get; private set; }
-    
+
         /// <summary>
         /// True if Checked, false otherwise.
         /// </summary>
@@ -119,7 +135,7 @@ namespace SdkManager.UI
                 NotifyPropertyChanged();
             }
         }
-    
+
         /// <summary>
         /// Indicates if the current item is expanded or not
         /// </summary>
@@ -138,7 +154,7 @@ namespace SdkManager.UI
                 }
             }
         }
-        
+
         /// <summary>
         /// IF true, show foldout arrow to view children, otherwise no arrow.
         /// </summary>
@@ -193,7 +209,7 @@ namespace SdkManager.UI
         /// </summary>
         private void GetOtherPackages()
         {
-            if(!CanExpand)
+            if (!CanExpand)
             {
                 _otherPackages = new ObservableCollection<SdkPlaformItemViewModel>();
             }

@@ -13,18 +13,24 @@ namespace SdkManager.UI
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            var status = (PackageStatus)value;
-            string r = "Not Installed";
-            switch (status)
+            string r = "";
+            if (value != null)
             {
-                case PackageStatus.INSTALLED:
-                    r = "Installed";
-                    break;
-                case PackageStatus.UPDATE_AVAILABLE:
-                    r = "Update Available";
-                    break;
-                default:
-                    break;
+                var status = (PackageStatus)value;
+                switch (status)
+                {
+                    case PackageStatus.INSTALLED:
+                        r = "Installed";
+                        break;
+                    case PackageStatus.UPDATE_AVAILABLE:
+                        r = "Update Available";
+                        break;
+                    case PackageStatus.NOT_INSTALLED:
+                        r = "Not Installed";
+                        break;
+                    default:
+                        break;
+                }
             }
             return r;
         }

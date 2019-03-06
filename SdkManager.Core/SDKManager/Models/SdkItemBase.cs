@@ -41,7 +41,6 @@ namespace SdkManager.Core
         /// True if this is a child of a Package Item, false otherwise.
         /// </summary>
         public bool IsChild { get; set; }
-
         /// <summary>
         /// Children backing field.
         /// </summary>
@@ -74,6 +73,7 @@ namespace SdkManager.Core
         {
             return $"Platform: {Platform}, API Level: {ApiLevel}, Description: {Description}, Version: {Version}, Installed = {IsInstalled}, IsChild: {IsChild}, Status: {Status} Location: {InstallLocation}.";
         }
+
         #endregion
     }
 }

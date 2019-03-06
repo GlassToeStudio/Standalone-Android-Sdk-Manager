@@ -113,6 +113,7 @@ namespace SdkManager.Core
                 var platform = _platformBody[i].Groups["Platform"].ToString().Trim();
                 var apilevel = _platformBody[i].Groups["APILevel"].ToString().Trim();
                 var description = LookUpTable.CoolNames[_platformBody[i].Groups["Description"].ToString().Trim()];
+                var plaindescription = _platformBody[i].Groups["Description"].ToString().Trim();
                 var version = _platformBody[i].Groups["Version"].ToString().Trim();
                 var installLocation = _platformBody[i].Groups["Installed_Location"].ToString().Trim();
 

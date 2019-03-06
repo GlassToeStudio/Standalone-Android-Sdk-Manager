@@ -15,7 +15,10 @@
 				<ColumnDefinition Width="169*"/>
 			</Grid.ColumnDefinitions>
 
-			<CheckBox Grid.Column="0" Name="PackageNameHeader" Content="{Binding Path=Description}" IsChecked="{Binding IsChecked}" Foreground="#BBBBBB" BorderBrush="#FF2D2F31" BorderThickness="1"  Background="#686868"/>
+			<StackPanel Orientation="Horizontal">
+				<CheckBox Grid.Column="0" Name="PackageNameHeader" IsChecked="{Binding IsChecked}" Foreground="#BBBBBB" BorderBrush="#FF2D2F31" BorderThickness="1"  Background="#686868" IsEnabled="{Binding IsEnabled}"/>
+				<TextBlock Grid.Column="0" Text="{Binding Path=Description}" TextAlignment="left" Foreground="#BBBBBB"/>
+			</StackPanel>
 			<TextBlock Grid.Column="1" Name="xAPIHeader" Text="{Binding Path=ApiLevel}" TextAlignment="left"  Foreground="#BBBBBB"/>
 			<TextBlock Grid.Column="2" Name="xRevisionHeader" Text="{Binding Path=Version}" TextAlignment="left" Foreground="#BBBBBB"/>
 			<TextBlock Grid.Column="3" Name="xStatusHeader" Text="{Binding Path=Status, Converter={x:Static local:StatusEnumToStringConverter.Instance}}" TextAlignment="left" Foreground="#BBBBBB" />
