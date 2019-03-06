@@ -56,25 +56,25 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="ValueConverters\StatusEnumToStringConverter.cs" />
-    <Compile Include="ViewModels\BaseViewModel.cs" />
+    <Compile Include="ViewModels\Base\BaseViewModel.cs" />
     <Compile Include="Commands\RelayCommand.cs" />
     <Compile Include="Commands\RelayCommandString.cs" />
-    <Compile Include="ViewModels\ConfirmWindowViewModel.cs" />
-    <Compile Include="ViewModels\SdkManagerBatViewModel.cs" />
-    <Compile Include="ViewModels\SdkToolItemViewModel.cs" />
+    <Compile Include="ViewModels\Windows\ConfirmWindowViewModel.cs" />
+    <Compile Include="ViewModels\Core\SdkManagerBatViewModel.cs" />
+    <Compile Include="ViewModels\Core\SdkItems\SdkToolItemViewModel.cs" />
     <Compile Include="ViewModels\TabViewModels\CommandLineTabViewModel.cs" />
     <Compile Include="ViewModels\TabViewModels\SdkUpdateSitesTabViewModel.cs" />
     <Compile Include="ViewModels\TabViewModels\SdkPlatformsTabViewModel.cs" />
     <Compile Include="ViewModels\TabViewModels\SdkToolsTabViewModel.cs" />
-    <Compile Include="ViewModels\SdkPlaformItemViewModel.cs" />
-    <Compile Include="ViewModels\TabViewModels\TabBaseViewModel.cs" />
-    <Compile Include="Views\SdkToolsItemChildView.xaml.cs">
+    <Compile Include="ViewModels\Core\SdkItems\SdkPlaformItemViewModel.cs" />
+    <Compile Include="ViewModels\TabViewModels\Base\TabBaseViewModel.cs" />
+    <Compile Include="Views\ItemViews\SdkTools\SdkToolsItemChildView.xaml.cs">
       <DependentUpon>SdkToolsItemChildView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\SdkPlatformItemChildView.xaml.cs">
+    <Compile Include="Views\ItemViews\SdkPlatforms\SdkPlatformItemChildView.xaml.cs">
       <DependentUpon>SdkPlatformItemChildView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\SdkToolsItemView.xaml.cs">
+    <Compile Include="Views\ItemViews\SdkTools\SdkToolsItemView.xaml.cs">
       <DependentUpon>SdkToolsItemView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Windows\ConfirmChangeWindow.xaml.cs">
@@ -83,7 +83,7 @@
     <Compile Include="Views\TabViews\CommandLineTabView.xaml.cs">
       <DependentUpon>CommandLineTabView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ViewModels\MainWindowViewModel.cs" />
+    <Compile Include="ViewModels\Windows\MainWindowViewModel.cs" />
     <Compile Include="Views\TabViews\SdkPlatformsTabView.xaml.cs">
       <DependentUpon>SdkPlatformsTabView.xaml</DependentUpon>
     </Compile>
@@ -113,15 +113,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\SdkToolsItemChildView.xaml">
+    <Page Include="Views\ItemViews\SdkTools\SdkToolsItemChildView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\SdkPlatformItemChildView.xaml">
+    <Page Include="Views\ItemViews\SdkPlatforms\SdkPlatformItemChildView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\SdkToolsItemView.xaml">
+    <Page Include="Views\ItemViews\SdkTools\SdkToolsItemView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -145,7 +145,7 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="Views\SdkPlatformItemView.xaml">
+    <Page Include="Views\ItemViews\SdkPlatforms\SdkPlatformItemView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -163,7 +163,7 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Views\SdkPlatformItemView.xaml.cs">
+    <Compile Include="Views\ItemViews\SdkPlatforms\SdkPlatformItemView.xaml.cs">
       <DependentUpon>SdkPlatformItemView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
