@@ -5,20 +5,40 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SdkManager.UI"
         mc:Ignorable="d"
-        Title="Confirm Change" Height="200" Width="375" Background="#3C3F41"
+        Title="Confirm Change" Height="262" Width="375" Background="#3C3F41"
 		WindowStartupLocation="CenterScreen">
 	<Grid DataContext="{Binding}">
-		<Border Margin="0,0,0,133">
-		<TextBlock Text="The following components will be installed:" Margin="48,10,0,0"></TextBlock>
-		</Border>
-			<Border Margin="10,69,10,40">
-			<StackPanel Visibility="Visible" Margin="0,-30,0,0">
-				<TextBlock Name="Information" Text="{Binding Information}" Margin="53,0,0,0" Height="87"/>
-			</StackPanel>
-		</Border>
-		<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="10,129,10,10">
-			<Button Content="OK" Width="60" Margin="0, 0, 10, 0" Command="{Binding AcceptCommand}"/>
-			<Button Content="Cancel" Width="60" Margin="10, 0, 0,0" Command="{Binding CancelCommand}"/>
+
+		<Grid.RowDefinitions>
+			<RowDefinition Height="10"/>
+			<RowDefinition Height="auto"/>
+			<RowDefinition Height="auto"/>
+			<RowDefinition Height="auto"/>
+			<RowDefinition Height="*"/>
+			<RowDefinition Height="10"/>
+		</Grid.RowDefinitions>
+		
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="10"/>
+			<ColumnDefinition Width="auto"/>
+			<ColumnDefinition Width="auto"/>
+			<ColumnDefinition Width="*"/>
+			<ColumnDefinition Width="10"/>
+		</Grid.ColumnDefinitions>
+
+
+
+		<TextBlock Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3" Text="The following components will be installed:" Margin="20,5,5,5"></TextBlock>
+
+		<ScrollViewer VerticalScrollBarVisibility="Auto" Height="150" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="3">
+			<TextBlock  Name="Information" Text="{Binding Information}" Margin="30,5,5,5"/>
+		</ScrollViewer>
+
+		<StackPanel Grid.Row="3" Grid.Column="2" Grid.ColumnSpan="3" Orientation="Horizontal" HorizontalAlignment="Center">
+			
+			<Button HorizontalAlignment="Center" Content="OK" Width="60" Margin="10,5,10,5" Command="{Binding AcceptCommand}" Style="{StaticResource BlueButton}"/>
+			<Button HorizontalAlignment="Center" Content="Cancel" Width="60" Margin="10,5,10,5" Command="{Binding CancelCommand}"/>
+			
 		</StackPanel>
 	</Grid>
 </Window>

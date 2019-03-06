@@ -59,6 +59,7 @@
     <Compile Include="ViewModels\Base\BaseViewModel.cs" />
     <Compile Include="Commands\RelayCommand.cs" />
     <Compile Include="Commands\RelayCommandString.cs" />
+    <Compile Include="ViewModels\Core\SdkItems\SdkItemBaseViewModel.cs" />
     <Compile Include="ViewModels\Windows\ConfirmWindowViewModel.cs" />
     <Compile Include="ViewModels\Core\SdkManagerBatViewModel.cs" />
     <Compile Include="ViewModels\Core\SdkItems\SdkToolItemViewModel.cs" />

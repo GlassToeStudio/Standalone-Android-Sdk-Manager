@@ -65,16 +65,16 @@
 			Margin="600,560,0,0"
 			HorizontalAlignment="Left"
 			VerticalAlignment="Top" 
-			IsEnabled="true"/>
+			/>
 
 		<Button Content="Cancel" 
-			Command="{Binding UpdatePackagesCommand}"
+			Command="{Binding CancelCommand}"
 			Height="32" 
 			Width="81"
 			Margin="701,560,0,0"
 			HorizontalAlignment="Left"
 			VerticalAlignment="Top" 
-			IsEnabled="true"/>
+			/>
 
 		<TabControl Name="MainTabControl" 
 			ItemsSource="{Binding TabViewModels}"
