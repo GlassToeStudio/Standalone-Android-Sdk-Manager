@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{94F76DFD-AEAA-46A3-BBA0-A7580EA72FE2}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>SdkManger.UI</RootNamespace>
-    <AssemblyName>SdkManger.UI</AssemblyName>
+    <RootNamespace>SdkManager.UI</RootNamespace>
+    <AssemblyName>SdkManager.UI</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -60,14 +60,14 @@
     <Compile Include="Commands\RelayCommand.cs" />
     <Compile Include="Commands\RelayCommandString.cs" />
     <Compile Include="ViewModels\Core\SdkItems\SdkItemBaseViewModel.cs" />
-    <Compile Include="ViewModels\Windows\ConfirmWindowViewModel.cs" />
-    <Compile Include="ViewModels\Core\SdkManagerBatViewModel.cs" />
+    <Compile Include="ViewModels\Core\SdkItems\SdkPlaformItemViewModel.cs" />
     <Compile Include="ViewModels\Core\SdkItems\SdkToolItemViewModel.cs" />
-    <Compile Include="ViewModels\TabViewModels\CommandLineTabViewModel.cs" />
-    <Compile Include="ViewModels\TabViewModels\SdkUpdateSitesTabViewModel.cs" />
     <Compile Include="ViewModels\TabViewModels\SdkPlatformsTabViewModel.cs" />
     <Compile Include="ViewModels\TabViewModels\SdkToolsTabViewModel.cs" />
-    <Compile Include="ViewModels\Core\SdkItems\SdkPlaformItemViewModel.cs" />
+    <Compile Include="ViewModels\Windows\ConfirmWindowViewModel.cs" />
+    <Compile Include="ViewModels\Core\SdkManagerBatViewModel.cs" />
+    <Compile Include="ViewModels\TabViewModels\CommandLineTabViewModel.cs" />
+    <Compile Include="ViewModels\TabViewModels\SdkUpdateSitesTabViewModel.cs" />
     <Compile Include="ViewModels\TabViewModels\Base\TabBaseViewModel.cs" />
     <Compile Include="Views\ItemViews\SdkTools\SdkToolsItemChildView.xaml.cs">
       <DependentUpon>SdkToolsItemChildView.xaml</DependentUpon>

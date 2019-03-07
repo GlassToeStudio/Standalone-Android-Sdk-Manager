@@ -14,7 +14,7 @@ namespace SdkManager.UI
         /// <summary>
         /// OtherPackages backing field.
         /// </summary>
-        protected ObservableCollection<SdkPlaformItemViewModel> _otherPackages;
+        protected ObservableCollection<SdkItemBaseViewModel> _otherPackages;
         /// <summary>
         /// IsChecked backing field.
         /// </summary>
@@ -30,7 +30,7 @@ namespace SdkManager.UI
         /// <summary>
         /// Cached reference to this ViewModel's model.
         /// </summary>
-        protected SdkItemBase _package;
+        protected SdkItem _package;
 
         protected bool isEnabled = true;
 
@@ -41,48 +41,52 @@ namespace SdkManager.UI
         /// <summary>
         /// The name of this platform, as read from sdk manager: platforms;android-23
         /// </summary>
-        public string Platform { get; private set; }
+        public string Platform { get; protected set; }
 
         /// <summary>
         /// The current API Level of this package, as read from sdk manager: 23
         /// </summary>
-        public int ApiLevel { get; private set; }
+        public long? ApiLevel { get; protected set; }
 
         /// <summary>
         /// Android SDK Platform 23 => Android 6.0 (Marshmallow)
         /// </summary>
-        public string Description { get; private set; }
+        public string Description { get; protected set; }
+        /// <summary>
+        /// Android SDK Platform 23 => Android 6.0 (Marshmallow)
+        /// </summary>
+        public string PlainDescription { get; protected set; }
 
         /// <summary>
         ///  The current version fo this package, as read from sdk manager: 3
         /// </summary>
-        public string Version { get; private set; }
+        public string Version { get; protected set; }
 
         /// <summary>
         /// The installed lcoation of this package.
         /// C:\Users\GlassToe\AppData\Local\Android\Sdk\platforms\android-23
         /// </summary>
-        public string InstallLocation { get; private set; }
+        public string InstallLocation { get; protected set; }
 
         /// <summary>
         /// Returns true if Install Location is not null, false otherwise.
         /// </summary>
-        public bool IsInstalled { get; private set; }
+        public bool IsInstalled { get; protected set; }
 
         /// <summary>
         /// Status: Installed, Not Installed, or Update Available
         /// </summary>
-        public PackageStatus Status { get; private set; }
+        public PackageStatus? Status { get; protected set; }
 
         /// <summary>
         /// True if this is a child of a Package Item, false otherwise.
         /// </summary>
-        public bool IsChild { get; private set; }
+        public bool IsChild { get; protected set; }
 
         /// <summary>
         /// List of OtherPackages of this package item, items is this list will have null OtherPackages.
         /// </summary>
-        public ObservableCollection<SdkPlaformItemViewModel> OtherPackages
+        public ObservableCollection<SdkItemBaseViewModel> OtherPackages
         {
             get => _otherPackages;
             set
@@ -180,7 +184,7 @@ namespace SdkManager.UI
         /// Constructor
         /// </summary>
         /// <param name="package"></param>
-        public SdkItemBaseViewModel(SdkItemBase package, bool canExpand)
+        public SdkItemBaseViewModel(SdkItem package, bool canExpand)
         {
             _package = package;
             CanExpand = canExpand;
@@ -188,6 +192,7 @@ namespace SdkManager.UI
             Platform = package.Platform;
             ApiLevel = package.ApiLevel;
             Description = package.Description;
+            PlainDescription = package.PlainDescription;
             Version = package.Version;
             InstallLocation = package.InstallLocation;
             IsInstalled = package.IsInstalled;
@@ -207,24 +212,43 @@ namespace SdkManager.UI
         /// <summary>
         /// Get low-level child packages if CanExpand is true. Get empty list otherwise.
         /// </summary>
-        private void GetOtherPackages()
+        protected virtual void GetOtherPackages()
         {
             if (!CanExpand)
             {
-                _otherPackages = new ObservableCollection<SdkPlaformItemViewModel>();
+                IsEnabled = true;
+                this.ApiLevel = _package.ApiLevel;
+                this.Version = _package.Version;
+                this.Status = _package.Status;
+                Description = _package.Description;
+                _otherPackages = new ObservableCollection<SdkItemBaseViewModel>();
             }
             else
             {
+ 
+
                 var children = _package.Children;
                 if (_package.IsChild == false)
                 {
-                    _otherPackages = new ObservableCollection<SdkPlaformItemViewModel>(
-                        children.Select(p => new SdkPlaformItemViewModel(p, false))
+                    if (children.Count <= 0)
+                    {
+                        return;
+                    }
+
+                    IsEnabled = false;
+                    this.ApiLevel = null;
+                    this.Version = null;
+                    this.Status = null;
+
+                    _otherPackages = new ObservableCollection<SdkItemBaseViewModel>(
+                        children.Select(p => new SdkItemBaseViewModel(p, false))
                         );
+                    _package.IsChild = true;
+                    var package = new SdkItemBaseViewModel(_package, false);
+                    package.Description = _package.PlainDescription;
+                    _otherPackages.Insert(0, package);
                 }
             }
-
-
         }
 
         #endregion

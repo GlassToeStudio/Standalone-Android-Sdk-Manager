@@ -104,20 +104,26 @@ namespace SdkManager.UI
                     TxtTabName = "SDK Tools",
                     TxtInformation = "Below are the available SDK developer tools. Once installed, Standalone SDK Manager will automatically check for updates. Check \"show package details\" to display available versions of an SDK Tool.",
                     TxtPackageName = "Name",
-                    TxtAPILevel = "API Level",
                     TxtRevision = "Revision",
                     TxtStatus = "Status"
                 },
-                new SdkUpdateSitesTabViewModel { TxtTabName = "Package Updates", },
-                new CommandLineTabViewModel { TxtTabName = "Command Line", }
+                //new SdkUpdateSitesTabViewModel { TxtTabName = "Package Updates", },
+                //new CommandLineTabViewModel { TxtTabName = "Command Line", }
             };
 
-            PopulatePlatformsTab();
+            foreach (var t in TabViewModels)
+            {
+                foreach (var item in t.PackageItems)
+                {
+                    
+                }
+            }
         }
 
         private void PopulatePlatformsTab()
         {
             SdkManager.ClearCache();
+
             ((SdkPlatformsTabViewModel)TabViewModels[0])?.PopulatePackageItemStructure(false);
             ((SdkToolsTabViewModel)TabViewModels[1])?.PopulatePackageItemStructure(false);
         }
@@ -130,21 +136,21 @@ namespace SdkManager.UI
 
             foreach (var item in ((SdkPlatformsTabViewModel)TabViewModels[0]).PackageItems)
             {
-                CheckStatus(sbInstall, sbUninstall, descriptions, item);
+                CheckStatus(sbInstall, sbUninstall, item);
 
                 foreach (var child in item.OtherPackages)
                 {
-                    CheckStatus(sbInstall, sbUninstall, descriptions, child);
+                    CheckStatus(sbInstall, sbUninstall, child);
                 }
             }
 
-            foreach (var item in ((SdkToolsTabViewModel)TabViewModels[1]).ToolsItems)
+            foreach (var item in ((SdkToolsTabViewModel)TabViewModels[1]).PackageItems)
             {
-                CheckStatus(sbInstall, sbUninstall, descriptions, item);
+                CheckStatus(sbInstall, sbUninstall, item);
 
                 foreach (var child in item.OtherPackages)
                 {
-                    CheckStatus(sbInstall, sbUninstall, descriptions, child);
+                    CheckStatus(sbInstall, sbUninstall, child);
                 }
             }
 
@@ -202,7 +208,7 @@ namespace SdkManager.UI
                 }
             }
 
-            foreach (var item in ((SdkToolsTabViewModel)TabViewModels[1]).ToolsItems)
+            foreach (var item in ((SdkToolsTabViewModel)TabViewModels[1]).PackageItems)
             {
                 ResetItem(item);
 
@@ -214,7 +220,7 @@ namespace SdkManager.UI
         }
 
 
-        private void CheckStatus(StringBuilder sbInstall, StringBuilder sbUninstall, StringBuilder descriptions, SdkItemBaseViewModel item)
+        private void CheckStatus(StringBuilder sbInstall, StringBuilder sbUninstall, SdkItemBaseViewModel item)
         {
             if (item.InitialState != item.IsChecked)
             {

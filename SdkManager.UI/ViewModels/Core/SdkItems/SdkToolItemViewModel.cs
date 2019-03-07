@@ -9,14 +9,13 @@ namespace SdkManager.UI
     /// </summary>
     public class SdkToolItemViewModel : SdkItemBaseViewModel
     {
-
         #region Constructor
 
         /// <summary>
         /// Constructor
         /// </summary>
         /// <param name="package"></param>
-        public SdkToolItemViewModel(SdkItemBase package, bool canExpand) : base(package, canExpand)
+        public SdkToolItemViewModel(SdkItem package, bool canExpand) : base(package, canExpand)
         {
 
         }

@@ -8,8 +8,6 @@ namespace SdkManager.UI
     {
         #region Private Backing Feilds
 
-        private ObservableCollection<SdkToolItemViewModel> _toolsItems;
-
         private bool showPackageItems;
 
         #endregion
@@ -24,18 +22,6 @@ namespace SdkManager.UI
         /// <summary>
         /// List of all high-level platform items and their lower level packages.
         /// </summary>
-        public ObservableCollection<SdkToolItemViewModel> ToolsItems
-        {
-            get => _toolsItems;
-            set
-            {
-                if (_toolsItems != value)
-                {
-                    _toolsItems = value;
-                    NotifyPropertyChanged();
-                }
-            }
-        }
 
         /// <summary>
         ///CheckBox, if true, show foldout for low-level package items, onlu high-level otherwise.
@@ -63,7 +49,7 @@ namespace SdkManager.UI
         /// </summary>
         public SdkToolsTabViewModel() : base()
         {
-
+            PopulatePackageItemStructure(false);
         }
 
         #endregion
@@ -79,8 +65,8 @@ namespace SdkManager.UI
             PackageItemStructure = new SdkPlatformStructure();
 
             var topLevelItems = PackageItemStructure.ToolsItems;
-            this.ToolsItems = new ObservableCollection<SdkToolItemViewModel>(
-                topLevelItems.Select(package => new SdkToolItemViewModel(package, showPackageItems))
+            this.PackageItems = new ObservableCollection<SdkItemBaseViewModel>(
+                topLevelItems.Select(package => new SdkItemBaseViewModel(package, showPackageItems))
                 );
         }
 

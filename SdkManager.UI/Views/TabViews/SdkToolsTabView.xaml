@@ -78,7 +78,7 @@
 		<!-- Package Columns -->
 		<Border Margin="10,84,10,35">
 			<TreeView Name="AllPackages" 
-					  ItemsSource="{Binding ToolsItems}"
+					  ItemsSource="{Binding PackageItems}"
 					  Foreground="#FF2D2F31"
 					  Background="#3C3F41" 
 					  BorderBrush="#FF2D2F31" 

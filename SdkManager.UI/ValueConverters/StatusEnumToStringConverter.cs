@@ -8,7 +8,6 @@ namespace SdkManager.UI
     [ValueConversion(typeof(PackageStatus), typeof(string))]
     public class StatusEnumToStringConverter : IValueConverter
     {
-
         public static StatusEnumToStringConverter Instance = new StatusEnumToStringConverter();
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)

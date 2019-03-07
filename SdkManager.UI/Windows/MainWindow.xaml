@@ -51,9 +51,11 @@
             Foreground="#589DF6"
             TextDecorations="Underline"/>
 
-		<Label Content="{Binding Path=SdkManager.ConsoleOutput}" 
-            Height="41" Margin="10,548,0,0" 
-            Width="608"
+		<Label Content="{Binding Path=SdkManager.ConsoleOutput, FallbackValue=Ready}" 
+			Style="{StaticResource YellowTextLabel}"
+            Height="61" Margin="10,548,0,0" 
+            Width="590"
+			VerticalContentAlignment="Center"
             HorizontalAlignment="Left"
             VerticalAlignment="Top"/>
 

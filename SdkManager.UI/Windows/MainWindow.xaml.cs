@@ -10,7 +10,7 @@ namespace SdkManager.UI
 {
     public partial class MainWindow : Window
     {
-        public MainWindow()
+       public MainWindow()
         {
             this.DataContext = new MainWindowViewModel();
 

@@ -11,11 +11,11 @@ namespace SdkManager.Core
         /// <summary>
         /// List of all high-level Platform items, with their lower-level packages.
         /// </summary>
-        public List<SdkItemBase> PlatformItems { get; set; } = new List<SdkItemBase>();
+        public List<SdkItem> PlatformItems { get; set; } = new List<SdkItem>();
         /// <summary>
         /// List of all high-level Tools items, with their lower-level packages.
         /// </summary>
-        public List<SdkItemBase> ToolsItems { get; set; } = new List<SdkItemBase>();
+        public List<SdkItem> ToolsItems { get; set; } = new List<SdkItem>();
 
         /// <summary>
         /// Default constructor:
@@ -40,14 +40,14 @@ namespace SdkManager.Core
 
         private void CreatePackageItems()
         {
-            PlatformItems = SdkManagerBat.CreatePackageItems();
+            PlatformItems = SdkManagerBat.GetPlatforms();
 
             foreach (var p in PlatformItems)
             {
                 p.CheckForUpdates();
                 p.CreatePackageChildren();
 
-                foreach (SdkItemBase c in p.Children)
+                foreach (SdkItem c in p.Children)
                 {
                     c.CheckForUpdates();
                 }
@@ -57,7 +57,7 @@ namespace SdkManager.Core
         // TODO: Fix This
         private void CreateToolItems()
         {
-            ToolsItems = SdkManagerBat.CreateToolsItems();
+            ToolsItems = SdkManagerBat.GetTools();
 
             foreach (var p in ToolsItems)
             {

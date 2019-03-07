@@ -25,14 +25,10 @@ namespace SdkManager.Core
         private static MatchCollection _sources;
         private static MatchCollection _googleGlass;
 
-        private static MatchCollection _buildToolsBody;
-        private static MatchCollection _gpuDebuggingToolsBody;
-        private static MatchCollection _lldbBody;
-
         #endregion
 
         #region Public Properties
-     
+
         /// <summary>
         /// A string representation of the output from sdkmanager.bat --list --verbose
         /// </summary>
@@ -99,20 +95,20 @@ namespace SdkManager.Core
         /// Will create a list of package items based on VerboseOutput.
         /// </summary>
         /// <returns></returns>
-        public static List<SdkItemBase> CreatePackageItems()
+        public static List<SdkItem> GetPlatforms()
         {
             if (_platformBody == null)
             {
                 _platformBody = Regex.Matches(VerboseOutput, Patterns.TestString, _options);
             }
 
-            List<SdkItemBase> packageItems = new List<SdkItemBase>();
+            List<SdkItem> packageItems = new List<SdkItem>();
 
             for (int i = 0; i < _platformBody.Count; i++)
             {
                 var platform = _platformBody[i].Groups["Platform"].ToString().Trim();
                 var apilevel = _platformBody[i].Groups["APILevel"].ToString().Trim();
-                var description = LookUpTable.CoolNames[_platformBody[i].Groups["Description"].ToString().Trim()];
+                var description = LookUpTable.GetDescription(_platformBody[i].Groups["Description"].ToString().Trim());
                 var plaindescription = _platformBody[i].Groups["Description"].ToString().Trim();
                 var version = _platformBody[i].Groups["Version"].ToString().Trim();
                 var installLocation = _platformBody[i].Groups["Installed_Location"].ToString().Trim();
@@ -120,11 +116,12 @@ namespace SdkManager.Core
                 if (packageItems.Any(x => x.Platform == platform) == false)
                 {
                     packageItems.Add(
-                        new SdkItemBase
+                        new SdkItem
                         {
                             Platform = platform,
                             ApiLevel = ConvertPlatformAPILevelToInt(apilevel),
                             Description = description,
+                            PlainDescription = plaindescription,
                             Version = version,
                             InstallLocation = installLocation,
                             IsInstalled = string.IsNullOrEmpty(installLocation) == false,
@@ -141,13 +138,15 @@ namespace SdkManager.Core
         /// Will create a list of package items based on VerboseOutput.
         /// </summary>
         /// <returns></returns>
-        public static List<SdkItemBase> CreateToolsItems()
+        public static List<SdkItem> GetTools()
         {
-            List<SdkItemBase> toolsItems = new List<SdkItemBase>();
-            toolsItems.Add(CreateGenericSDKTools(Patterns.BUILD_TOOLS_PATTERN));
-            toolsItems.Add(CreateGenericSDKTools(Patterns.GPU_DEBUGGING_TOOLS_PATTERN));
+            List<SdkItem> toolsItems = new List<SdkItem>();
+
+            toolsItems.Add(CreateGenericSDKTools(Patterns.BUILD_TOOLS_PATTERN));            // Has Kids
+            toolsItems.Add(CreateGenericSDKTools(Patterns.GPU_DEBUGGING_TOOLS_PATTERN));    // Has Kids
+            toolsItems.Add(CreateGenericSDKTools(Patterns.CMAKE_PATTERN));                  // Has Kids
             toolsItems.Add(CreateGenericSDKTools(Patterns.LLDB_PATTERN));
-            toolsItems.Add(CreateGenericSDKTools(Patterns.ANDROID_AUTO_API_SIM_PATTERN));
+            toolsItems.Add(CreateGenericSDKTools(Patterns.ANDROID_AUTO_API_SIM_PATTERN));   // Has Kids
             toolsItems.Add(CreateGenericSDKTools(Patterns.ANDROID_AUTO_EMULATOR_PATTERN));
             toolsItems.Add(CreateGenericSDKTools(Patterns.EMULATOR_PATTERN));
             toolsItems.Add(CreateGenericSDKTools(Patterns.PLATFORM_TOOLS_PATTERN));
@@ -161,207 +160,8 @@ namespace SdkManager.Core
             toolsItems.Add(CreateGenericSDKTools(Patterns.GOOGLE_WEB_DRIVER_PATTERN));
             toolsItems.Add(CreateGenericSDKTools(Patterns.INTEL_86_EMULATOR_PATTERN));
             toolsItems.Add(CreateGenericSDKTools(Patterns.NDK_PATTERN));
+
             return toolsItems;
-        }
-              
-        /// <summary>
-        /// Will create a list of package items based on VerboseOutput.
-        /// </summary>
-        /// <returns></returns>
-        public static SdkItemBase CreateBuildTools()
-        {
-            if (_buildToolsBody == null)
-            {
-                _buildToolsBody = Regex.Matches(VerboseOutput, Patterns.BUILD_TOOLS_PATTERN, _options);
-            }
-
-            List<SdkItemBase> toolsItems = new List<SdkItemBase>();
-
-            for (int i = 0; i < _buildToolsBody.Count; i++)
-            {
-                var platform = _buildToolsBody[i].Groups["Platform"].ToString().Trim();
-                var apilevel = _buildToolsBody[i].Groups["APILevel"].ToString().Trim();
-                var description = _buildToolsBody[i].Groups["Description"].ToString().Trim();
-                var version = _buildToolsBody[i].Groups["Version"].ToString().Trim();
-                var installLocation = _buildToolsBody[i].Groups["Installed_Location"].ToString().Trim();
-
-                if (toolsItems.Any(x => x.Platform == platform) == false)
-                {
-                    toolsItems.Add(
-                        new SdkItemBase
-                        {
-                            Platform = platform,
-                            // Need to accept 28.0.1 and convert
-                            ApiLevel = ConvertToolsAPILevelToInt(apilevel),
-                            Description = description,
-                            // Need to accept 28.0.1 or 28.0.0-rc1
-                            Version = version,
-                            InstallLocation = installLocation,
-                            IsInstalled = string.IsNullOrEmpty(installLocation) == false,
-                            Status = string.IsNullOrEmpty(installLocation) ? PackageStatus.NOT_INSTALLED : PackageStatus.INSTALLED,
-                            IsChild = true
-                        });
-                }
-
-            }
-            toolsItems.Sort();
-            var mainItem = toolsItems[0];
-            mainItem.IsChild = false;
-
-            toolsItems.Remove(mainItem);
-            foreach (var c in toolsItems)
-            {
-                mainItem.Children.Add(c);
-            }
-            return mainItem;
-        }
-                      
-        /// <summary>
-        /// Will create a list of package items based on VerboseOutput.
-        /// </summary>
-        /// <returns></returns>
-        public static SdkItemBase CreateGPUDebuggingTools()
-        {
-            if (_gpuDebuggingToolsBody == null)
-            {
-                _gpuDebuggingToolsBody = Regex.Matches(VerboseOutput, Patterns.GPU_DEBUGGING_TOOLS_PATTERN, _options);
-            }
-
-            List<SdkItemBase> gpuDebuggingTools = new List<SdkItemBase>();
-
-            for (int i = 0; i < _gpuDebuggingToolsBody.Count; i++)
-            {
-                var platform = _gpuDebuggingToolsBody[i].Groups["Platform"].ToString().Trim();
-                var apilevel = _gpuDebuggingToolsBody[i].Groups["APILevel"].ToString().Trim();
-                var description = _gpuDebuggingToolsBody[i].Groups["Description"].ToString().Trim();
-                var version = _gpuDebuggingToolsBody[i].Groups["Version"].ToString().Trim();
-                var installLocation = _gpuDebuggingToolsBody[i].Groups["Installed_Location"].ToString().Trim();
-
-                if (gpuDebuggingTools.Any(x => x.Platform == platform) == false)
-                {
-                    gpuDebuggingTools.Add(
-                        new SdkItemBase
-                        {
-                            Platform = platform,
-                            // Need to accept 28.0.1 and convert
-                            ApiLevel = ConvertToolsAPILevelToInt(apilevel),
-                            Description = description,
-                            Version = version,
-                            InstallLocation = installLocation,
-                            IsInstalled = string.IsNullOrEmpty(installLocation) == false,
-                            Status = string.IsNullOrEmpty(installLocation) ? PackageStatus.NOT_INSTALLED : PackageStatus.INSTALLED,
-                            IsChild = true
-                        });
-                }
-
-            }
-            gpuDebuggingTools.Sort();
-            var mainItem = gpuDebuggingTools[0];
-            mainItem.IsChild = false;
-
-            gpuDebuggingTools.Remove(mainItem);
-            foreach (var c in gpuDebuggingTools)
-            {
-                mainItem.Children.Add(c);
-            }
-            return mainItem;
-        }
-
-        /// <summary>
-        /// Will create a list of package items based on VerboseOutput.
-        /// </summary>
-        /// <returns></returns>
-        public static SdkItemBase CreateLLDBTools()
-        {
-            if (_lldbBody == null)
-            {
-                _lldbBody = Regex.Matches(VerboseOutput, Patterns.LLDB_PATTERN, _options);
-            }
-
-            List<SdkItemBase> lldbTools = new List<SdkItemBase>();
-
-            for (int i = 0; i < _lldbBody.Count; i++)
-            {
-                var platform = _lldbBody[i].Groups["Platform"].ToString().Trim();
-                var apilevel = _lldbBody[i].Groups["APILevel"].ToString().Trim();
-                var description = _lldbBody[i].Groups["Description"].ToString().Trim();
-                var version = _lldbBody[i].Groups["Version"].ToString().Trim();
-                var installLocation = _lldbBody[i].Groups["Installed_Location"].ToString().Trim();
-
-                if (lldbTools.Any(x => x.Platform == platform) == false)
-                {
-                    lldbTools.Add(
-                        new SdkItemBase
-                        {
-                            Platform = platform,
-                            ApiLevel = ConvertToolsAPILevelToInt(apilevel),
-                            Description = description,
-                            Version = version,
-                            InstallLocation = installLocation,
-                            IsInstalled = string.IsNullOrEmpty(installLocation) == false,
-                            Status = string.IsNullOrEmpty(installLocation) ? PackageStatus.NOT_INSTALLED : PackageStatus.INSTALLED,
-                            IsChild = true
-                        });
-                }
-
-            }
-            lldbTools.Sort();
-            var mainItem = lldbTools[0];
-            mainItem.IsChild = false;
-
-            lldbTools.Remove(mainItem);
-            foreach (var c in lldbTools)
-            {
-                mainItem.Children.Add(c);
-            }
-            return mainItem;
-        }
-        
-        /// <summary>
-        /// Will create a list of package items based on VerboseOutput.
-        /// </summary>
-        /// <returns></returns>
-        public static SdkItemBase CreateGenericSDKTools(string pattern)
-        {
-            MatchCollection collection = Regex.Matches(VerboseOutput, pattern, _options);
-
-            List<SdkItemBase> items = new List<SdkItemBase>();
-
-            for (int i = 0; i < collection.Count; i++)
-            {
-                var platform = collection[i].Groups["Platform"].ToString().Trim();
-                var apilevel = collection[i].Groups["APILevel"].ToString().Trim();
-                var description = collection[i].Groups["Description"].ToString().Trim();
-                var version = collection[i].Groups["Version"].ToString().Trim();
-                var installLocation = collection[i].Groups["Installed_Location"].ToString().Trim();
-
-                if (items.Any(x => x.Platform == platform) == false)
-                {
-                    items.Add(
-                        new SdkItemBase
-                        {
-                            Platform = platform,
-                            ApiLevel = ConvertToolsAPILevelToInt(apilevel),
-                            Description = description,
-                            Version = version,
-                            InstallLocation = installLocation,
-                            IsInstalled = string.IsNullOrEmpty(installLocation) == false,
-                            Status = string.IsNullOrEmpty(installLocation) ? PackageStatus.NOT_INSTALLED : PackageStatus.INSTALLED,
-                            IsChild = true
-                        });
-                }
-
-            }
-            items.Sort();
-            var mainItem = items[0];
-            mainItem.IsChild = false;
-
-            items.Remove(mainItem);
-            foreach (var c in items)
-            {
-                mainItem.Children.Add(c);
-            }
-            return mainItem;
         }
 
         /// <summary>
@@ -492,11 +292,6 @@ namespace SdkManager.Core
             _systemImages = null;
             _sources = null;
             _googleGlass = null;
-
-            // SDK Tools
-            _buildToolsBody = null;
-            _gpuDebuggingToolsBody = null;
-            _lldbBody = null;
         }
 
         #endregion
@@ -521,20 +316,69 @@ namespace SdkManager.Core
             };
         }
 
-        private static int ConvertPlatformAPILevelToInt(string apilevel)
+        /// <summary>
+        /// Will create a list of package items based on VerboseOutput.
+        /// </summary>
+        /// <returns></returns>
+        private static SdkItem CreateGenericSDKTools(string pattern)
         {
-            if (string.IsNullOrEmpty(apilevel))
-                return 0;
+            MatchCollection collection = Regex.Matches(VerboseOutput, pattern, _options);
 
-            return int.Parse(apilevel = apilevel.Substring(0, apilevel.IndexOf('.') > -1 ? apilevel.IndexOf('.') : apilevel.Length));
+            List<SdkItem> items = new List<SdkItem>();
+
+            for (int i = 0; i < collection.Count; i++)
+            {
+                var platform = collection[i].Groups["Platform"].ToString().Trim();
+                var apilevel = collection[i].Groups["APILevel"].ToString().Trim();
+                var description = collection[i].Groups["Description"].ToString().Trim();
+                var plaindescription = collection[i].Groups["Description"].ToString().Trim();
+                var version = collection[i].Groups["Version"].ToString().Trim();
+                var installLocation = collection[i].Groups["Installed_Location"].ToString().Trim();
+
+                if (items.Any(x => x.Platform == platform) == false)
+                {
+                    items.Add(
+                        new SdkItem
+                        {
+                            Platform = platform,
+                            ApiLevel = ConvertToolsAPILevelToInt(apilevel),
+                            Description = description,
+                            PlainDescription = plaindescription,
+                            Version = version,
+                            InstallLocation = installLocation,
+                            IsInstalled = string.IsNullOrEmpty(installLocation) == false,
+                            Status = string.IsNullOrEmpty(installLocation) ? PackageStatus.NOT_INSTALLED : PackageStatus.INSTALLED,
+                            IsChild = true
+                        });
+                }
+
+            }
+            items.Sort();
+            var mainItem = items[0];
+            mainItem.IsChild = false;
+
+            items.Remove(mainItem);
+            foreach (var c in items)
+            {
+                mainItem.Children.Add(c);
+            }
+            return mainItem;
         }
 
-        private static int ConvertToolsAPILevelToInt(string apilevel)
+        private static long ConvertPlatformAPILevelToInt(string apilevel)
         {
             if (string.IsNullOrEmpty(apilevel))
                 return 0;
 
-            return int.Parse(apilevel.Replace(".", "").Trim());
+            return long.Parse(apilevel = apilevel.Substring(0, apilevel.IndexOf('.') > -1 ? apilevel.IndexOf('.') : apilevel.Length));
+        }
+
+        private static long ConvertToolsAPILevelToInt(string apilevel)
+        {
+            if (string.IsNullOrEmpty(apilevel))
+                return 0;
+
+            return long.Parse(apilevel.Replace(".", "").Trim());
         }
 
         /// <summary>
@@ -559,7 +403,7 @@ namespace SdkManager.Core
         /// </summary>
         /// <param name="packageItem"></param>
         /// <returns></returns>
-        public static SdkItemBase CheckForUpdates(this SdkItemBase packageItem)
+        public static SdkItem CheckForUpdates(this SdkItem packageItem)
         {
             if (_updates == null)
             {
@@ -586,9 +430,8 @@ namespace SdkManager.Core
         /// </summary>
         /// <param name="packageItem"></param>
         /// <returns></returns>
-        public static SdkItemBase CreatePackageChildren(this SdkItemBase packageItem)
+        public static SdkItem CreatePackageChildren(this SdkItem packageItem)
         {
-
             if (_googleApis == null)
             {
                 _googleApis = Regex.Matches(VerboseOutput, Patterns.GOOGLE_APIS, _options);
@@ -621,32 +464,35 @@ namespace SdkManager.Core
         /// </summary>
         /// <param name="packageItem"></param>
         /// <returns></returns>
-        private static SdkItemBase GetChild(this SdkItemBase packageItem, MatchCollection collection)
+        private static SdkItem GetChild(this SdkItem packageItem, MatchCollection collection)
         {
             for (int i = 0; i < collection.Count; i++)
             {
                 var platform = collection[i].Groups["Platform"].ToString().Trim();
                 var apilevel = collection[i].Groups["APILevel"].ToString().Trim();
                 var description = collection[i].Groups["Description"].ToString().Trim();
+                var plaindescription = collection[i].Groups["Description"].ToString().Trim();
                 var version = collection[i].Groups["Version"].ToString().Trim();
                 var installLocation = collection[i].Groups["Installed_Location"].ToString().Trim();
-                int intapilevel = int.Parse(apilevel = apilevel.Substring(0, apilevel.IndexOf('.') > -1 ? apilevel.IndexOf('.') : apilevel.Length));
+                long intapilevel = ConvertToolsAPILevelToInt(apilevel);
 
                 if (packageItem.Children.Any(x => x.Platform == platform) == false)
                 {
-                    if (packageItem.ApiLevel == int.Parse(apilevel))
+                    if (packageItem.ApiLevel == intapilevel)
                     {
-                        packageItem.Children.Add(new SdkItemBase
-                        {
-                            Platform = platform,
-                            ApiLevel = intapilevel,
-                            Description = description,
-                            Version = version,
-                            InstallLocation = installLocation,
-                            IsInstalled = string.IsNullOrEmpty(installLocation) == false,
-                            Status = string.IsNullOrEmpty(installLocation) ? PackageStatus.NOT_INSTALLED : PackageStatus.INSTALLED,
-                            IsChild = true
-                        });
+                        packageItem.Children.Add(
+                            new SdkItem
+                            {
+                                Platform = platform,
+                                ApiLevel = intapilevel,
+                                Description = description,
+                                PlainDescription = plaindescription,
+                                Version = version,
+                                InstallLocation = installLocation,
+                                IsInstalled = string.IsNullOrEmpty(installLocation) == false,
+                                Status = string.IsNullOrEmpty(installLocation) ? PackageStatus.NOT_INSTALLED : PackageStatus.INSTALLED,
+                                IsChild = true
+                            });
                     }
                 }
             }

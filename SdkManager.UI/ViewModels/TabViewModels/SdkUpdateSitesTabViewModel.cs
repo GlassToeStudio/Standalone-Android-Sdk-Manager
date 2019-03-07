@@ -4,7 +4,7 @@ namespace SdkManager.UI
 {
     public class SdkUpdateSitesTabViewModel : TabBaseViewModel
     {
-        public ObservableCollection<SdkPlaformItemViewModel> PackageItems { get; set; }
+        public ObservableCollection<SdkItemBaseViewModel> PackageItems { get; set; }
         public SdkUpdateSitesTabViewModel() : base()
         {
 

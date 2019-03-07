@@ -6,7 +6,7 @@ namespace SdkManager.Core
     /// <summary>
     /// Standard data container for each high-level sdk platform,
     /// </summary>
-    public class SdkItemBase : IComparable<SdkItemBase>
+    public class SdkItem : IComparable<SdkItem>
     {
         /// <summary>
         /// The name of this platform, as read from sdk manager: platforms;android-23
@@ -15,7 +15,7 @@ namespace SdkManager.Core
         /// <summary>
         /// The current API Level of this package, as read from sdk manager: 23
         /// </summary>
-        public int ApiLevel { get; set; }
+        public long ApiLevel { get; set; }
         /// <summary>
         /// The descrion of the plafrom as read from sdk manager: Android SDK Platform 23 => Android 6.0 (Marshmallow)
         /// </summary>
@@ -44,19 +44,21 @@ namespace SdkManager.Core
         /// <summary>
         /// Children backing field.
         /// </summary>
-        private List<SdkItemBase> _children = new List<SdkItemBase>();
+        private List<SdkItem> _children = new List<SdkItem>();
         /// <summary>
         /// List of Children of this package item, items is this list will have null children.
         /// </summary>
-        public List<SdkItemBase> Children
+        public List<SdkItem> Children
         {
             get { return IsChild ? null : _children; }
             set { _children = value; }
         }
 
+        public string PlainDescription { get; set; }
+
         #region Overrides
 
-        public int CompareTo(SdkItemBase packageData)
+        public int CompareTo(SdkItem packageData)
         {
             // A null value means that this object is greater.
             if (packageData == null)

@@ -26,8 +26,6 @@
 			<ColumnDefinition Width="10"/>
 		</Grid.ColumnDefinitions>
 
-
-
 		<TextBlock Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3" Text="The following components will be installed:" Margin="20,5,5,5"></TextBlock>
 
 		<ScrollViewer VerticalScrollBarVisibility="Auto" Height="150" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="3">
