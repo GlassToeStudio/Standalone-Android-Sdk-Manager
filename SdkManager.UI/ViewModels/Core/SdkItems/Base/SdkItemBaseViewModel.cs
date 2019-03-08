@@ -37,7 +37,7 @@ namespace SdkManager.UI
         /// </summary>
         protected bool isEnabled = true;
 
-        private ClickAction _onClick;
+        private StatusImageType _onClick;
         #endregion
 
         #region Public Properties
@@ -157,19 +157,19 @@ namespace SdkManager.UI
             {
                 if (IsChecked == false)
                 {
-                    OnClick = ClickAction.Uninstall;
+                    StatusImage = StatusImageType.Uninstall;
                     return;
                 }
-                OnClick = ClickAction.Donothing;
+                StatusImage = StatusImageType.Donothing;
             }
             else
             {
                 if(IsChecked == true)
                 {
-                    OnClick = ClickAction.Install;
+                    StatusImage = StatusImageType.Install;
                     return;
                 }
-                OnClick = ClickAction.Donothing;
+                StatusImage = StatusImageType.Donothing;
             }
         }
 
@@ -209,7 +209,7 @@ namespace SdkManager.UI
             }
         }
 
-        public ClickAction OnClick
+        public StatusImageType StatusImage
         {
             get => _onClick;
             set
@@ -221,8 +221,6 @@ namespace SdkManager.UI
                 }
             }
         }
-
-
 
         #endregion
 
@@ -300,7 +298,7 @@ namespace SdkManager.UI
         #endregion
     }
 
-    public enum ClickAction
+    public enum StatusImageType
     {
         Donothing,
         Install,

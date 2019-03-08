@@ -15,6 +15,7 @@
 			</Grid.ColumnDefinitions>
 
 			<StackPanel Orientation="Horizontal">
+				<Image Margin="-42,0,0,1.5" Width="15" Height="15" Source="{Binding Path=StatusImage, Converter={x:Static local:StatusToImageConverter.Instance}}"/>
 				<CheckBox Grid.Column="0" Name="PackageNameHeader" IsChecked="{Binding IsChecked}" Foreground="#BBBBBB" BorderBrush="#FF2D2F31" BorderThickness="1"  Background="#686868" IsEnabled="{Binding IsEnabled}"/>
 				<TextBlock Grid.Column="0" Text="{Binding Path=Description}" TextAlignment="left" Foreground="#BBBBBB"/>
 			</StackPanel>

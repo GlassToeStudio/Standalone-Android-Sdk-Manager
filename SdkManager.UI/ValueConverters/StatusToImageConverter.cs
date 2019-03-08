@@ -12,14 +12,14 @@ namespace SdkManager.UI
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            var uri = (ClickAction)value;
+            var uri = (StatusImageType)value;
             switch (uri)
             {
-                case ClickAction.Install:
+                case StatusImageType.Install:
                     return new Uri("pack://application:,,,/Images/download.png");
-                case ClickAction.Uninstall:
+                case StatusImageType.Uninstall:
                     return new Uri("pack://application:,,,/Images/delete.png");
-                case ClickAction.Donothing:
+                case StatusImageType.Donothing:
                     return new Uri("pack://application:,,,/Images/blank.png");
                 default:
                     break;
