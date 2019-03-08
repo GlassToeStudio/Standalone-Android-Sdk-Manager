@@ -67,6 +67,7 @@
 			Margin="600,560,0,0"
 			HorizontalAlignment="Left"
 			VerticalAlignment="Top" 
+			IsEnabled="{Binding EnableApplyButton}"
 			/>
 
 		<Button Content="Cancel" 

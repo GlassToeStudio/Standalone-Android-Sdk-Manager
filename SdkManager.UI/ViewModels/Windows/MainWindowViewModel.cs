@@ -4,6 +4,7 @@ using System.Text;
 using System.Windows.Input;
 using System.Threading.Tasks;
 using System.Collections.ObjectModel;
+using System.Collections.Generic;
 
 namespace SdkManager.UI
 {
@@ -12,7 +13,11 @@ namespace SdkManager.UI
         #region Private Properties
 
         private string _pathName;
+        private bool _enableApplyButton;
 
+        private List<string> installList = new List<string>();
+        private List<string> uninstallList = new List<string>();
+        private bool enableApplyButton;
         #endregion
 
         #region Public Properties
@@ -56,6 +61,7 @@ namespace SdkManager.UI
             get => ValidatePath();
         }
 
+
         /// <summary>
         /// Container for all Tab View Modles, a view created for each..
         /// </summary>
@@ -70,6 +76,18 @@ namespace SdkManager.UI
         /// </summary>
         public ICommand UpdatePackagesCommand { get; set; }
         public ICommand CancelCommand { get; set; }
+        public bool EnableApplyButton
+        {
+            get => (installList.Count != 0 || uninstallList.Count != 0);
+            set
+            {
+                if(_enableApplyButton != value)
+                {
+                    _enableApplyButton = value;
+                    NotifyPropertyChanged();
+                }
+            }
+        }
 
         #endregion
 
@@ -124,7 +142,6 @@ namespace SdkManager.UI
             }
         }
 
-
         private void Subscribe(TabBaseViewModel tabViewModel)
         {
             if(tabViewModel.PackageItems == null)
@@ -134,73 +151,68 @@ namespace SdkManager.UI
 
             foreach (var item in tabViewModel.PackageItems)
             {
-                item.CheckBoxChanged += DidCheckBoxChange;
+                item.CheckBoxChanged += OnCheckBoxChanged;
                 if (item.OtherPackages != null)
                 {
                     foreach (var child in item.OtherPackages)
                     {
-                        child.CheckBoxChanged += DidCheckBoxChange;
+                        child.CheckBoxChanged += OnCheckBoxChanged;
                     }
                 }
             }
         }
 
-        private void DidCheckBoxChange(string platform, bool isInstalled)
+        private void OnCheckBoxChanged(string platform, bool isInstalled)
         {
             Console.WriteLine(platform + " Changed, and it was installed = " + isInstalled);
+            if(isInstalled)
+            {
+                if(uninstallList.Contains(platform))
+                {
+                    uninstallList.Remove(platform);
+                }
+                else
+                {
+                    uninstallList.Add(platform);
+                }
+            }
+            else
+            {
+                if (installList.Contains(platform))
+                {
+                    installList.Remove(platform);
+                }
+                else
+                {
+                    installList.Add(platform);
+                }
+            }
+
+            EnableApplyButton = (installList.Count != 0 || uninstallList.Count != 0);
+
+            foreach (var s in installList)
+            {
+                Console.WriteLine("Install: " + s);
+            }
+            foreach (var s in uninstallList)
+            {
+                Console.WriteLine("Uninstall: " + s);
+            }
         }
 
         private void UpdatePackages()
         {
-            StringBuilder sbInstall = new StringBuilder();
-            StringBuilder sbUninstall = new StringBuilder();
-            StringBuilder descriptions = new StringBuilder();
-
-            foreach (var item in ((SdkPlatformsTabViewModel)TabViewModels[0]).PackageItems)
-            {
-                CheckStatus(sbInstall, sbUninstall, item);
-
-                foreach (var child in item.OtherPackages)
-                {
-                    CheckStatus(sbInstall, sbUninstall, child);
-                }
-            }
-
-            foreach (var item in ((SdkToolsTabViewModel)TabViewModels[1]).PackageItems)
-            {
-                CheckStatus(sbInstall, sbUninstall, item);
-
-                foreach (var child in item.OtherPackages)
-                {
-                    CheckStatus(sbInstall, sbUninstall, child);
-                }
-            }
-
-            if (sbInstall.Length == 0 && sbUninstall.Length == 0)
+            if(installList.Count == 0 && uninstallList.Count == 0)
             {
                 return;
             }
 
-            descriptions.Append("Install: \n");
-            for (int i = 0; i < sbInstall.Length; i++)
-            {
-                if (char.IsWhiteSpace(sbInstall[i]))
-                {
-                    descriptions.Append("\n");
-                }
-                descriptions.Append(sbInstall[i]);
-            }
-            descriptions.Append("\nUninstall: \n");
-            for (int i = 0; i < sbUninstall.Length; i++)
-            {
-                if (char.IsWhiteSpace(sbUninstall[i]))
-                {
-                    descriptions.Append("\n");
-                }
-                descriptions.Append(sbUninstall[i]);
-            }
+            StringBuilder sbInstall = new StringBuilder();
+            StringBuilder sbUninstall = new StringBuilder();
+            StringBuilder descriptions = new StringBuilder();
 
-            Console.WriteLine(sbInstall.ToString());
+            sbInstall.Append(string.Join(" ", installList));
+            sbUninstall.Append(string.Join(" ", uninstallList));
 
             ConfirmChangeWindow win = new ConfirmChangeWindow(descriptions.ToString());
             bool? result = win.ShowDialog();
@@ -245,21 +257,6 @@ namespace SdkManager.UI
             }
         }
 
-        private void CheckStatus(StringBuilder sbInstall, StringBuilder sbUninstall, SdkItemBaseViewModel item)
-        {
-            if (item.InitialState != item.IsChecked)
-            {
-                if (item.InitialState == false)
-                {
-                    sbInstall.Append($"{item.Platform} ");
-                }
-                else
-                {
-                    sbUninstall.Append($"{item.Platform} ");
-                }
-            }
-        }
-
         private void ResetItem(SdkItemBaseViewModel item)
         {
             item.IsChecked = item.InitialState;
@@ -269,7 +266,7 @@ namespace SdkManager.UI
         {
             if (sbInstall.Length > 0)
             {
-                Console.WriteLine(sbInstall.ToString());
+                Console.WriteLine("Installing: " + sbInstall.ToString());
                 var t = Task.Run(async () =>
                 {
                     await SdkManager.InstallOrUpdatePackages(sbInstall.ToString());
@@ -282,7 +279,7 @@ namespace SdkManager.UI
         {
             if (sbUninstall.Length > 0)
             {
-                Console.WriteLine(sbUninstall.ToString());
+                Console.WriteLine("Uninstalling: " + sbUninstall.ToString());
                 var t = Task.Run(async () =>
                 {
                     await SdkManager.UninstallPackages(sbUninstall.ToString());
