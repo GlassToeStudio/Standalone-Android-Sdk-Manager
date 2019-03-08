@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using SdkManager.Core;
 using System.Collections.ObjectModel;
+using System;
 
 namespace SdkManager.UI
 {
@@ -38,6 +39,8 @@ namespace SdkManager.UI
             }
         }
 
+        public event Action<string, bool> CheckBoxChanged;
+
         #endregion
 
         #region Constructor
@@ -60,6 +63,7 @@ namespace SdkManager.UI
         /// <param name="showItems"></param>
         public void PopulateItems(bool showItems)
         {
+            CheckBoxChanged = null;
             ItemStructure = new SdkPlatformStructure();
 
             var topLevelItems = ItemStructure.Items;
@@ -72,6 +76,23 @@ namespace SdkManager.UI
             this.PackageItems = new ObservableCollection<SdkItemBaseViewModel>(
                 topLevelItems.Select(package => new SdkPlaformItemViewModels(package, showItems))
                 );
+
+            foreach (var item in PackageItems)
+            {
+                item.CheckBoxChanged += OnCheckBoxChanged;
+                if(item.OtherPackages != null)
+                {
+                    foreach (var child in item.OtherPackages)
+                    {
+                        child.CheckBoxChanged += OnCheckBoxChanged;
+                    }
+                }
+            }
+        }
+
+        public void OnCheckBoxChanged(string platform, bool isInstalled)
+        {
+            CheckBoxChanged?.Invoke(platform, isInstalled);
         }
         
         #endregion

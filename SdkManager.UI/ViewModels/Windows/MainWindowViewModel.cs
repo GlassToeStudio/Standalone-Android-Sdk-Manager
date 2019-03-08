@@ -117,6 +117,37 @@ namespace SdkManager.UI
 
             ((SdkPlatformsTabViewModel)TabViewModels[0])?.PopulateItems(false);
             ((SdkToolsTabViewModel)TabViewModels[1])?.PopulateItems(false);
+
+            foreach (var item in TabViewModels)
+            {
+                Subscribe(item);
+            }
+        }
+
+
+        private void Subscribe(TabBaseViewModel tabViewModel)
+        {
+            if(tabViewModel.PackageItems == null)
+            {
+                return;
+            }
+
+            foreach (var item in tabViewModel.PackageItems)
+            {
+                item.CheckBoxChanged += DidCheckBoxChange;
+                if (item.OtherPackages != null)
+                {
+                    foreach (var child in item.OtherPackages)
+                    {
+                        child.CheckBoxChanged += DidCheckBoxChange;
+                    }
+                }
+            }
+        }
+
+        private void DidCheckBoxChange(string platform, bool isInstalled)
+        {
+            Console.WriteLine(platform + " Changed, and it was installed = " + isInstalled);
         }
 
         private void UpdatePackages()

@@ -143,7 +143,7 @@ namespace SdkManager.UI
                     _isChecked = value;
 
                     UpdateStatus();
-
+                    CheckBoxChanged?.Invoke(Platform, InitialState);
                     NotifyPropertyChanged();
                     return;
                 }
@@ -228,6 +228,8 @@ namespace SdkManager.UI
 
         #endregion
 
+        public event Action<string, bool> CheckBoxChanged;
+
         #region Constructor
 
         /// <summary>
@@ -266,6 +268,7 @@ namespace SdkManager.UI
         {
             if (!CanExpand)
             {
+                CheckBoxChanged = null;
                 IsEnabled = true;
                 this.ApiLevel = _package.ApiLevel;
                 this.Version = _package.Version;
@@ -276,13 +279,13 @@ namespace SdkManager.UI
             else
             {
                 var children = _package.Children;
-
+                CheckBoxChanged = null;
                 if (children?.Count <= 0 || children == null)
                 {
                     return;
                 }
 
-                IsEnabled = false;
+                IsEnabled = false; // TODO: Alter look of checkbox when disabled.
                 this.ApiLevel = null;
                 this.Version = null;
                 this.Status = null;
@@ -302,6 +305,7 @@ namespace SdkManager.UI
         #endregion
     }
 
+    // TODO: Move this
     public enum StatusImageType
     {
         Donothing,
