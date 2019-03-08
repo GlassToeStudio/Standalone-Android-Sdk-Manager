@@ -41,12 +41,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SDKManager\Models\Enums.cs" />
-    <Compile Include="SDKManager\Models\SdkItem.cs" />
-    <Compile Include="SDKManager\Models\SdkPlatformItem.cs" />
-    <Compile Include="SDKManager\Models\SdkToolsStructure.cs" />
-    <Compile Include="SDKManager\Models\SdkPlatformStructure.cs" />
-    <Compile Include="SDKManager\Models\SdkToolsItem.cs" />
+    <Compile Include="SDKManager\Data\Enums.cs" />
+    <Compile Include="SDKManager\Models\SdkItems\Base\SdkItem.cs" />
+    <Compile Include="SDKManager\Models\SdkItems\SdkPlatformItem.cs" />
+    <Compile Include="SDKManager\Models\ItemStuctures\Base\SdkItemStructureBase.cs" />
+    <Compile Include="SDKManager\Models\ItemStuctures\SdkToolsStructure.cs" />
+    <Compile Include="SDKManager\Models\ItemStuctures\SdkPlatformStructure.cs" />
+    <Compile Include="SDKManager\Models\SdkItems\SdkToolsItem.cs" />
     <Compile Include="SDKManager\SdkManagerBat.cs" />
     <Compile Include="SDKManager\Utilities\LookUpTable.cs" />
     <Compile Include="SDKManager\Utilities\Patterns.cs" />

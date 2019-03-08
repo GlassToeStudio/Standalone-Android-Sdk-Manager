@@ -116,7 +116,7 @@ namespace SdkManager.Core
                 if (packageItems.Any(x => x.Platform == platform) == false)
                 {
                     packageItems.Add(
-                        new SdkItem
+                        new SdkPlatformItems
                         {
                             Platform = platform,
                             ApiLevel = ConvertPlatformAPILevelToInt(apilevel),
@@ -135,7 +135,7 @@ namespace SdkManager.Core
         }
       
         /// <summary>
-        /// Will create a list of package items based on VerboseOutput.
+        /// Will create a list of tools items based on VerboseOutput.
         /// </summary>
         /// <returns></returns>
         public static List<SdkItem> GetTools()
@@ -169,8 +169,8 @@ namespace SdkManager.Core
                 //      Additionally, we are stripping the -betaX from the
                 //      API level, we don't want this.
                 //
-                //CreateGenericSDKTools(Patterns.CONSTRAINT_LAYOUT_PATTERN),
-                //CreateGenericSDKTools(Patterns.SOLVER_CONSTRAINT_LAYOUT_PATTERN),
+                // CreateGenericSDKTools(Patterns.CONSTRAINT_LAYOUT_PATTERN),
+                // CreateGenericSDKTools(Patterns.SOLVER_CONSTRAINT_LAYOUT_PATTERN),
                 CreateGenericSDKTools(Patterns.ANDROID_SUPPORT_PATTERN),
                 CreateGenericSDKTools(Patterns.GOOGLE_REPOSITORY_PATTERN)
             };
@@ -340,14 +340,14 @@ namespace SdkManager.Core
         }
 
         /// <summary>
-        /// Will create a list of package items based on VerboseOutput.
+        /// Will create a list of any platform items matching the passed in pattern, based on VerboseOutput.
         /// </summary>
         /// <returns></returns>
-        private static SdkItem CreateGenericSDKTools(string pattern)
+        private static SdkToolsItems CreateGenericSDKTools(string pattern)
         {
             MatchCollection collection = Regex.Matches(VerboseOutput, pattern, _options);
 
-            List<SdkItem> items = new List<SdkItem>();
+            List<SdkToolsItems> items = new List<SdkToolsItems>();
 
             for (int i = 0; i < collection.Count; i++)
             {
@@ -361,7 +361,7 @@ namespace SdkManager.Core
                 if (items.Any(x => x.Platform == platform) == false)
                 {
                     items.Add(
-                        new SdkItem
+                        new SdkToolsItems
                         {
                             Platform = platform,
                             ApiLevel = ConvertToolsAPILevelToInt(apilevel),
@@ -395,6 +395,11 @@ namespace SdkManager.Core
             }
         }
 
+        /// <summary>
+        /// TODO: Needs work
+        /// </summary>
+        /// <param name="apilevel"></param>
+        /// <returns></returns>
         private static long ConvertPlatformAPILevelToInt(string apilevel)
         {
             if (string.IsNullOrEmpty(apilevel))
@@ -402,7 +407,11 @@ namespace SdkManager.Core
 
             return long.Parse(apilevel = apilevel.Substring(0, apilevel.IndexOf('.') > -1 ? apilevel.IndexOf('.') : apilevel.Length));
         }
-
+        /// <summary>
+        /// TODO:  needs work
+        /// </summary>
+        /// <param name="apilevel"></param>
+        /// <returns></returns>
         private static long ConvertToolsAPILevelToInt(string apilevel)
         {
             if (string.IsNullOrEmpty(apilevel))

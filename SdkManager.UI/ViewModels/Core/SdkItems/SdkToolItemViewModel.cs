@@ -12,7 +12,7 @@ namespace SdkManager.UI
         #region Constructor
 
         /// <summary>
-        /// Constructor
+        /// Standard data container for a tool tiem.
         /// </summary>
         /// <param name="package"></param>
         public SdkToolItemViewModel(SdkItem package, bool canExpand) : base(package, canExpand)

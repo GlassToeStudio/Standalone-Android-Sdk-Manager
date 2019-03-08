@@ -12,7 +12,7 @@ namespace SdkManager.UI
         #region Constructor
 
         /// <summary>
-        /// Constructor
+        /// Standard view model for a platform item.
         /// </summary>
         /// <param name="package"></param>
         public SdkPlaformItemViewModels(SdkItem package, bool canExpand) :base(package, canExpand)

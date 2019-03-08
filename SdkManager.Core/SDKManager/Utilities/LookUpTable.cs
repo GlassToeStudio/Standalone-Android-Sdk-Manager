@@ -11,7 +11,7 @@ namespace SdkManager.Core
         /// Convert from default platform desction to the alias name of a platform.
         /// <para>Android SDK Platform 7 => Android 2.1 (Eclair)</para>
         /// </summary>
-        private static Dictionary<string, string> CoolNames = new Dictionary<string, string>
+        private static Dictionary<string, string> Aliases = new Dictionary<string, string>
         {
             { "Android SDK Platform 7", "Android 2.1 (Eclair)"},
             { "Android SDK Platform 8", "Android 2.2 (Froyo)"},
@@ -38,10 +38,15 @@ namespace SdkManager.Core
             { "android-28", "Android SDK Platform 28"}
         };
 
+        /// <summary>
+        /// Will return an alternate version of a Platform name if found, else return the platform name.
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
         public static string GetDescription(string name)
         {
             string r = name;
-            CoolNames.TryGetValue(name, out r);
+            Aliases.TryGetValue(name, out r);
             return r;
         }
     }

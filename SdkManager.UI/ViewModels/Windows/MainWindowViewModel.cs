@@ -94,30 +94,17 @@ namespace SdkManager.UI
                 {
                     TxtTabName = "SDK Packages",
                     TxtInformation = "Each Android SDK Platform package includes the Android platform and sources pertaining to an API level by default. Once installed, Android Studio will automatically check for updates. Check \"show package details\" to display individual SDK components.",
-                    TxtPackageName = "Name",
-                    TxtAPILevel = "API Level",
-                    TxtRevision = "Revision",
-                    TxtStatus = "Status"
+
                 },
                 new SdkToolsTabViewModel
                 {
                     TxtTabName = "SDK Tools",
                     TxtInformation = "Below are the available SDK developer tools. Once installed, Standalone SDK Manager will automatically check for updates. Check \"show package details\" to display available versions of an SDK Tool.",
-                    TxtPackageName = "Name",
-                    TxtRevision = "Revision",
-                    TxtStatus = "Status"
+
                 },
                 //new SdkUpdateSitesTabViewModel { TxtTabName = "Package Updates", },
                 //new CommandLineTabViewModel { TxtTabName = "Command Line", }
             };
-
-            foreach (var t in TabViewModels)
-            {
-                foreach (var item in t.PackageItems)
-                {
-                    
-                }
-            }
         }
 
         private void PopulatePlatformsTab()
@@ -218,7 +205,6 @@ namespace SdkManager.UI
                 }
             }
         }
-
 
         private void CheckStatus(StringBuilder sbInstall, StringBuilder sbUninstall, SdkItemBaseViewModel item)
         {

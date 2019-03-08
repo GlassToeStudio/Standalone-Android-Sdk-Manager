@@ -64,7 +64,7 @@ namespace SdkManager.UI
         {
             PackageItemStructure = new SdkToolsStructure();
 
-            var topLevelItems = PackageItemStructure.PlatformItems;
+            var topLevelItems = PackageItemStructure.Items;
             this.PackageItems = new ObservableCollection<SdkItemBaseViewModel>(
                 topLevelItems.Select(package => new SdkToolItemViewModel(package, showPackageItems))
                 );

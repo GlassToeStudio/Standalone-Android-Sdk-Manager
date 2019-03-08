@@ -202,7 +202,6 @@ namespace SdkManager.UI
             Version = package.Version;
             InstallLocation = package.InstallLocation;
             IsInstalled = package.IsInstalled;
-            IsMultiLevel = package.IsMultiLevel;
             Status = package.Status;
             IsChild = package.IsChild;
             InitialState = string.IsNullOrEmpty(InstallLocation) ? false : true;

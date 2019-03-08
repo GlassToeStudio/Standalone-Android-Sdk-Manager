@@ -9,6 +9,11 @@ namespace SdkManager.Core
     public class SdkItem : IComparable<SdkItem>
     {
         /// <summary>
+        /// Children backing field.
+        /// </summary>
+        protected List<SdkItem> _children = new List<SdkItem>();
+
+        /// <summary>
         /// The name of this platform, as read from sdk manager: platforms;android-23
         /// </summary>
         public string Platform { get; set; }
@@ -21,14 +26,19 @@ namespace SdkManager.Core
         /// </summary>
         public string Description { get; set; }
         /// <summary>
-        ///  The current version fo this package, as read from sdk manager: 3
+        /// The origianl Description prior to finding an alias. (Can be the same as description)
+        /// </summary>
+        public string PlainDescription { get; set; }
+        /// <summary>
+        ///  The current version of this package, as read from sdk manager: 3
         /// </summary>
         public string Version { get; set; }
         /// <summary>
         /// The installed lcoation of this package.
         /// C:\Users\USER\AppData\Local\Android\Sdk\platforms\android-23 ( for example)
         /// </summary>
-        public string InstallLocation { get; set; }
+        public string InstallLocation { get; set; }  
+      
         /// <summary>
         /// Returns true if Install Location is not null, false otherwise.
         /// </summary>
@@ -41,11 +51,7 @@ namespace SdkManager.Core
         /// True if this is a child of a Package Item, false otherwise.
         /// </summary>
         public bool IsChild { get; set; }
-        public bool IsMultiLevel { get; set; } = false;
-        /// <summary>
-        /// Children backing field.
-        /// </summary>
-        private List<SdkItem> _children = new List<SdkItem>();
+
         /// <summary>
         /// List of Children of this package item, items is this list will have null children.
         /// </summary>
@@ -54,8 +60,6 @@ namespace SdkManager.Core
             get { return IsChild ? null : _children; }
             set { _children = value; }
         }
-
-        public string PlainDescription { get; set; }
 
         #region Overrides
 
