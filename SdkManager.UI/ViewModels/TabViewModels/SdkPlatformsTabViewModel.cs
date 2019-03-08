@@ -8,7 +8,7 @@ namespace SdkManager.UI
     {
         #region Private Backing Feilds
 
-        private bool showPackageItems;
+        private bool _showItems;
 
         #endregion
 
@@ -17,7 +17,7 @@ namespace SdkManager.UI
         /// <summary>
         /// Data container for all currently available platform items
         /// </summary>
-        public SdkPlatformStructure PackageItemStructure { get; set; }
+        public SdkPlatformStructure ItemStructure { get; set; }
 
         /// <summary>
         /// List of all high-level platform items and their lower level packages.
@@ -26,13 +26,13 @@ namespace SdkManager.UI
         /// <summary>
         ///CheckBox, if true, show foldout for low-level package items, onlu high-level otherwise.
         /// </summary>
-        public bool ShowPackageItems { get => showPackageItems;
+        public bool ShowItems { get => _showItems;
             set
             {
-                if(showPackageItems != value)
+                if(_showItems != value)
                 {
-                    showPackageItems = value;
-                    PopulatePackageItemStructure(showPackageItems);
+                    _showItems = value;
+                    PopulateItems(_showItems);
                     NotifyPropertyChanged();
                 }
             }
@@ -47,7 +47,7 @@ namespace SdkManager.UI
         /// </summary>
         public SdkPlatformsTabViewModel() : base()
         {
-            PopulatePackageItemStructure(false);
+            PopulateItems(false);
         }
 
         #endregion
@@ -57,14 +57,14 @@ namespace SdkManager.UI
         /// <summary>
         /// Get all high-level packages. If showpackageItems == true, get lower-level packages items also.
         /// </summary>
-        /// <param name="showPackageItems"></param>
-        public void PopulatePackageItemStructure(bool showPackageItems)
+        /// <param name="showItems"></param>
+        public void PopulateItems(bool showItems)
         {
-            PackageItemStructure = new SdkPlatformStructure();
+            ItemStructure = new SdkPlatformStructure();
 
-            var topLevelItems = PackageItemStructure.Items;
+            var topLevelItems = ItemStructure.Items;
             this.PackageItems = new ObservableCollection<SdkItemBaseViewModel>(
-                topLevelItems.Select(package => new SdkItemBaseViewModel(package, showPackageItems))
+                topLevelItems.Select(package => new SdkItemBaseViewModel(package, showItems))
                 );
         }
         

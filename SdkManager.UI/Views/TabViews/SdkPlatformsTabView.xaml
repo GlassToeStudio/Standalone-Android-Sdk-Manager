@@ -183,7 +183,7 @@
 		</Border>
 		<StackPanel Margin="10,431,10,0">
 			<!-- Will determine if we can hit a drop down arrow to show child nodes -->
-			<CheckBox Content="Show Package Details" Height="27" Margin="603,0,0,0" IsChecked="{Binding ShowPackageItems, Mode=TwoWay}" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Center" />
+			<CheckBox Content="Show Package Details" Height="27" Margin="603,0,0,0" IsChecked="{Binding ShowItems, Mode=TwoWay}" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Center" />
 		</StackPanel>
 
 		<!--<TreeViewItem>

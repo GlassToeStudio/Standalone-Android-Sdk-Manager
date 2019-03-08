@@ -8,7 +8,7 @@ namespace SdkManager.UI
     {
         #region Private Backing Feilds
 
-        private bool showPackageItems;
+        private bool _showItems;
 
         #endregion
 
@@ -17,24 +17,20 @@ namespace SdkManager.UI
         /// <summary>
         /// Data container for all currently available platform items
         /// </summary>
-        public SdkToolsStructure PackageItemStructure { get; set; }
+        public SdkToolsStructure ItemStructure { get; set; }
 
         /// <summary>
-        /// List of all high-level platform items and their lower level packages.
+        ///CheckBox, if true, show foldout for low-level tools items, only high-level otherwise.
         /// </summary>
-
-        /// <summary>
-        ///CheckBox, if true, show foldout for low-level package items, onlu high-level otherwise.
-        /// </summary>
-        public bool ShowPackageItems
+        public bool ShowItems
         {
-            get => showPackageItems;
+            get => _showItems;
             set
             {
-                if (showPackageItems != value)
+                if (_showItems != value)
                 {
-                    showPackageItems = value;
-                    PopulatePackageItemStructure(showPackageItems);
+                    _showItems = value;
+                    PopulateItems(_showItems);
                     NotifyPropertyChanged();
                 }
             }
@@ -45,11 +41,11 @@ namespace SdkManager.UI
         #region Constructor
 
         /// <summary>
-        /// View model to hold a list of Platform Items.
+        /// View model to hold a list of tools Items.
         /// </summary>
         public SdkToolsTabViewModel() : base()
         {
-            PopulatePackageItemStructure(false);
+            PopulateItems(false);
         }
 
         #endregion
@@ -57,16 +53,16 @@ namespace SdkManager.UI
         #region Public Methods
 
         /// <summary>
-        /// Get all high-level packages. If showpackageItems == true, get lower-level packages items also.
+        /// Get all high-level tool items. If showpackageItems == true, get lower-level tools items also.
         /// </summary>
-        /// <param name="showPackageItems"></param>
-        public void PopulatePackageItemStructure(bool showPackageItems)
+        /// <param name="showItems"></param>
+        public void PopulateItems(bool showItems)
         {
-            PackageItemStructure = new SdkToolsStructure();
+            ItemStructure = new SdkToolsStructure();
 
-            var topLevelItems = PackageItemStructure.Items;
+            var topLevelItems = ItemStructure.Items;
             this.PackageItems = new ObservableCollection<SdkItemBaseViewModel>(
-                topLevelItems.Select(package => new SdkToolItemViewModel(package, showPackageItems))
+                topLevelItems.Select(package => new SdkToolItemViewModel(package, showItems))
                 );
         }
 

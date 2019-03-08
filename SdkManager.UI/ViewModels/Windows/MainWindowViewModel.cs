@@ -111,8 +111,8 @@ namespace SdkManager.UI
         {
             SdkManager.ClearCache();
 
-            ((SdkPlatformsTabViewModel)TabViewModels[0])?.PopulatePackageItemStructure(false);
-            ((SdkToolsTabViewModel)TabViewModels[1])?.PopulatePackageItemStructure(false);
+            ((SdkPlatformsTabViewModel)TabViewModels[0])?.PopulateItems(false);
+            ((SdkToolsTabViewModel)TabViewModels[1])?.PopulateItems(false);
         }
 
         private void UpdatePackages()

@@ -6,8 +6,14 @@ namespace SdkManager.UI
     public class SdkManagerBatViewModel : BaseViewModel
     {
         #region Pivate Backing Fields 
-
+        /// <summary>
+        /// PathName backing field
+        /// </summary>
         private string _pathName;
+
+        /// <summary>
+        /// ConsoleOutput backing field.
+        /// </summary>
         private string _consoleOutput = "Status";
 
         #endregion
@@ -27,6 +33,9 @@ namespace SdkManager.UI
             }
         }
 
+        /// <summary>
+        /// Output recieved from console window.
+        /// </summary>
         public string ConsoleOutput
         {
             get => _consoleOutput;
@@ -44,6 +53,9 @@ namespace SdkManager.UI
 
         #region Constructor
 
+        /// <summary>
+        /// Default constructor.
+        /// </summary>
         public SdkManagerBatViewModel()
         {
             SdkManagerBat.CommandLineOutputReceived += OnCommandLineOutputReceived;
@@ -54,16 +66,29 @@ namespace SdkManager.UI
 
         #region Public Methods
 
+        /// <summary>
+        /// Will attempt to install teh passed on package;name arguments.
+        /// </summary>
+        /// <param name="args"></param>
+        /// <returns></returns>
         public async Task InstallOrUpdatePackages(string args)
         {
             var t = await Task.Run(() => SdkManagerBat.InstallPackagesAsync(args));
         }
 
+        /// <summary>
+        /// Will attempt to uninstall the passed in package;name arguments
+        /// </summary>
+        /// <param name="args"></param>
+        /// <returns></returns>
         public async Task UninstallPackages(string args)
         {
             var t = await Task.Run(() => SdkManagerBat.UninstallPackagesAsync(args));
         }
 
+        /// <summary>
+        /// Clear the saved data in Sdkmanager to prepare to fetch a new set of data.
+        /// </summary>
         public void ClearCache()
         {
             SdkManagerBat.ClearCache();
@@ -73,6 +98,10 @@ namespace SdkManager.UI
 
         #region Private Methods
 
+        /// <summary>
+        /// Called when text is written tot he console window.
+        /// </summary>
+        /// <param name="output"></param>
         private void OnCommandLineOutputReceived(string output)
         {
             ConsoleOutput = output?.Trim();
