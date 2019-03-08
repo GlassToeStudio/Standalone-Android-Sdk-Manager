@@ -12,6 +12,7 @@ namespace SdkManager.UI
         /// PackageItems backing field.
         /// </summary>
         protected ObservableCollection<SdkItemBaseViewModel> _packageItems;
+        protected bool _enabled = true;
 
         /// <summary>
         /// List of all high-level  items and their lower level children.
@@ -37,5 +38,17 @@ namespace SdkManager.UI
         /// Will display text in teh tab view main upper text area.
         /// </summary>
         public string TxtInformation { get; set; }
+
+        public bool Enabled { get => _enabled;
+            set
+            {
+                if (_enabled != value)
+                {
+                    _enabled = value;
+                    NotifyPropertyChanged();
+                }
+            }
+        }
+
     }
 }

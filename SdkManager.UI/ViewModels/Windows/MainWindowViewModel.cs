@@ -17,7 +17,9 @@ namespace SdkManager.UI
 
         private List<string> installList = new List<string>();
         private List<string> uninstallList = new List<string>();
-        private bool enableApplyButton;
+
+        private bool installing = false;
+        private bool uninstalling = false;
         #endregion
 
         #region Public Properties
@@ -61,6 +63,18 @@ namespace SdkManager.UI
             get => ValidatePath();
         }
 
+        public bool EnableApplyButton
+        {
+            get => (installList.Count != 0 || uninstallList.Count != 0);
+            set
+            {
+                if (_enableApplyButton != value)
+                {
+                    _enableApplyButton = value;
+                    NotifyPropertyChanged();
+                }
+            }
+        }
 
         /// <summary>
         /// Container for all Tab View Modles, a view created for each..
@@ -76,19 +90,7 @@ namespace SdkManager.UI
         /// </summary>
         public ICommand UpdatePackagesCommand { get; set; }
         public ICommand CancelCommand { get; set; }
-        public bool EnableApplyButton
-        {
-            get => (installList.Count != 0 || uninstallList.Count != 0);
-            set
-            {
-                if(_enableApplyButton != value)
-                {
-                    _enableApplyButton = value;
-                    NotifyPropertyChanged();
-                }
-            }
-        }
-
+       
         #endregion
 
         #region Constructor
@@ -214,16 +216,29 @@ namespace SdkManager.UI
             sbInstall.Append(string.Join(" ", installList));
             sbUninstall.Append(string.Join(" ", uninstallList));
 
+            descriptions.Append("Installing:\n ");
+            descriptions.Append(string.Join("\n", installList));
+            descriptions.Append("\nUninstalling:\n ");
+            descriptions.Append(string.Join("\n", uninstallList));
+
+            installList.Clear();
+            uninstallList.Clear();
+
             ConfirmChangeWindow win = new ConfirmChangeWindow(descriptions.ToString());
             bool? result = win.ShowDialog();
             switch (result)
             {
                 case true:
+                    foreach (var item in TabViewModels)
+                    {
+                        item.Enabled = false;
+                    }
+                    EnableApplyButton = false;
                     Install(sbInstall);
                     Uninstall(sbUninstall);
                     break;
                 case false:
-                    Console.WriteLine("User Canceled");
+                    ResetAll();
                     break;
                 default:
                     break;
@@ -266,11 +281,22 @@ namespace SdkManager.UI
         {
             if (sbInstall.Length > 0)
             {
+                installing = true;
                 Console.WriteLine("Installing: " + sbInstall.ToString());
                 var t = Task.Run(async () =>
                 {
                     await SdkManager.InstallOrUpdatePackages(sbInstall.ToString());
-                    PopulatePlatformsTab();
+                    installing = false;
+
+                    if(!uninstalling)
+                    {
+                        EnableApplyButton = true;
+                        PopulatePlatformsTab();
+                        foreach (var item in TabViewModels)
+                        {
+                            item.Enabled = true;
+                        }
+                    }
                 });
             }
         }
@@ -279,11 +305,22 @@ namespace SdkManager.UI
         {
             if (sbUninstall.Length > 0)
             {
+                uninstalling = true;
                 Console.WriteLine("Uninstalling: " + sbUninstall.ToString());
                 var t = Task.Run(async () =>
                 {
                     await SdkManager.UninstallPackages(sbUninstall.ToString());
-                    PopulatePlatformsTab();
+                    uninstalling = false;
+
+                    if(!installing)
+                    {
+                        EnableApplyButton = true;
+                        PopulatePlatformsTab();
+                        foreach (var item in TabViewModels)
+                        {
+                            item.Enabled = true;
+                        }
+                    }
                 });
             }
         }

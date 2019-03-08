@@ -7,7 +7,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="465.04" d:DesignWidth="772">
 
-	<Grid Background="#3C3F41" Margin="-2,1,-2,-2">
+	<Grid Background="#3C3F41" Margin="-2,1,-2,-2" IsEnabled="{Binding Enabled}">
 		<TextBlock HorizontalAlignment="Left" Height="52" Margin="10,10,0,0" TextWrapping="Wrap" Text="{Binding TxtInformation}" VerticalAlignment="Top" Width="596"/>
 		<!-- Column Headers -->
 		<Border BorderThickness="0" Margin="10,64,0,374" >
