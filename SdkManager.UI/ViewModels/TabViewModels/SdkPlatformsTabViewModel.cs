@@ -70,7 +70,7 @@ namespace SdkManager.UI
             }
 
             this.PackageItems = new ObservableCollection<SdkItemBaseViewModel>(
-                topLevelItems.Select(package => new SdkItemBaseViewModel(package, showItems))
+                topLevelItems.Select(package => new SdkPlaformItemViewModels(package, showItems))
                 );
         }
         

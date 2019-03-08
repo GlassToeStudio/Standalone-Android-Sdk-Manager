@@ -37,7 +37,7 @@ namespace SdkManager.UI
         /// </summary>
         protected bool isEnabled = true;
 
-        private StatusImageType _onClick;
+        private StatusImageType _statusImage;
         #endregion
 
         #region Public Properties
@@ -211,12 +211,12 @@ namespace SdkManager.UI
 
         public StatusImageType StatusImage
         {
-            get => _onClick;
+            get => _statusImage;
             set
             {
-                if (_onClick != value)
+                if (_statusImage != value)
                 {
-                    _onClick = value;
+                    _statusImage = value;
                     NotifyPropertyChanged();
                 }
             }
