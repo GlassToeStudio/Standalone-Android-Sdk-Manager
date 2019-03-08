@@ -41,6 +41,7 @@ namespace SdkManager.Core
         /// True if this is a child of a Package Item, false otherwise.
         /// </summary>
         public bool IsChild { get; set; }
+        public bool IsMultiLevel { get; set; } = false;
         /// <summary>
         /// Children backing field.
         /// </summary>
@@ -73,7 +74,7 @@ namespace SdkManager.Core
 
         public override string ToString()
         {
-            return $"Platform: {Platform}, API Level: {ApiLevel}, Description: {Description}, Version: {Version}, Installed = {IsInstalled}, IsChild: {IsChild}, Status: {Status} Location: {InstallLocation}.";
+            return $"API Level: {ApiLevel}, Description: {Description}, Version: {Version}, Installed = {IsInstalled}, IsChild: {IsChild}, Status: {Status}";
         }
 
         #endregion

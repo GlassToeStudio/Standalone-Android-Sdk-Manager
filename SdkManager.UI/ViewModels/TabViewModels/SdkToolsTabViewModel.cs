@@ -17,7 +17,7 @@ namespace SdkManager.UI
         /// <summary>
         /// Data container for all currently available platform items
         /// </summary>
-        public SdkPlatformStructure PackageItemStructure { get; set; }
+        public SdkToolsStructure PackageItemStructure { get; set; }
 
         /// <summary>
         /// List of all high-level platform items and their lower level packages.
@@ -62,11 +62,11 @@ namespace SdkManager.UI
         /// <param name="showPackageItems"></param>
         public void PopulatePackageItemStructure(bool showPackageItems)
         {
-            PackageItemStructure = new SdkPlatformStructure();
+            PackageItemStructure = new SdkToolsStructure();
 
-            var topLevelItems = PackageItemStructure.ToolsItems;
+            var topLevelItems = PackageItemStructure.PlatformItems;
             this.PackageItems = new ObservableCollection<SdkItemBaseViewModel>(
-                topLevelItems.Select(package => new SdkItemBaseViewModel(package, showPackageItems))
+                topLevelItems.Select(package => new SdkToolItemViewModel(package, showPackageItems))
                 );
         }
 

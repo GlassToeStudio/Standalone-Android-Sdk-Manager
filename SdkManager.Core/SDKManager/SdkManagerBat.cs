@@ -140,26 +140,49 @@ namespace SdkManager.Core
         /// <returns></returns>
         public static List<SdkItem> GetTools()
         {
-            List<SdkItem> toolsItems = new List<SdkItem>();
+            List<SdkItem> toolsItems = new List<SdkItem>
+            {
+                CreateGenericSDKTools(Patterns.BUILD_TOOLS_PATTERN),        
+                CreateGenericSDKTools(Patterns.GPU_DEBUGGING_TOOLS_PATTERN),    
+                CreateGenericSDKTools(Patterns.CMAKE_PATTERN),                
+                CreateGenericSDKTools(Patterns.LLDB_PATTERN),
+                CreateGenericSDKTools(Patterns.ANDROID_AUTO_API_SIM_PATTERN), 
+                CreateGenericSDKTools(Patterns.ANDROID_AUTO_EMULATOR_PATTERN),
+                CreateGenericSDKTools(Patterns.EMULATOR_PATTERN),
+                CreateGenericSDKTools(Patterns.PLATFORM_TOOLS_PATTERN),
+                CreateGenericSDKTools(Patterns.SDK_TOOLS_PATTERN),
+                CreateGenericSDKTools(Patterns.DOCS_PATTERN),
+                CreateGenericSDKTools(Patterns.GOOGLE_APK_EXT_LIBRARY_PATTERN),
+                CreateGenericSDKTools(Patterns.GOOLGE_PLAY_INSTANT_SDK_PATTERN),
+                CreateGenericSDKTools(Patterns.GOOGLE_PLAY_LICENSE_LIBRARY_PATTERN),
+                CreateGenericSDKTools(Patterns.GOOGLE_PLAY_SERVICES_PATTERN),
+                CreateGenericSDKTools(Patterns.GOOGLE_USB_DRIVER_PATTERN),
+                CreateGenericSDKTools(Patterns.GOOGLE_WEB_DRIVER_PATTERN),
+                CreateGenericSDKTools(Patterns.INTEL_86_EMULATOR_PATTERN),
+                CreateGenericSDKTools(Patterns.NDK_PATTERN),
 
-            toolsItems.Add(CreateGenericSDKTools(Patterns.BUILD_TOOLS_PATTERN));            // Has Kids
-            toolsItems.Add(CreateGenericSDKTools(Patterns.GPU_DEBUGGING_TOOLS_PATTERN));    // Has Kids
-            toolsItems.Add(CreateGenericSDKTools(Patterns.CMAKE_PATTERN));                  // Has Kids
-            toolsItems.Add(CreateGenericSDKTools(Patterns.LLDB_PATTERN));
-            toolsItems.Add(CreateGenericSDKTools(Patterns.ANDROID_AUTO_API_SIM_PATTERN));   // Has Kids
-            toolsItems.Add(CreateGenericSDKTools(Patterns.ANDROID_AUTO_EMULATOR_PATTERN));
-            toolsItems.Add(CreateGenericSDKTools(Patterns.EMULATOR_PATTERN));
-            toolsItems.Add(CreateGenericSDKTools(Patterns.PLATFORM_TOOLS_PATTERN));
-            toolsItems.Add(CreateGenericSDKTools(Patterns.SDK_TOOLS_PATTERN));
-            toolsItems.Add(CreateGenericSDKTools(Patterns.DOCS_PATTERN));
-            toolsItems.Add(CreateGenericSDKTools(Patterns.GOOGLE_APK_EXT_LIBRARY_PATTERN));
-            toolsItems.Add(CreateGenericSDKTools(Patterns.GOOLGE_PLAY_INSTANT_SDK_PATTERN));
-            toolsItems.Add(CreateGenericSDKTools(Patterns.GOOGLE_PLAY_LICENSE_LIBRARY_PATTERN));
-            toolsItems.Add(CreateGenericSDKTools(Patterns.GOOGLE_PLAY_SERVICES_PATTERN));
-            toolsItems.Add(CreateGenericSDKTools(Patterns.GOOGLE_USB_DRIVER_PATTERN));
-            toolsItems.Add(CreateGenericSDKTools(Patterns.GOOGLE_WEB_DRIVER_PATTERN));
-            toolsItems.Add(CreateGenericSDKTools(Patterns.INTEL_86_EMULATOR_PATTERN));
-            toolsItems.Add(CreateGenericSDKTools(Patterns.NDK_PATTERN));
+                //TODO: First, these really belong to their own subgroup.
+                //      Second, we need to get a find a better way to display
+                //      the information on screen when expaned, using version,
+                //      like in the other packages does not works, since
+                //      the version of all of these are '1'. 
+                //      Additionally, we are stripping the -betaX from the
+                //      API level, we don't want this.
+                //
+                //CreateGenericSDKTools(Patterns.CONSTRAINT_LAYOUT_PATTERN),
+                //CreateGenericSDKTools(Patterns.SOLVER_CONSTRAINT_LAYOUT_PATTERN),
+                CreateGenericSDKTools(Patterns.ANDROID_SUPPORT_PATTERN),
+                CreateGenericSDKTools(Patterns.GOOGLE_REPOSITORY_PATTERN)
+            };
+
+            for (int i = 0; i < toolsItems.Count; i++)
+            {
+                if(toolsItems[i] == null)
+                {
+                    toolsItems.RemoveAt(i);
+                    i--;
+                }
+            }
 
             return toolsItems;
         }
@@ -353,16 +376,23 @@ namespace SdkManager.Core
                 }
 
             }
-            items.Sort();
-            var mainItem = items[0];
-            mainItem.IsChild = false;
-
-            items.Remove(mainItem);
-            foreach (var c in items)
+            if(items.Count > 0)
             {
-                mainItem.Children.Add(c);
+                items.Sort();
+                var mainItem = items[0];
+                mainItem.IsChild = false;
+
+                items.Remove(mainItem);
+                foreach (var c in items)
+                {
+                    mainItem.Children.Add(c);
+                }
+                return mainItem;
             }
-            return mainItem;
+            else
+            {
+                return null;
+            }
         }
 
         private static long ConvertPlatformAPILevelToInt(string apilevel)
@@ -378,7 +408,7 @@ namespace SdkManager.Core
             if (string.IsNullOrEmpty(apilevel))
                 return 0;
 
-            return long.Parse(apilevel.Replace(".", "").Trim());
+            return long.Parse(apilevel.Split('-')[0].Replace(".", "").Trim());
         }
 
         /// <summary>

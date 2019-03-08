@@ -6,7 +6,7 @@ namespace SdkManager.Core
     /// <summary>
     /// Data container for all platforns currently available.
     /// </summary>
-    public class SdkPlatformStructure
+    public class SdkToolsStructure
     {
         /// <summary>
         /// List of all high-level Platform items, with their lower-level packages.
@@ -17,7 +17,7 @@ namespace SdkManager.Core
         /// Default constructor:
         /// <para>Will parse all sdkmanager --list --verbose output and create a list of platform items.</para>
         /// </summary>
-        public SdkPlatformStructure()
+        public SdkToolsStructure()
         {
             if (SdkManagerBat.VerboseOutput == null)
             {
@@ -30,19 +30,21 @@ namespace SdkManager.Core
                 return;
             }
 
-            CreatePackageItems();
+            CreateToolItems();
         }
 
-        private void CreatePackageItems()
+
+        // TODO: Fix This
+        private void CreateToolItems()
         {
-            PlatformItems = SdkManagerBat.GetPlatforms();
+            PlatformItems = SdkManagerBat.GetTools();
 
             foreach (var p in PlatformItems)
             {
                 p.CheckForUpdates();
                 p.CreatePackageChildren();
 
-                foreach (SdkItem c in p.Children)
+                foreach (var c in p.Children)
                 {
                     c.CheckForUpdates();
                 }

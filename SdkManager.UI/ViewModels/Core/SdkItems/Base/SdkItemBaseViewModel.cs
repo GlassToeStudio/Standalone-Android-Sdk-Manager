@@ -31,7 +31,9 @@ namespace SdkManager.UI
         /// Cached reference to this ViewModel's model.
         /// </summary>
         protected SdkItem _package;
-
+        /// <summary>
+        /// 
+        /// </summary>
         protected bool isEnabled = true;
 
         #endregion
@@ -98,7 +100,9 @@ namespace SdkManager.UI
                 }
             }
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         public bool IsEnabled
         {
             get => isEnabled;
@@ -116,6 +120,8 @@ namespace SdkManager.UI
 
         #region UI Properties
 
+
+        public bool IsMultiLevel;
         /// <summary>
         /// True if this package was initially installed, false otherwise.
         /// <para>Used to determine how to handle this package if its Checkbox is toggled.</para>
@@ -196,6 +202,7 @@ namespace SdkManager.UI
             Version = package.Version;
             InstallLocation = package.InstallLocation;
             IsInstalled = package.IsInstalled;
+            IsMultiLevel = package.IsMultiLevel;
             Status = package.Status;
             IsChild = package.IsChild;
             InitialState = string.IsNullOrEmpty(InstallLocation) ? false : true;
@@ -225,29 +232,27 @@ namespace SdkManager.UI
             }
             else
             {
- 
-
                 var children = _package.Children;
-                if (_package.IsChild == false)
+
+                if (children?.Count <= 0 || children == null)
                 {
-                    if (children.Count <= 0)
-                    {
-                        return;
-                    }
-
-                    IsEnabled = false;
-                    this.ApiLevel = null;
-                    this.Version = null;
-                    this.Status = null;
-
-                    _otherPackages = new ObservableCollection<SdkItemBaseViewModel>(
-                        children.Select(p => new SdkItemBaseViewModel(p, false))
-                        );
-                    _package.IsChild = true;
-                    var package = new SdkItemBaseViewModel(_package, false);
-                    package.Description = _package.PlainDescription;
-                    _otherPackages.Insert(0, package);
+                    return;
                 }
+
+                IsEnabled = false;
+                this.ApiLevel = null;
+                this.Version = null;
+                this.Status = null;
+
+                _otherPackages = new ObservableCollection<SdkItemBaseViewModel>(
+                    children.Select(p => new SdkItemBaseViewModel(p, false))
+                    );
+
+                var package = new SdkItemBaseViewModel(_package, false)
+                {
+                    Description = _package.PlainDescription
+                };
+                _otherPackages.Insert(0, package);
             }
         }
 

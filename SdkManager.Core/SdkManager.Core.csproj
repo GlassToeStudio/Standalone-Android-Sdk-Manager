@@ -44,6 +44,7 @@
     <Compile Include="SDKManager\Models\Enums.cs" />
     <Compile Include="SDKManager\Models\SdkItem.cs" />
     <Compile Include="SDKManager\Models\SdkPlatformItem.cs" />
+    <Compile Include="SDKManager\Models\SdkToolsStructure.cs" />
     <Compile Include="SDKManager\Models\SdkPlatformStructure.cs" />
     <Compile Include="SDKManager\Models\SdkToolsItem.cs" />
     <Compile Include="SDKManager\SdkManagerBat.cs" />

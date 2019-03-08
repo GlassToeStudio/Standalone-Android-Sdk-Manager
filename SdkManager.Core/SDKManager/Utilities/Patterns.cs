@@ -72,15 +72,13 @@
         public const string GOOGLE_WEB_DRIVER_PATTERN = @"(?<Platform>(?:extras;google;webdriver))(?:[\s\w]*[:][\s]*)(?<Description>Google[-\s\w]*\n)(?:[\s]*[\w\s]*[:][\s]*)(?<Version>[\d.]*)(?:(?:[\s]*Installed Location[:][\s]*)(?<Installed_Location>[\s]*[\w\:\\\-.]*))?"; // NO API LEVEL
         public const string INTEL_86_EMULATOR_PATTERN = @"(?<Platform>(?:extras;intel;Hardware_Accelerated_Execution_Manager))(?:[\s\w]*[:][\s]*)(?<Description>Intel[\(\)\s\w]*\n)(?:[\s]*[\w\s]*[:][\s]*)(?<Version>[\d.]*)(?:(?:[\s]*Installed Location[:][\s]*)(?<Installed_Location>[\s]*[\w\:\\\-.]*))?"; // NO API LEVEL
         public const string NDK_PATTERN = @"(?<Platform>(?:ndk-bundle)(?<APILevel>[.\d]*))(?:[\s]*Description[:][\s]*)(?<Description>[\s\w]*\n)(?:[\s]*[\w\s]*[:][\s]*)(?<Version>[.\d]*)(?:(?:[\s]*Installed Location[:][\s]*)(?<Installed_Location>[\s]*[\w\:\\\-.]*))?";
-
+        //(?<Platform>(?:extras;m2repository;com;android;support;constraint;constraint-layout;)(?<APILevel>[.\d]*)(?:[-\w]*))(?:[\s]*Description[:][\s]*)(?<Description>com[.\w-:]*\n)(?:[\s]*[\w\s]*[:][\s]*)(?<Version>[\d]*)(?:(?:[\s]*Installed Location[:][\s]*)(?<Installed_Location>[\s]*[\w\:\\\-]*))?
         #endregion
 
         #region Google Support
 
-        public const string CONSTRAINT_LAYOUT_PATTERN = @"(?<Platform>(?:extras;m2repository;com;android;support;constraint;constraint-layout;)(?<APILevel>[-\w.]*))(?:[\s\w]*[:][\s]*)(?<Description>ConstraintLayout[-.\s\w]*\n)(?:[\s]*[\w\s]*[:][\s]*)(?<Version>[\d.]*)";
-        public const string CONSTRAINT_LAYOUT_CHILDREN_PATTERN = @"(?<Platform>(?:extras;m2repository;com;android;support;constraint;constraint-layout;)(?<APILevel>[-\w.]*))(?:[\s\w]*[:][\s]*)(?<Description>com[-.\w\:]*[\d]$\n)(?:[\s]*[\w\s]*[:][\s]*)(?<Version>[\d.]*)";
-        public const string SOLVER_CONSTRAINT_LAYOUT_PATTERN = @"(?<Platform>(?:extras;m2repository;com;android;support;constraint;constraint-layout-solver;)(?<APILevel>[-\w.]*))(?:[\s\w]*[:][\s]*)(?<Description>Solver[-.\s\w]*\n)(?:[\s]*[\w\s]*[:][\s]*)(?<Version>[\d.]*)";
-        public const string SOLVER_CONSTRAINT_LAYOUT_CHILDREN_PATTERN = @"(?<Platform>(?:extras;m2repository;com;android;support;constraint;constraint-layout-solver;)(?<APILevel>[-\w.]*))(?:[\s\w]*[:][\s]*)(?<Description>com[;\\:\-.\w]*\n)(?:[\s]*[\w\s]*[:][\s]*)";
+        public const string CONSTRAINT_LAYOUT_PATTERN = @"(?<Platform>(?:extras;m2repository;com;android;support;constraint;constraint-layout;)(?<APILevel>[.\d]*)(?:[-\w]*))(?:[\s]*Description[:][\s]*)(?<Description>[.\w-:\s]*\n)(?:[\s]*Version[:][\s]*)(?<Version>[\d]*)(?:(?:[\s]*Installed Location[:][\s]*)(?<Installed_Location>[\s]*[\w\:\\\-]*))?";
+        public const string SOLVER_CONSTRAINT_LAYOUT_PATTERN = @"(?<Platform>(?:extras;m2repository;com;android;support;constraint;constraint-layout-solver;)(?<APILevel>[.\d]*)(?:[-\w]*))(?:[\s]*Description[:][\s]*)(?<Description>[.\w-:\s]*\n)(?:[\s]*Version[:][\s]*)(?<Version>[\d]*)(?:(?:[\s]*Installed Location[:][\s]*)(?<Installed_Location>[\s]*[\w\:\\\-]*))?";
         public const string ANDROID_SUPPORT_PATTERN = @"(?<Platform>(?:extras;android;m2repository))(?:[\s\w]*[:][\s]*)(?<Description>Android[-\s\w]*\n)(?:[\s]*[\w\s]*[:][\s]*)(?<Version>[\d.]*)"; // NO API LEVEL
         public const string GOOGLE_REPOSITORY_PATTERN = @"(?<Platform>(?:extras;google;m2repository))(?:[\s\w]*[:][\s]*)(?<Description>Google[-\s\w]*\n)(?:[\s]*[\w\s]*[:][\s]*)(?<Version>[\d.]*)"; // NO API LEVEL
 
