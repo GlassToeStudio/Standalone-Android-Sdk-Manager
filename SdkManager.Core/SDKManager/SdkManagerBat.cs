@@ -24,7 +24,7 @@ namespace SdkManager.Core
         private static MatchCollection _systemImages;
         private static MatchCollection _sources;
         private static MatchCollection _googleGlass;
-        private static string _pathName = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + @"\Anydroid\Sdk";
+        private static string _pathName = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + @"\Android\Sdk";
 
         #endregion
 
