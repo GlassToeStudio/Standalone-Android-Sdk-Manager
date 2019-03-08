@@ -23,6 +23,10 @@ namespace SdkManager.Core
         {
             Items = SdkManagerBat.GetTools();
 
+            if (Items == null)
+            {
+                return;
+            }
             foreach (var p in Items)
             {
                 p.CheckForUpdates();

@@ -24,7 +24,7 @@ namespace SdkManager.Core
         private static MatchCollection _systemImages;
         private static MatchCollection _sources;
         private static MatchCollection _googleGlass;
-        private static string _pathName = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + @"\Android\Sdk";
+        private static string _pathName = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + @"\Anydroid\Sdk";
 
         #endregion
 
@@ -49,7 +49,6 @@ namespace SdkManager.Core
                 else
                 {
                     _pathName = value;
-
                 }
             }
         }
@@ -106,6 +105,11 @@ namespace SdkManager.Core
         /// <returns></returns>
         public static List<SdkItem> GetPlatforms()
         {
+            if (VerboseOutput == null)
+            {
+                return null;
+            }
+
             if (_platformBody == null)
             {
                 _platformBody = Regex.Matches(VerboseOutput, Patterns.TestString, _options);
@@ -149,6 +153,11 @@ namespace SdkManager.Core
         /// <returns></returns>
         public static List<SdkItem> GetTools()
         {
+            if (VerboseOutput == null)
+            {
+                return null;
+            }
+
             List<SdkItem> toolsItems = new List<SdkItem>
             {
                 CreateGenericSDKTools(Patterns.BUILD_TOOLS_PATTERN),

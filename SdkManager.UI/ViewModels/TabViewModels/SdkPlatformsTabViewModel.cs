@@ -63,6 +63,12 @@ namespace SdkManager.UI
             ItemStructure = new SdkPlatformStructure();
 
             var topLevelItems = ItemStructure.Items;
+
+            if (topLevelItems == null)
+            {
+                return;
+            }
+
             this.PackageItems = new ObservableCollection<SdkItemBaseViewModel>(
                 topLevelItems.Select(package => new SdkItemBaseViewModel(package, showItems))
                 );

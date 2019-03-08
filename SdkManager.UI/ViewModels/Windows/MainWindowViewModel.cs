@@ -80,7 +80,7 @@ namespace SdkManager.UI
             UpdatePackagesCommand = new RelayCommand(UpdatePackages);
             CancelCommand = new RelayCommand(ResetAll);
 
-            SdkManager = new SdkManagerBatViewModel(Properties.Settings.Default.sdkpath);
+            SdkManager = new SdkManagerBatViewModel("");
             PathName = SdkManager.PathName;
 
             CreateTabViewModels();

@@ -17,6 +17,11 @@
         {
             Items = SdkManagerBat.GetPlatforms();
 
+            if (Items == null)
+            {
+                return;
+            }
+
             foreach (var p in Items)
             {
                 p.CheckForUpdates();
