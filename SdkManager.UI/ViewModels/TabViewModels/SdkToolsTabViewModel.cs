@@ -61,6 +61,7 @@ namespace SdkManager.UI
         /// <param name="showItems"></param>
         public void PopulateItems(bool showItems)
         {
+            ShowItems = showItems;
             CheckBoxChanged = null;
             ItemStructure = new SdkToolsStructure();
 

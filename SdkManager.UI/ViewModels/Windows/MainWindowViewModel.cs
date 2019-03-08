@@ -142,6 +142,8 @@ namespace SdkManager.UI
 
         public void Subscribe(TabBaseViewModel tabViewModel)
         {
+            EnableApplyButton = (installList.Count != 0 || uninstallList.Count != 0);
+
             if (tabViewModel.PackageItems == null)
             {
                 return;
@@ -244,6 +246,9 @@ namespace SdkManager.UI
 
         private void ResetAll()
         {
+            installList.Clear();
+            uninstallList.Clear();
+
             foreach (var item in ((SdkPlatformsTabViewModel)TabViewModels[0]).PackageItems)
             {
                 ResetItem(item);
