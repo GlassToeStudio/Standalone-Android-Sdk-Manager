@@ -17,7 +17,7 @@
             }
         }
 
-        public CommandLineTabViewModel() : base()
+        public CommandLineTabViewModel(MainWindowViewModel main) : base(main)
         {
 
         }

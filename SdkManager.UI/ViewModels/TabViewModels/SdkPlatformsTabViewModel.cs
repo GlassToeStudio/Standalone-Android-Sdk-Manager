@@ -48,7 +48,7 @@ namespace SdkManager.UI
         /// <summary>
         /// View model to hold a list of Platform Items.
         /// </summary>
-        public SdkPlatformsTabViewModel() : base()
+        public SdkPlatformsTabViewModel(MainWindowViewModel main) : base(main)
         {
             PopulateItems(false);
         }
@@ -88,6 +88,7 @@ namespace SdkManager.UI
                     }
                 }
             }
+            _main.Subscribe(this);
         }
 
         public void OnCheckBoxChanged(string platform, bool isInstalled)

@@ -90,7 +90,7 @@ namespace SdkManager.UI
         /// </summary>
         public ICommand UpdatePackagesCommand { get; set; }
         public ICommand CancelCommand { get; set; }
-       
+
         #endregion
 
         #region Constructor
@@ -114,20 +114,20 @@ namespace SdkManager.UI
         {
             TabViewModels = new ObservableCollection<TabBaseViewModel>
             {
-                new SdkPlatformsTabViewModel
+                new SdkPlatformsTabViewModel(this)
                 {
                     TxtTabName = "SDK Packages",
                     TxtInformation = "Each Android SDK Platform package includes the Android platform and sources pertaining to an API level by default. Once installed, Android Studio will automatically check for updates. Check \"show package details\" to display individual SDK components.",
 
                 },
-                new SdkToolsTabViewModel
+                new SdkToolsTabViewModel(this)
                 {
                     TxtTabName = "SDK Tools",
                     TxtInformation = "Below are the available SDK developer tools. Once installed, Standalone SDK Manager will automatically check for updates. Check \"show package details\" to display available versions of an SDK Tool.",
 
                 },
-                //new SdkUpdateSitesTabViewModel { TxtTabName = "Package Updates", },
-                new CommandLineTabViewModel { TxtTabName = "Command Line", }
+                //new SdkUpdateSitesTabViewModel(this) { TxtTabName = "Package Updates", },
+                new CommandLineTabViewModel(this) { TxtTabName = "Command Line", }
             };
         }
 
@@ -135,18 +135,14 @@ namespace SdkManager.UI
         {
             SdkManager.ClearCache();
 
-            ((SdkPlatformsTabViewModel)TabViewModels[0])?.PopulateItems(false);
-            ((SdkToolsTabViewModel)TabViewModels[1])?.PopulateItems(false);
+            ((SdkPlatformsTabViewModel)TabViewModels[0]).PopulateItems(false);
+            ((SdkToolsTabViewModel)TabViewModels[1]).PopulateItems(false);
 
-            foreach (var item in TabViewModels)
-            {
-                Subscribe(item);
-            }
         }
 
-        private void Subscribe(TabBaseViewModel tabViewModel)
+        public void Subscribe(TabBaseViewModel tabViewModel)
         {
-            if(tabViewModel.PackageItems == null)
+            if (tabViewModel.PackageItems == null)
             {
                 return;
             }
@@ -167,9 +163,10 @@ namespace SdkManager.UI
         private void OnCheckBoxChanged(string platform, bool isInstalled)
         {
             Console.WriteLine(platform + " Changed, and it was installed = " + isInstalled);
-            if(isInstalled)
+
+            if (isInstalled)
             {
-                if(uninstallList.Contains(platform))
+                if (uninstallList.Contains(platform))
                 {
                     uninstallList.Remove(platform);
                 }
@@ -204,7 +201,7 @@ namespace SdkManager.UI
 
         private void UpdatePackages()
         {
-            if(installList.Count == 0 && uninstallList.Count == 0)
+            if (installList.Count == 0 && uninstallList.Count == 0)
             {
                 return;
             }
@@ -288,7 +285,7 @@ namespace SdkManager.UI
                     await SdkManager.InstallOrUpdatePackages(sbInstall.ToString());
                     installing = false;
 
-                    if(!uninstalling)
+                    if (!uninstalling)
                     {
                         EnableApplyButton = true;
                         PopulatePlatformsTab();
@@ -312,7 +309,7 @@ namespace SdkManager.UI
                     await SdkManager.UninstallPackages(sbUninstall.ToString());
                     uninstalling = false;
 
-                    if(!installing)
+                    if (!installing)
                     {
                         EnableApplyButton = true;
                         PopulatePlatformsTab();

@@ -7,7 +7,6 @@ namespace SdkManager.UI
     /// </summary>
     public class TabBaseViewModel : BaseViewModel
     {
-
         /// <summary>
         /// PackageItems backing field.
         /// </summary>
@@ -50,5 +49,10 @@ namespace SdkManager.UI
             }
         }
 
+        protected MainWindowViewModel _main;
+        public TabBaseViewModel(MainWindowViewModel main)
+        {
+            _main = main;
+        }
     }
 }

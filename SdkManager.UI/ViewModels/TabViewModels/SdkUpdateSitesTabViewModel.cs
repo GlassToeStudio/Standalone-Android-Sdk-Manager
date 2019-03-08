@@ -1,10 +1,8 @@
-﻿using System.Collections.ObjectModel;
-
-namespace SdkManager.UI
+﻿namespace SdkManager.UI
 {
     public class SdkUpdateSitesTabViewModel : TabBaseViewModel
     {
-        public SdkUpdateSitesTabViewModel() : base()
+        public SdkUpdateSitesTabViewModel(MainWindowViewModel main) : base(main)
         {
 
         }

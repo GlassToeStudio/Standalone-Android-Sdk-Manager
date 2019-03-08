@@ -5,19 +5,32 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SdkManager.UI"
         mc:Ignorable="d"
-        Title="GTS Android SDK Manager" Height="640" Width="810" Background="#3C3F41">
+        Title="GTS Android SDK Manager" Height="640" Width="810" Background="#3C3F41" WindowState="Normal" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
 
 	<Grid DataContext="{Binding}">
+
+		<DockPanel>
+			<Menu BorderBrush="#292B2D" BorderThickness="1" Background="#3C3F41" Foreground="#BBBBBB" DockPanel.Dock="Top">
+				<MenuItem Header="_File">
+					<MenuItem Header="_Close"/>
+				</MenuItem>
+				<MenuItem Header="_About">
+					<MenuItem Header="_Close"/>
+				</MenuItem>
+			</Menu>
+			<StackPanel></StackPanel>
+		</DockPanel>
+		
 		<Label Content="Android SDK Location" 
             Name="LocationLabel"
             HorizontalAlignment="Left"
-            Height="26" Margin="10,10,0,0" 
+            Height="26" Margin="10,20,0,0" 
             VerticalAlignment="Top" 
             Width="131" />
 		<TextBox 
 			HorizontalAlignment="Left" 
             Name="FolderPathBox" 
-            Height="19" Margin="146,15,0,0" 
+            Height="19" Margin="146,25,0,0" 
             TextWrapping="Wrap"
             VerticalAlignment="Top"
             Width="395"
@@ -39,10 +52,11 @@
 				</ControlTemplate>
 			</Validation.ErrorTemplate>
 		</TextBox>
+		
 		<TextBlock HorizontalAlignment="Left" 
             Name="OpenFolder" 
             Height="19"
-            Margin="556,15,0,0"
+            Margin="556,25,0,0"
             TextWrapping="Wrap" 
             Text="Edit" 
             VerticalAlignment="Top" 
