@@ -149,7 +149,7 @@ namespace SdkManager.UI
             descriptions.Append("Install: \n");
             for (int i = 0; i < sbInstall.Length; i++)
             {
-                if(char.IsWhiteSpace(sbInstall[i]))
+                if (char.IsWhiteSpace(sbInstall[i]))
                 {
                     descriptions.Append("\n");
                 }
@@ -188,20 +188,24 @@ namespace SdkManager.UI
             foreach (var item in ((SdkPlatformsTabViewModel)TabViewModels[0]).PackageItems)
             {
                 ResetItem(item);
-
-                foreach (var child in item.OtherPackages)
+                if (item.OtherPackages != null)
                 {
-                    ResetItem(item);
+                    foreach (var child in item.OtherPackages)
+                    {
+                        ResetItem(item);
+                    }
                 }
             }
 
             foreach (var item in ((SdkToolsTabViewModel)TabViewModels[1]).PackageItems)
             {
                 ResetItem(item);
-
-                foreach (var child in item.OtherPackages)
+                if (item.OtherPackages != null)
                 {
-                    ResetItem(item);
+                    foreach (var child in item.OtherPackages)
+                    {
+                        ResetItem(item);
+                    }
                 }
             }
         }
@@ -220,7 +224,7 @@ namespace SdkManager.UI
                 }
             }
         }
-        
+
         private void ResetItem(SdkItemBaseViewModel item)
         {
             item.IsChecked = item.InitialState;
@@ -256,7 +260,7 @@ namespace SdkManager.UI
         {
             return File.Exists(_pathName + @"\tools\bin\sdkmanager.bat");
         }
-        
+
         #endregion
     }
 
@@ -276,6 +280,6 @@ namespace SdkManager.UI
             }
         }
     }
-    
+
     #endregion
 }

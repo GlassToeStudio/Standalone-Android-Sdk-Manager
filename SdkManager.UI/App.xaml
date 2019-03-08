@@ -4,17 +4,18 @@
              xmlns:local="clr-namespace:SdkManager.UI"
              StartupUri="Windows/MainWindow.xaml">
 	<Application.Resources>
-		
+
 		<ResourceDictionary>
 			<ResourceDictionary.MergedDictionaries>
 				<!-- Order is important -->
+				<ResourceDictionary Source="Styles/Brushes.xaml" />
 				<ResourceDictionary Source="Styles/Texts.xaml" />
 				<ResourceDictionary Source="Styles/Buttons.xaml" />
 				<ResourceDictionary Source="Styles/Scrolls.xaml" />
 				<ResourceDictionary Source="Styles/CheckBoxes.xaml" />
 				<ResourceDictionary Source="Styles/TreeViews.xaml" />
 			</ResourceDictionary.MergedDictionaries>
+
 		</ResourceDictionary>
-			
 	</Application.Resources>
 </Application>

@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using SdkManager.Core;
 using System.Collections.ObjectModel;
+using System;
 
 namespace SdkManager.UI
 {
@@ -36,6 +37,7 @@ namespace SdkManager.UI
         /// </summary>
         protected bool isEnabled = true;
 
+        private ClickAction _onClick;
         #endregion
 
         #region Public Properties
@@ -136,13 +138,38 @@ namespace SdkManager.UI
             get { return _isChecked; }
             set
             {
-                if (_isChecked == value)
+                if (_isChecked != value)
                 {
+                    _isChecked = value;
+
+                    UpdateStatus();
+
+                    NotifyPropertyChanged();
                     return;
                 }
 
-                _isChecked = value;
-                NotifyPropertyChanged();
+            }
+        }
+
+        private void UpdateStatus()
+        {
+            if(InitialState == true)
+            {
+                if (IsChecked == false)
+                {
+                    OnClick = ClickAction.Uninstall;
+                    return;
+                }
+                OnClick = ClickAction.Donothing;
+            }
+            else
+            {
+                if(IsChecked == true)
+                {
+                    OnClick = ClickAction.Install;
+                    return;
+                }
+                OnClick = ClickAction.Donothing;
             }
         }
 
@@ -181,6 +208,21 @@ namespace SdkManager.UI
                 }
             }
         }
+
+        public ClickAction OnClick
+        {
+            get => _onClick;
+            set
+            {
+                if (_onClick != value)
+                {
+                    _onClick = value;
+                    NotifyPropertyChanged();
+                }
+            }
+        }
+
+
 
         #endregion
 
@@ -256,5 +298,12 @@ namespace SdkManager.UI
         }
 
         #endregion
+    }
+
+    public enum ClickAction
+    {
+        Donothing,
+        Install,
+        Uninstall
     }
 }

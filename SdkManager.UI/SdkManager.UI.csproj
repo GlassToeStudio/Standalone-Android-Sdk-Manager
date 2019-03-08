@@ -55,6 +55,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="ValueConverters\StatusToImageConverter.cs" />
     <Compile Include="ValueConverters\StatusEnumToStringConverter.cs" />
     <Compile Include="ViewModels\Base\BaseViewModel.cs" />
     <Compile Include="Commands\RelayCommand.cs" />
@@ -94,6 +95,10 @@
     <Compile Include="Views\TabViews\SdkUpdateSitesTabView.xaml.cs">
       <DependentUpon>SdkUpdateSitesTabView.xaml</DependentUpon>
     </Compile>
+    <Page Include="Styles\Brushes.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Styles\Buttons.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -201,6 +206,15 @@
       <Project>{a0a3b5ae-80b3-4ce1-9279-eeb741861046}</Project>
       <Name>SdkManager.Core</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\delete.png" />
+    <Resource Include="Images\download.png" />
+    <Resource Include="Images\ic_menu_play_clip.png" />
+    <Resource Include="Images\ic_popup_sync_2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\blank.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

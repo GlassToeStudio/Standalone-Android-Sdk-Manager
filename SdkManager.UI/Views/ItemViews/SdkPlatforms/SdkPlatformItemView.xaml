@@ -16,7 +16,8 @@
 			</Grid.ColumnDefinitions>
 
 			<StackPanel Orientation="Horizontal">
-				<CheckBox Grid.Column="0" Name="PackageNameHeader" IsChecked="{Binding IsChecked}" Foreground="#BBBBBB" BorderBrush="#FF2D2F31" BorderThickness="1"  Background="#686868" IsEnabled="{Binding IsEnabled}"/>
+				<Image Margin="-42,0,0,1.5" Width="15" Height="15" Source="{Binding Path=OnClick, Converter={x:Static local:StatusToImageConverter.Instance}}"/>
+				<CheckBox Grid.Column="0" Name="PackageNameHeader" IsChecked="{Binding IsChecked}" Foreground="#BBBBBB" BorderBrush="#FF2D2F31" BorderThickness="1"  Background="#686868" IsEnabled="{Binding IsEnabled}" Checked="PackageNameHeader_Checked"/>
 				<TextBlock Grid.Column="0" Text="{Binding Path=Description}" TextAlignment="left" Foreground="#BBBBBB"/>
 			</StackPanel>
 			<TextBlock Grid.Column="1" Name="xAPIHeader" Text="{Binding Path=ApiLevel}" TextAlignment="left"  Foreground="#BBBBBB"/>

@@ -21,5 +21,10 @@ namespace SdkManager.UI
         {
             InitializeComponent();
         }
+
+        private void PackageNameHeader_Checked(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
