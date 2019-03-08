@@ -73,6 +73,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="ValidationRules\FileExistsValidationRule.cs" />
     <Compile Include="ValueConverters\StatusToImageConverter.cs" />
     <Compile Include="ValueConverters\StatusEnumToStringConverter.cs" />
     <Compile Include="ViewModels\Base\BaseViewModel.cs" />

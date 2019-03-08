@@ -3,7 +3,6 @@ using System.IO;
 using System.Text;
 using System.Windows.Input;
 using System.Threading.Tasks;
-using System.Windows.Controls;
 using System.Collections.ObjectModel;
 
 namespace SdkManager.UI
@@ -78,14 +77,12 @@ namespace SdkManager.UI
 
         public MainWindowViewModel()
         {
-
             UpdatePackagesCommand = new RelayCommand(UpdatePackages);
             CancelCommand = new RelayCommand(ResetAll);
 
-            var name = Properties.Settings.Default.sdkpath;
-            Console.WriteLine("Path: " + name);
-            SdkManager = new SdkManagerBatViewModel(name);
+            SdkManager = new SdkManagerBatViewModel(Properties.Settings.Default.sdkpath);
             PathName = SdkManager.PathName;
+
             CreateTabViewModels();
         }
 
@@ -270,23 +267,4 @@ namespace SdkManager.UI
 
         #endregion
     }
-
-    #region Validate Class
-
-    public class FileExistsValidationRule : ValidationRule
-    {
-        public override ValidationResult Validate(object value, System.Globalization.CultureInfo cultureInfo)
-        {
-            if (File.Exists((string)value + @"\tools\bin\sdkmanager.bat"))
-            {
-                return new ValidationResult(true, null);
-            }
-            else
-            {
-                return new ValidationResult(false, "Path is not a valid path to the android sdk.");
-            }
-        }
-    }
-
-    #endregion
 }
