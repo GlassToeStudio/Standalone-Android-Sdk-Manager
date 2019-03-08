@@ -209,6 +209,10 @@ namespace SdkManager.UI
             }
         }
 
+        /// <summary>
+        /// Status Image will determine what image is displayed to the left of this item. To 
+        /// make it apparenet if this item is being installed, or uninstalled.
+        /// </summary>
         public StatusImageType StatusImage
         {
             get => _statusImage;
