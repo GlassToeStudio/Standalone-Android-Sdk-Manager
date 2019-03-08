@@ -22,5 +22,17 @@ namespace SdkManager.UI.Properties {
                 return defaultInstance;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string sdkpath {
+            get {
+                return ((string)(this["sdkpath"]));
+            }
+            set {
+                this["sdkpath"] = value;
+            }
+        }
     }
 }

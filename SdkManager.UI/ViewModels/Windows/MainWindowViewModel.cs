@@ -32,9 +32,13 @@ namespace SdkManager.UI
                 {
                     _pathName = value;
                     SdkManager.PathName = value;
+
                     if (IsValidPath)
                     {
                         NotifyPropertyChanged();
+                        Properties.Settings.Default.sdkpath = value;
+                        Properties.Settings.Default.Save();
+
                         if (TabViewModels != null)
                         {
                             SdkManager.ClearCache();
@@ -74,10 +78,13 @@ namespace SdkManager.UI
 
         public MainWindowViewModel()
         {
+
             UpdatePackagesCommand = new RelayCommand(UpdatePackages);
             CancelCommand = new RelayCommand(ResetAll);
 
-            SdkManager = new SdkManagerBatViewModel();
+            var name = Properties.Settings.Default.sdkpath;
+            Console.WriteLine("Path: " + name);
+            SdkManager = new SdkManagerBatViewModel(name);
             PathName = SdkManager.PathName;
             CreateTabViewModels();
         }

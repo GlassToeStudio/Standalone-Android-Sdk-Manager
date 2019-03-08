@@ -24,6 +24,7 @@ namespace SdkManager.Core
         private static MatchCollection _systemImages;
         private static MatchCollection _sources;
         private static MatchCollection _googleGlass;
+        private static string _pathName = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + @"\Android\Sdk";
 
         #endregion
 
@@ -37,8 +38,21 @@ namespace SdkManager.Core
         /// <summary>
         /// The path to sdkmanager.bat
         /// </summary> TODO: Intentional Typeo!!!!!!!!!!!!!!!!!!!!!!
-        public static string PathName { get; set; } = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + @"\Android\Sdk";
+        public static string PathName { get => _pathName;
+            set
+            {
+                Console.WriteLine("SDK Manger pathName " + value);
+                if (string.IsNullOrEmpty(value))
+                {
+                    _pathName = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + @"\Android\Sdk";
+                }
+                else
+                {
+                    _pathName = value;
 
+                }
+            }
+        }
         #endregion
 
         #region Events/Actions
@@ -59,11 +73,6 @@ namespace SdkManager.Core
         /// <returns></returns>
         public async static Task<string> FetchVerboseOutputAsync()
         {
-            if (string.IsNullOrEmpty(PathName))
-            {
-                PathName = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + @"\Android\Sdk";
-            }
-
             if (File.Exists(PathName + @"\tools\bin\sdkmanager.bat") == false)
             {
                 return null;
@@ -133,7 +142,7 @@ namespace SdkManager.Core
             packageItems.Sort();
             return packageItems;
         }
-      
+
         /// <summary>
         /// Will create a list of tools items based on VerboseOutput.
         /// </summary>
@@ -142,11 +151,11 @@ namespace SdkManager.Core
         {
             List<SdkItem> toolsItems = new List<SdkItem>
             {
-                CreateGenericSDKTools(Patterns.BUILD_TOOLS_PATTERN),        
-                CreateGenericSDKTools(Patterns.GPU_DEBUGGING_TOOLS_PATTERN),    
-                CreateGenericSDKTools(Patterns.CMAKE_PATTERN),                
+                CreateGenericSDKTools(Patterns.BUILD_TOOLS_PATTERN),
+                CreateGenericSDKTools(Patterns.GPU_DEBUGGING_TOOLS_PATTERN),
+                CreateGenericSDKTools(Patterns.CMAKE_PATTERN),
                 CreateGenericSDKTools(Patterns.LLDB_PATTERN),
-                CreateGenericSDKTools(Patterns.ANDROID_AUTO_API_SIM_PATTERN), 
+                CreateGenericSDKTools(Patterns.ANDROID_AUTO_API_SIM_PATTERN),
                 CreateGenericSDKTools(Patterns.ANDROID_AUTO_EMULATOR_PATTERN),
                 CreateGenericSDKTools(Patterns.EMULATOR_PATTERN),
                 CreateGenericSDKTools(Patterns.PLATFORM_TOOLS_PATTERN),
@@ -177,7 +186,7 @@ namespace SdkManager.Core
 
             for (int i = 0; i < toolsItems.Count; i++)
             {
-                if(toolsItems[i] == null)
+                if (toolsItems[i] == null)
                 {
                     toolsItems.RemoveAt(i);
                     i--;
@@ -208,7 +217,7 @@ namespace SdkManager.Core
                 pro.OutputDataReceived += (sender, arg) =>
                 {
                     CommandLineOutputReceived(arg.Data);
-                }; 
+                };
 
                 string stdError = null;
                 try
@@ -243,7 +252,7 @@ namespace SdkManager.Core
 
             return t;
         }
-        
+
         /// <summary>
         /// Runs sdkmanager.bat --uninstall [package;name]
         /// </summary>
@@ -265,7 +274,7 @@ namespace SdkManager.Core
                 pro.OutputDataReceived += (sender, arg) =>
                 {
                     CommandLineOutputReceived(arg.Data);
-                }; 
+                };
 
                 string stdError = null;
                 try
@@ -376,7 +385,7 @@ namespace SdkManager.Core
                 }
 
             }
-            if(items.Count > 0)
+            if (items.Count > 0)
             {
                 items.Sort();
                 var mainItem = items[0];
@@ -463,7 +472,7 @@ namespace SdkManager.Core
             }
             return packageItem;
         }
-        
+
         /// <summary>
         /// Get all low-level packages for this SDK_PlatformItem.
         /// </summary>
@@ -497,7 +506,7 @@ namespace SdkManager.Core
 
             return packageItem;
         }
-       
+
         /// <summary>
         /// Helper method to get specific children of this SDK_PlatformItem. Use by CreatePackageChildren().
         /// </summary>

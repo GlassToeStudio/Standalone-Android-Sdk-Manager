@@ -25,7 +25,7 @@ namespace SdkManager.UI
         /// </summary>
         public string PathName
         {
-            get => SdkManagerBat.PathName;
+            get => _pathName;
             set
             {
                 _pathName = value;
@@ -56,8 +56,13 @@ namespace SdkManager.UI
         /// <summary>
         /// Default constructor.
         /// </summary>
-        public SdkManagerBatViewModel()
+        public SdkManagerBatViewModel(string path)
         {
+            if(!string.IsNullOrEmpty(path))
+            {
+                PathName = path;
+            }
+
             SdkManagerBat.CommandLineOutputReceived += OnCommandLineOutputReceived;
             PathName = SdkManagerBat.PathName;
         }
