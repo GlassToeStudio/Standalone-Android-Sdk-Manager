@@ -41,7 +41,6 @@ namespace SdkManager.Core
         public static string PathName { get => _pathName;
             set
             {
-                Console.WriteLine("SDK Manger pathName " + value);
                 if (string.IsNullOrEmpty(value))
                 {
                     _pathName = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + @"\Android\Sdk";
