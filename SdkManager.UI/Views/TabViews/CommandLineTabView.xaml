@@ -53,7 +53,7 @@
 				 Margin="2"></TextBox>
 
 
-		<Button Grid.Row="1" Grid.Column="4" Grid.ColumnSpan="1" 
+		<Button Grid.Row="1" Grid.Column="4" Grid.ColumnSpan="2" 
 				Name="ExecuteButton" 
 				Content="Run" 
 				Height="21" 
@@ -63,7 +63,7 @@
 				BorderBrush="#696969" 
 				Background="#3C3F41"
 				Foreground="#BBBBBB" 
-				Margin="2"
+				Margin="10,2,2,2"
 				VerticalAlignment="Top"
 				/>
 
@@ -82,10 +82,80 @@
 						 TextWrapping="Wrap" 
 						 VerticalAlignment="Top" 
 						 Text="Usage:&#xD;&#xA;  sdkmanager [--uninstall] [&lt;common args&gt;] [--package_file=&lt;file&gt;] [&lt;packages&gt;...]&#xD;&#xA;  sdkmanager --update [&lt;common args&gt;]&#xD;&#xA;  sdkmanager --list [&lt;common args&gt;]&#xD;&#xA;  sdkmanager --licenses [&lt;common args&gt;]&#xD;&#xA;  sdkmanager --version&#xD;&#xA;&#xD;&#xA;With --install (optional), installs or updates packages.&#xD;&#xA;    By default, the listed packages are installed or (if already installed)&#xD;&#xA;    updated to the latest version.&#xD;&#xA;With --uninstall, uninstall the listed packages.&#xD;&#xA;&#xD;&#xA;    &lt;package&gt; is a sdk-style path (e.g. &quot;build-tools;23.0.0&quot; or&#xD;&#xA;             &quot;platforms;android-23&quot;).&#xD;&#xA;    &lt;package-file&gt; is a text file where each line is a sdk-style path&#xD;&#xA;                   of a package to install or uninstall.&#xD;&#xA;    Multiple --package_file arguments may be specified in combination&#xD;&#xA;    with explicit paths.&#xD;&#xA;&#xD;&#xA;With --update, all installed packages are updated to the latest version.&#xD;&#xA;&#xD;&#xA;With --list, all installed and available packages are printed out.&#xD;&#xA;&#xD;&#xA;With --licenses, show and offer the option to accept licenses for all&#xD;&#xA;     available packages that have not already been accepted.&#xD;&#xA;&#xD;&#xA;With --version, prints the current version of sdkmanager.&#xD;&#xA;&#xD;&#xA;Common Arguments:&#xD;&#xA;    --sdk_root=&lt;sdkRootPath&gt;: Use the specified SDK root instead of the SDK&#xD;&#xA;                              containing this tool&#xD;&#xA;&#xD;&#xA;    --channel=&lt;channelId&gt;: Include packages in channels up to &lt;channelId&gt;.&#xD;&#xA;                           Common channels are:&#xD;&#xA;                           0 (Stable), 1 (Beta), 2 (Dev), and 3 (Canary).&#xD;&#xA;&#xD;&#xA;    --include_obsolete: With --list, show obsolete packages in the&#xD;&#xA;                        package listing. With --update, update obsolete&#xD;&#xA;                        packages as well as non-obsolete.&#xD;&#xA;&#xD;&#xA;    --no_https: Force all connections to use http rather than https.&#xD;&#xA;&#xD;&#xA;    --proxy=&lt;http | socks&gt;: Connect via a proxy of the given type.&#xD;&#xA;&#xD;&#xA;    --proxy_host=&lt;IP or DNS address&gt;: IP or DNS address of the proxy to use.&#xD;&#xA;&#xD;&#xA;    --proxy_port=&lt;port #&gt;: Proxy port to connect to.&#xD;&#xA;&#xD;&#xA;    --verbose: Enable verbose output." TextChanged="TextBox_TextChanged">
-					
+
 				</TextBox>
 			</ScrollViewer>
-
 		</Border>
+
+		<StackPanel IsEnabled="False" Grid.Row="3" Grid.Column="4" Grid.ColumnSpan="1" Margin="2">
+
+			<TextBox BorderThickness="0,0,0,1" 
+					 HorizontalAlignment="Center" 
+					 IsReadOnly="True" 
+					 Margin="20,10,2,10"
+					 TextWrapping="Wrap" 
+					 VerticalAlignment="Top" 
+					 Text="Coming soon...">
+			</TextBox>
+			
+			<TextBox BorderThickness="0,0,0,1" 
+					 HorizontalAlignment="Left" 
+					 IsReadOnly="True" 
+					 Margin="20,10,2,10"
+					 TextWrapping="Wrap" 
+					 VerticalAlignment="Top" 
+					 Text="Add command line args by checking each box...">
+			</TextBox>
+			
+			<StackPanel Grid.Row="3" Grid.Column="4" Grid.ColumnSpan="1" Margin="2"
+						Orientation="Horizontal">
+				<CheckBox Content="--list" 
+					Width="50"
+					HorizontalAlignment="Left" 
+					VerticalAlignment="Top" 
+					Margin="20,2,2,10"></CheckBox>
+				<CheckBox Content="--verbose" 
+					Width="75"
+					HorizontalAlignment="Left" 
+					VerticalAlignment="Top" 
+					Margin="10,2,2,10"></CheckBox>
+				<CheckBox Content="--include__obselete" 
+					Width="125"
+					HorizontalAlignment="Left" 
+					VerticalAlignment="Top" 
+					Margin="10,2,2,10"></CheckBox>
+			</StackPanel>
+			
+			<StackPanel Grid.Row="3" Grid.Column="4" Grid.ColumnSpan="1" Margin="2"
+						Orientation="Horizontal">
+				<CheckBox Content="--update" 
+					Width="137"
+					HorizontalAlignment="Left" 
+					VerticalAlignment="Top" 
+					Margin="20,2,2,10"></CheckBox>
+
+				<CheckBox Content="--include__obselete" 
+					Width="125"
+					HorizontalAlignment="Left" 
+					VerticalAlignment="Top" 
+					Margin="10,2,2,10"></CheckBox>
+			</StackPanel>
+			
+			<CheckBox Content="--install" 
+				Width="200"
+				HorizontalAlignment="Left" 
+				VerticalAlignment="Top" 
+				Margin="20,2,2,10"></CheckBox>
+			<CheckBox Content="--uninstall" 
+				Width="200"
+				HorizontalAlignment="Left" 
+				VerticalAlignment="Top" 
+				Margin="20,2,2,10"></CheckBox>
+			<CheckBox Content="--version" 
+				Width="200"
+				HorizontalAlignment="Left" 
+				VerticalAlignment="Top" 
+				Margin="20,2,2,10"></CheckBox>
+		</StackPanel>
 	</Grid>
 </UserControl>
