@@ -62,10 +62,11 @@
     <ManifestCertificateThumbprint>CA4E6B0CC6ECA230260283091732AA839A684765</ManifestCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup>
-    <SignAssembly>true</SignAssembly>
+    <SignAssembly>false</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
-    <AssemblyOriginatorKeyFile>GlassToe.pfx</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>
+    </AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <PropertyGroup>
     <ManifestKeyFile>
@@ -121,11 +122,11 @@
     <Compile Include="Views\ItemViews\SdkTools\SdkToolsItemView.xaml.cs">
       <DependentUpon>SdkToolsItemView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Windows\ConfirmChangeWindow.xaml.cs">
-      <DependentUpon>ConfirmChangeWindow.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\TabViews\CommandLineTabView.xaml.cs">
       <DependentUpon>CommandLineTabView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\ConfirmChangeWindow.xaml.cs">
+      <DependentUpon>ConfirmChangeWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModels\Windows\MainWindowViewModel.cs" />
     <Compile Include="Views\TabViews\SdkPlatformsTabView.xaml.cs">
@@ -173,11 +174,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Windows\ConfirmChangeWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Views\TabViews\CommandLineTabView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Windows\ConfirmChangeWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -231,7 +232,6 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <None Include="GlassToe.pfx" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -276,6 +276,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Icon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Views\RebuildViews\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

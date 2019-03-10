@@ -25,12 +25,14 @@ namespace SdkManager.UI
             InitializeComponent();
         }
 
+        // TODO: Make this a command
         private void ExecuteButton_Click(object sender, RoutedEventArgs e)
         {
             Console.WriteLine(ArgList.Text);
             //PackageStructure.RunSDKManagerInstall(null, ArgList.Text);
         }
 
+        // TODO: Make this a Validator
         private void ArgList_LostFocus(object sender, RoutedEventArgs e)
         {
             var argListText = ArgList.Text;
@@ -47,5 +49,9 @@ namespace SdkManager.UI
             ArgList.Text = argListText;
         }
 
+        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
+        }
     }
 }
