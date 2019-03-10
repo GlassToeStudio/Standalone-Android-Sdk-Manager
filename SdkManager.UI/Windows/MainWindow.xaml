@@ -66,7 +66,7 @@
             TextDecorations="Underline"/>
 
 		<Label Content="{Binding Path=SdkManager.ConsoleOutput, FallbackValue=Ready}" 
-			Style="{StaticResource YellowTextLabel}"
+			Foreground="{Binding Path=SdkManager.ConsoleOutput, FallbackValue=#BBBBBB, Converter={x:Static local:StringToColorConverter.Instance}}"
             Height="61" Margin="10,548,0,0" 
             Width="590"
 			VerticalContentAlignment="Center"
