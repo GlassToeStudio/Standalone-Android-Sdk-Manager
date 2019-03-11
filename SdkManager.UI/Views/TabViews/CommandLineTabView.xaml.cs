@@ -29,7 +29,6 @@ namespace SdkManager.UI
         private void ExecuteButton_Click(object sender, RoutedEventArgs e)
         {
             Console.WriteLine(ArgList.Text);
-            //PackageStructure.RunSDKManagerInstall(null, ArgList.Text);
         }
 
         // TODO: Make this a Validator
@@ -47,11 +46,6 @@ namespace SdkManager.UI
             }
             argListText = String.Join(" ", argArray);
             ArgList.Text = argListText;
-        }
-
-        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
-        {
-
         }
     }
 }

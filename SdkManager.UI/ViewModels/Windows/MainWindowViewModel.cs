@@ -127,7 +127,7 @@ namespace SdkManager.UI
 
                 },
                 //new SdkUpdateSitesTabViewModel(this) { TxtTabName = "Package Updates", },
-                new CommandLineTabViewModel(this) { TxtTabName = "Command Line", }
+                new CommandLineTabViewModel(this, SdkManager) { TxtTabName = "Command Line", }
             };
         }
 

@@ -96,6 +96,16 @@ namespace SdkManager.UI
         }
 
         /// <summary>
+        /// Do something with the output... Just outputs to the little Label on the MainWindow
+        /// </summary>
+        public async Task RunCommands(string args)
+        {
+            SdkManagerBat.CommandLineOutputReceived += OnCommandLineOutputReceived;
+            var t = await Task.Run(() => SdkManagerBat.RunCommandAsync(args));
+            SdkManagerBat.CommandLineOutputReceived -= OnCommandLineOutputReceived;
+        }
+
+        /// <summary>
         /// Clear the saved data in Sdkmanager to prepare to fetch a new set of data.
         /// </summary>
         public void ClearCache()

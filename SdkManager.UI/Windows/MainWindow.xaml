@@ -68,7 +68,7 @@
 		<Label Content="{Binding Path=SdkManager.ConsoleOutput, FallbackValue=Ready}" 
 			Foreground="{Binding Path=SdkManager.ConsoleOutput, FallbackValue=#BBBBBB, Converter={x:Static local:StringToColorConverter.Instance}}"
             Height="61" Margin="10,548,0,0" 
-            Width="590"
+            Width="578"
 			VerticalContentAlignment="Center"
             HorizontalAlignment="Left"
             VerticalAlignment="Top"/>

@@ -329,6 +329,7 @@ namespace SdkManager.Core
 
             processInfo.Arguments = $"{String.Join(" ", args)}";
 
+            var output = new StringBuilder();
             Process pro = new Process
             {
                 StartInfo = processInfo
@@ -338,6 +339,7 @@ namespace SdkManager.Core
             {
                 pro.OutputDataReceived += (sender, arg) =>
                 {
+                    output.Append(arg.Data + "\n");
                     CommandLineOutputReceived(arg.Data);
                 };
 
@@ -371,7 +373,7 @@ namespace SdkManager.Core
                     throw new Exception(Format("sdkmanager", String.Join(" ", args)) + " finished with exit code = " + pro.ExitCode + ": " + message);
                 }
             });
-
+            CommandLineOutputReceived(output.ToString());
             return t;
         }
 
