@@ -2,6 +2,7 @@
 using SdkManager.Core;
 using System.Windows.Data;
 using System.Globalization;
+using System.Linq;
 
 namespace SdkManager.UI
 {
@@ -16,6 +17,7 @@ namespace SdkManager.UI
             if (value != null)
             {
                 var status = (string)value;
+                int count = status.Count(f => f == '=');
 
                 /* could go on 
                  * [                                       ] // Red
@@ -31,14 +33,39 @@ namespace SdkManager.UI
                  * For example
                  */
 
-                if (status.Contains("Downloading"))
+                if(count <= 3)
                 {
-                    c = "Yellow";
+                    c = "#FF7D0B";
                 }
-                if (status.Contains("Unzipping"))
+                else if(count <= 7)
                 {
-                    c = "Green";
+                    c = "#FFA60B";
                 }
+                else if(count <= 11)
+                {
+                    c = "#FFD70B";
+                }
+                else if(count <= 15)
+                {
+                    c = "#B6FF0B";
+                }
+                else if(count <= 19)
+                {
+                    c = "#6DFF0B";
+                }
+                else if(count <= 40)
+                {
+                    c = "#44FF0B";
+                }
+
+                //if (status.Contains("Downloading"))
+                //{
+                //    c = "Yellow";
+                //}
+                //if (status.Contains("Unzipping"))
+                //{
+                //    c = "Green";
+                //}
             }
             return c;
         }
