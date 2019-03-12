@@ -63,7 +63,7 @@ namespace SdkManager.UI
                 PathName = path;
             }
 
-            SdkManagerBat.CommandLineOutputReceived += OnCommandLineOutputReceived;
+            //SdkManagerBat.CommandLineOutputReceived += OnCommandLineOutputReceived;
             PathName = SdkManagerBat.PathName;
         }
 
@@ -78,7 +78,9 @@ namespace SdkManager.UI
         /// <returns></returns>
         public async Task InstallOrUpdatePackages(string args)
         {
+            SdkManagerBat.CommandLineOutputReceived += OnCommandLineOutputReceived;
             var t = await Task.Run(() => SdkManagerBat.InstallPackagesAsync(args));
+            SdkManagerBat.CommandLineOutputReceived -= OnCommandLineOutputReceived;
         }
 
         /// <summary>
@@ -88,7 +90,19 @@ namespace SdkManager.UI
         /// <returns></returns>
         public async Task UninstallPackages(string args)
         {
+            SdkManagerBat.CommandLineOutputReceived += OnCommandLineOutputReceived;
             var t = await Task.Run(() => SdkManagerBat.UninstallPackagesAsync(args));
+            SdkManagerBat.CommandLineOutputReceived -= OnCommandLineOutputReceived;
+        }
+
+        /// <summary>
+        /// Do something with the output... Just outputs to the little Label on the MainWindow
+        /// </summary>
+        public async Task RunCommands(string args)
+        {
+            SdkManagerBat.CommandLineOutputReceived += OnCommandLineOutputReceived;
+            var t = await Task.Run(() => SdkManagerBat.RunCommandAsync(args));
+            SdkManagerBat.CommandLineOutputReceived -= OnCommandLineOutputReceived;
         }
 
         /// <summary>
@@ -109,6 +123,7 @@ namespace SdkManager.UI
         /// <param name="output"></param>
         private void OnCommandLineOutputReceived(string output)
         {
+            // System.Console.WriteLine(output?.Trim());
             ConsoleOutput = output?.Trim();
         }
         

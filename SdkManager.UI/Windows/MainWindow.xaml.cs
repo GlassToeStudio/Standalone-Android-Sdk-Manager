@@ -29,7 +29,6 @@ namespace SdkManager.UI
                 {
                     if(File.Exists(fbd.SelectedPath + @"\tools\bin\sdkmanager.bat"))
                     {
-                        //PackageStructure.pathName = fbd.SelectedPath;
                         FolderPathBox.Text = fbd.SelectedPath;
                     }
                     else

@@ -41,7 +41,6 @@ namespace SdkManager.Core
         public static string PathName { get => _pathName;
             set
             {
-                Console.WriteLine("SDK Manger pathName " + value);
                 if (string.IsNullOrEmpty(value))
                 {
                     _pathName = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + @"\Android\Sdk";
@@ -316,6 +315,65 @@ namespace SdkManager.Core
                 }
             });
 
+            return t;
+        }
+
+        /// <summary>
+        /// Runs sdkmanager.bat args
+        /// </summary>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        public async static Task<string> RunCommandAsync(params string[] args)
+        {
+            ProcessStartInfo processInfo = NoShellProcessInfo(PathName);
+
+            processInfo.Arguments = $"{String.Join(" ", args)}";
+
+            var output = new StringBuilder();
+            Process pro = new Process
+            {
+                StartInfo = processInfo
+            };
+
+            var t = await Task.Run(() =>
+            {
+                pro.OutputDataReceived += (sender, arg) =>
+                {
+                    output.Append(arg.Data + "\n");
+                    CommandLineOutputReceived(arg.Data);
+                };
+
+                string stdError = null;
+                try
+                {
+                    pro.Start();
+                    pro.BeginOutputReadLine();
+                    pro.StandardInput.WriteLine("y");
+                    stdError = pro.StandardError.ReadToEnd();
+                    pro.WaitForExit();
+                }
+                catch (Exception e)
+                {
+                    throw new Exception("OS error while executing " + Format("sdkmanager", String.Join(" ", args)) + ": " + e.Message, e);
+                }
+
+                if (pro.ExitCode == 0)
+                {
+                    return string.Empty;
+                }
+                else
+                {
+                    var message = new StringBuilder();
+
+                    if (!string.IsNullOrEmpty(stdError))
+                    {
+                        message.AppendLine(stdError);
+                    }
+
+                    throw new Exception(Format("sdkmanager", String.Join(" ", args)) + " finished with exit code = " + pro.ExitCode + ": " + message);
+                }
+            });
+            CommandLineOutputReceived(output.ToString());
             return t;
         }
 

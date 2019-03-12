@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27703.2042
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SdkManager.UI", "SdkManager.UI\SdkManager.UI.csproj", "{94F76DFD-AEAA-46A3-BBA0-A7580EA72FE2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StandaloneSDKManager", "SdkManager.UI\StandaloneSDKManager.csproj", "{94F76DFD-AEAA-46A3-BBA0-A7580EA72FE2}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SdkManager.Core", "SdkManager.Core\SdkManager.Core.csproj", "{A0A3B5AE-80B3-4CE1-9279-EEB741861046}"
 EndProject
