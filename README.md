@@ -58,8 +58,8 @@ __Go download [Android Sdk Command Line Tools](https://developer.android.com/stu
 ---
 This project is open source and controlled under the [MIT License](LICENSE) 
 
-Want to contribute?~
+Want to contribute?
 
-See the [Contributing](CONTRIBUTING) guidelines!
+See the [Contributing](CONTRIBUTING.md) guidelines!
 
-Please be sure to check the [Code of Conduct ](CODE_OF_CONDUCT) as well~
+Please be sure to check the [Code of Conduct ](CODE_OF_CONDUCT.md) as well!
