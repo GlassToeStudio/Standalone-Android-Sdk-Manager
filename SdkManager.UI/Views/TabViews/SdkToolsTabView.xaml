@@ -9,9 +9,34 @@
 
 
 	<Grid Background="#3C3F41" Margin="-2,1,-2,-2" IsEnabled="{Binding Enabled}">
-		<TextBlock HorizontalAlignment="Left" Height="52" Margin="10,10,0,0" TextWrapping="Wrap" Text="{Binding TxtInformation}" VerticalAlignment="Top" Width="596"/>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="10"/>
+			<RowDefinition Height="auto"/>
+			<RowDefinition Height="auto"/>
+			<RowDefinition Height="25"/>
+			<RowDefinition Height="10"/>
+		</Grid.RowDefinitions>
+
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="10"/>
+			<ColumnDefinition Width="auto"/>
+			<ColumnDefinition Width="auto"/>
+			<ColumnDefinition Width="*"/>
+			<ColumnDefinition Width="10"/>
+		</Grid.ColumnDefinitions>
+		
+		<TextBlock Grid.Row="1" Grid.Column="1"
+			Text="{Binding TxtInformation, FallbackValue=Below are the available SDK developer tools. Once installed Standalone SDK Manager will automatically check for updates. Check show package details to display available versions of an SDK Tool.}" 
+				   Width="595"
+				   Height="50" 
+				   Margin="0,0,0,2" 
+				   VerticalAlignment="Top" 
+				   HorizontalAlignment="Left" 
+				   TextWrapping="Wrap" 
+				   />
 		<!-- Column Headers -->
-		<Border BorderThickness="0" Margin="10,64,0,374" >
+		<StackPanel Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="3" 
+					Orientation="Vertical">
 			<Grid>
 				<Grid.ColumnDefinitions>
 					<ColumnDefinition Width="30"/>
@@ -20,13 +45,17 @@
 					<ColumnDefinition Width="187*"/>
 				</Grid.ColumnDefinitions>
 
+				<Grid.RowDefinitions>
+					<RowDefinition Height="20"/>
+				</Grid.RowDefinitions>
+				
 				<Border BorderThickness="1, 1, 1, 1" BorderBrush="#FF2D2F31" Grid.Column="0">
 					<TextBlock >
 						<TextBlock.Background>
 							<LinearGradientBrush StartPoint="0.5,0" EndPoint=".5,1" Opacity=".5">
 								<GradientStop Color="#727D81" Offset="0"/>
 								<GradientStop Color="#646D71" Offset="0.057"/>
-								<GradientStop Color="#3C3F41" Offset="0.497"/>
+								<GradientStop Color="#3C3F41" Offset="0.697"/>
 								<GradientStop Color="#FF2D2F31" Offset="1"/>
 							</LinearGradientBrush>
 						</TextBlock.Background>
@@ -39,7 +68,7 @@
 							<LinearGradientBrush StartPoint="0.5,0" EndPoint=".5,1" Opacity=".5">
 								<GradientStop Color="#727D81" Offset="0"/>
 								<GradientStop Color="#646D71" Offset="0.057"/>
-								<GradientStop Color="#3C3F41" Offset="0.497"/>
+								<GradientStop Color="#3C3F41" Offset="0.697"/>
 								<GradientStop Color="#FF2D2F31" Offset="1"/>
 							</LinearGradientBrush>
 						</TextBlock.Background>
@@ -52,20 +81,20 @@
 							<LinearGradientBrush StartPoint="0.5,0" EndPoint=".5,1" Opacity=".5">
 								<GradientStop Color="#727D81" Offset="0"/>
 								<GradientStop Color="#646D71" Offset="0.057"/>
-								<GradientStop Color="#3C3F41" Offset="0.497"/>
+								<GradientStop Color="#3C3F41" Offset="0.697"/>
 								<GradientStop Color="#FF2D2F31" Offset="1"/>
 							</LinearGradientBrush>
 						</TextBlock.Background>
 					</TextBlock>
 				</Border>
 
-				<Border BorderThickness="0, 1, 1, 1" BorderBrush="#FF2D2F31" Grid.Column="3" Margin="0,0,10,0">
+				<Border BorderThickness="0, 1, 1, 1" BorderBrush="#FF2D2F31" Grid.Column="3" Margin="0,0,0,0">
 					<TextBlock Name="StatusHeader" Text="Status" TextAlignment="Center">
 						<TextBlock.Background>
 							<LinearGradientBrush StartPoint="0.5,0" EndPoint=".5,1" Opacity=".5">
 								<GradientStop Color="#727D81" Offset="0"/>
 								<GradientStop Color="#646D71" Offset="0.057"/>
-								<GradientStop Color="#3C3F41" Offset="0.497"/>
+								<GradientStop Color="#3C3F41" Offset="0.697"/>
 								<GradientStop Color="#FF2D2F31" Offset="1"/>
 							</LinearGradientBrush>
 						</TextBlock.Background>
@@ -73,16 +102,15 @@
 				</Border>
 
 			</Grid>
-		</Border>
 
 		<!-- Package Columns -->
-		<Border Margin="10,84,10,35">
 			<TreeView Name="AllPackages" 
 					  ItemsSource="{Binding PackageItems}"
 					  Foreground="#FF2D2F31"
 					  Background="#3C3F41" 
 					  BorderBrush="#FF2D2F31" 
-					  BorderThickness="1"
+					  BorderThickness="1,0,1,1"
+					  Height="350"
 					  >
 
 				<TreeView.ItemContainerStyle>
@@ -167,12 +195,15 @@
 					</HierarchicalDataTemplate>
 				</TreeView.ItemTemplate>
 			</TreeView>
-		</Border>
-		
-		<StackPanel Margin="10,431,10,0">
-			<!-- Will determine if we can hit a drop down arrow to show child nodes -->
-			<CheckBox Content="Show Package Details" Height="27" Margin="603,0,0,0" IsChecked="{Binding ShowItems, Mode=TwoWay}" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Center" />
 		</StackPanel>
+
+		<!-- Will determine if we can hit a drop down arrow to show child nodes -->
+		<CheckBox Grid.Row="3" Grid.Column="2" 
+				  IsChecked="{Binding ShowItems, Mode=TwoWay}" 
+				  Content="Show Package Details" 
+				  Margin="0,0,0,0"
+				  HorizontalContentAlignment="Stretch" 
+				  VerticalContentAlignment="Center" />
 
 		<!--<TreeViewItem>
 			<TextBlock Text="Hi" Width="103"/>
