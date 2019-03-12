@@ -7,7 +7,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="465.04" d:DesignWidth="772">
 
-	<Grid Background="#3C3F41" Margin="-2,1,-2,-2" IsEnabled="{Binding Enabled}">
+	<Grid Background="#3C3F41" Margin="-2,-0.5,-2,-2" IsEnabled="{Binding Enabled}">
 
 		<Grid.RowDefinitions>
 			<RowDefinition Height="10"/>
@@ -26,7 +26,7 @@
 		</Grid.ColumnDefinitions>
 
 		<TextBlock Grid.Row="1" Grid.Column="1" 
-				   Text="{Binding TxtInformation, FallbackValue=Each Android SDK Platform package includes the Android platform and sources pertaining to an API level by default. Once installed Android Studio will automatically check for updates. Check show package details to display individual SDK components.}"
+				   Text="{Binding TxtInformation}"
 				   Width="595"
 				   Height="50"
 				   Margin="0,0,0,2"
@@ -36,8 +36,8 @@
 				   />
 		<StackPanel Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="3" 
 					Orientation="Vertical">
+			
 			<!-- Column Headers -->
-
 			<Grid>
 				<Grid.ColumnDefinitions>
 					<ColumnDefinition Width="30"/>

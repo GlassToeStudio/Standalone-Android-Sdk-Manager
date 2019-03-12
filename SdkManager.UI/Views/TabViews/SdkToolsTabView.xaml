@@ -8,7 +8,8 @@
              d:DesignHeight="465.04" d:DesignWidth="772">
 
 
-	<Grid Background="#3C3F41" Margin="-2,1,-2,-2" IsEnabled="{Binding Enabled}">
+	<Grid Background="#3C3F41" Margin="-2,-0.5,-2,-2" IsEnabled="{Binding Enabled}">
+		
 		<Grid.RowDefinitions>
 			<RowDefinition Height="10"/>
 			<RowDefinition Height="auto"/>
