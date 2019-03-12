@@ -5,11 +5,28 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SdkManager.UI"
         mc:Ignorable="d"
-        Title="GTS Android SDK Manager" Height="640" Width="810" Background="#3C3F41" WindowState="Normal" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
+        Title="GTS Android SDK Manager" 
+		Height="640" Width="800" 
+		Background="#3C3F41" 
+		WindowState="Normal" WindowStartupLocation="CenterScreen" 
+		>
 
 	<Grid DataContext="{Binding}">
 
-		<DockPanel>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="20"/>
+			<RowDefinition Height="auto"/>
+			<RowDefinition Height="auto"/>
+			<RowDefinition Height="*"/>
+		</Grid.RowDefinitions>
+
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="10"/>
+			<ColumnDefinition Width="auto" MinWidth="766"/>
+			<ColumnDefinition Width="10"/>
+		</Grid.ColumnDefinitions>
+
+		<DockPanel Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="5">
 			<Menu BorderBrush="#292B2D" BorderThickness="1" Background="#3C3F41" Foreground="#BBBBBB" DockPanel.Dock="Top">
 				<MenuItem Header="_File">
 					<MenuItem Header="_Close"/>
@@ -20,91 +37,70 @@
 			</Menu>
 			<StackPanel></StackPanel>
 		</DockPanel>
-		
-		<Label Content="Android SDK Location" 
-            Name="LocationLabel"
-            HorizontalAlignment="Left"
-            Height="26" Margin="10,20,0,0" 
-            VerticalAlignment="Top" 
-            Width="131" />
-		<TextBox 
-			HorizontalAlignment="Left" 
-            Name="FolderPathBox" 
-            Height="19" Margin="146,25,0,0" 
-            TextWrapping="Wrap"
-            VerticalAlignment="Top"
-            Width="395"
-            TextChanged="FolderPathBox_TextChanged" 
-            BorderBrush="#696969">
-			<TextBox.Text>
-				<Binding Path="PathName" UpdateSourceTrigger="PropertyChanged">
-					<Binding.ValidationRules>
-						<local:FileExistsValidationRule ValidationStep="RawProposedValue"/>
-					</Binding.ValidationRules>
-				</Binding>
-			</TextBox.Text>
-			<Validation.ErrorTemplate>
-				<ControlTemplate>
-					<StackPanel>
-						<AdornedElementPlaceholder x:Name="textBox"/>
-						<TextBlock Text="{Binding [0].ErrorContent}" Foreground="Red"/>
-					</StackPanel>
-				</ControlTemplate>
-			</Validation.ErrorTemplate>
-		</TextBox>
-		
-		<TextBlock HorizontalAlignment="Left" 
-            Name="OpenFolder" 
-            Height="19"
-            Margin="556,25,0,0"
-            TextWrapping="Wrap" 
-            Text="Edit" 
-            VerticalAlignment="Top" 
-            Width="81" 
-            MouseLeftButtonUp="OpenFolder_MouseLeftButtonUp"
-            Foreground="#589DF6"
-            TextDecorations="Underline"/>
 
-		<Label Content="{Binding Path=SdkManager.ConsoleOutput, FallbackValue=Ready}" 
-			Foreground="{Binding Path=SdkManager.ConsoleOutput, FallbackValue=#BBBBBB, Converter={x:Static local:StringToColorConverter.Instance}}"
-            Height="61" Margin="10,548,0,0" 
-            Width="578"
-			VerticalContentAlignment="Center"
-            HorizontalAlignment="Left"
-            VerticalAlignment="Top"/>
+		<StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal" Grid.ColumnSpan="1" Margin="0,5,0,0">
+			<Label
+				Content="Android SDK Location" 
+				Height="25" 
+				Width="131" 
+				Margin="2" 
+				HorizontalAlignment="Left"
+				VerticalAlignment="Top"
+			   />
+			<TextBox 
+				Name="FolderPathBox" 
+				Height="25" 
+				Width="400"
+				Margin="2" 
+				HorizontalAlignment="Left" 
+				TextWrapping="Wrap"
+				VerticalAlignment="Top"
+				TextChanged="FolderPathBox_TextChanged" 
+				BorderBrush="#696969">
+				<TextBox.Text>
+					<Binding Path="PathName" UpdateSourceTrigger="PropertyChanged">
+						<Binding.ValidationRules>
+							<local:FileExistsValidationRule ValidationStep="RawProposedValue"/>
+						</Binding.ValidationRules>
+					</Binding>
+				</TextBox.Text>
+				<Validation.ErrorTemplate>
+					<ControlTemplate>
+						<StackPanel>
+							<AdornedElementPlaceholder x:Name="textBox"/>
+							<TextBlock Text="{Binding [0].ErrorContent}" Foreground="Red"/>
+						</StackPanel>
+					</ControlTemplate>
+				</Validation.ErrorTemplate>
+			</TextBox>
+			<TextBlock
+				Text="Edit" 
+				Name="OpenFolder" 
+				Height="25"
+				Width="81" 
+				Margin="20,5, 2,2"
+				HorizontalAlignment="Left" 
+				TextWrapping="Wrap" 
+				VerticalAlignment="Top" 
+				Foreground="#589DF6"
+				MouseLeftButtonUp="OpenFolder_MouseLeftButtonUp"
+				TextDecorations="Underline"
+				/>
+		</StackPanel>
 
-		<Button Content="Apply" 
-			Command="{Binding UpdatePackagesCommand}"
-			Style="{StaticResource BlueButton}"
-			Height="32" 
-			Width="81"
-			Margin="600,560,0,0"
-			HorizontalAlignment="Left"
-			VerticalAlignment="Top" 
-			IsEnabled="{Binding EnableApplyButton}"
-			/>
 
-		<Button Content="Cancel" 
-			Command="{Binding CancelCommand}"
-			Height="32" 
-			Width="81"
-			Margin="701,560,0,0"
-			HorizontalAlignment="Left"
-			VerticalAlignment="Top" 
-			/>
-
-		<TabControl Name="MainTabControl" 
+		<TabControl Grid.Row="2" Grid.Column="1" Grid.RowSpan="1"
+			Name="MainTabControl" 
 			ItemsSource="{Binding TabViewModels}"
-            Height="488" 
-            Width="772"
+            Height="480" 
+			Width="766"
 			HorizontalAlignment="Left" 
             VerticalAlignment="Top" 
-            Margin="10,60,0,0" 
+            Margin="0,10,0,0" 
             Background="#41516D"
             BorderBrush="#292B2D"
-			BorderThickness="1.5, 0, 1.5, 1.5"
+			BorderThickness="1.5, 0, 1.5, 1.5" 
             >
-
 			<TabControl.Resources>
 				<DataTemplate DataType="{x:Type local:SdkPlatformsTabViewModel}">
 					<local:SDKPlatformView />
@@ -149,6 +145,40 @@
 				</Style>
 			</TabControl.Resources>
 		</TabControl>
+
+
+
+		<StackPanel Orientation="Horizontal" Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="1">
+			<Label 
+				Content="{Binding Path=SdkManager.ConsoleOutput, FallbackValue=Ready}" 
+				Foreground="{Binding Path=SdkManager.ConsoleOutput, FallbackValue=#BBBBBB, Converter={x:Static local:StringToColorConverter.Instance}}"
+				Height="40"
+				Width="530"
+				Margin="2" 
+				VerticalContentAlignment="Center"
+				HorizontalAlignment="Center"
+				VerticalAlignment="Center"/>
+
+			<Button Content="Apply" 
+				Command="{Binding UpdatePackagesCommand}"
+				Style="{StaticResource BlueButton}"
+				Height="32" 
+				Width="81"
+				Margin="10,2"
+				HorizontalAlignment="Left"
+				VerticalAlignment="Center" 
+				IsEnabled="{Binding EnableApplyButton}"
+				/>
+
+			<Button Content="Cancel" 
+				Command="{Binding CancelCommand}"
+				Height="32" 
+				Width="81"
+				Margin="10,2"
+				HorizontalAlignment="Left"
+				VerticalAlignment="Center" 
+			/>
+		</StackPanel>
 	</Grid>
 </Window>
 
