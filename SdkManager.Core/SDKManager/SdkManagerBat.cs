@@ -59,6 +59,11 @@ namespace SdkManager.Core
         /// Listen for this event to get the output from the hidden console window.
         /// </summary>
         public static event Action<string> CommandLineOutputReceived;
+        
+        /// <summary>
+        /// Listen for this event to get the output from the hidden console window.
+        /// </summary>
+        public static event Action<string> CommandLineOutputComplete;
 
         #endregion
 
@@ -351,6 +356,7 @@ namespace SdkManager.Core
                     pro.StandardInput.WriteLine("y");
                     stdError = pro.StandardError.ReadToEnd();
                     pro.WaitForExit();
+                    CommandLineOutputComplete(output.ToString());
                 }
                 catch (Exception e)
                 {

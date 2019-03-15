@@ -109,6 +109,7 @@
     <Compile Include="ViewModels\Core\SdkItems\SdkToolItemViewModel.cs" />
     <Compile Include="ViewModels\TabViewModels\SdkPlatformsTabViewModel.cs" />
     <Compile Include="ViewModels\TabViewModels\SdkToolsTabViewModel.cs" />
+    <Compile Include="ViewModels\Windows\ConsoleOutputWindowViewModel.cs" />
     <Compile Include="ViewModels\Windows\ConfirmWindowViewModel.cs" />
     <Compile Include="ViewModels\Core\SdkManagerBatViewModel.cs" />
     <Compile Include="ViewModels\TabViewModels\CommandLineTabViewModel.cs" />
@@ -125,6 +126,9 @@
     </Compile>
     <Compile Include="Views\TabViews\CommandLineTabView.xaml.cs">
       <DependentUpon>CommandLineTabView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\CommandLineOutputWindow.xaml.cs">
+      <DependentUpon>CommandLineOutputWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Windows\ConfirmChangeWindow.xaml.cs">
       <DependentUpon>ConfirmChangeWindow.xaml</DependentUpon>
@@ -178,6 +182,10 @@
     <Page Include="Views\TabViews\CommandLineTabView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Windows\CommandLineOutputWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Windows\ConfirmChangeWindow.xaml">
       <SubType>Designer</SubType>

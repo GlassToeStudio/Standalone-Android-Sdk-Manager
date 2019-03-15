@@ -35,7 +35,8 @@ namespace SdkManager.Core
             { "Android SDK Platform 26", "Android 8.0 (Oreo)"},
             { "Android SDK Platform 27", "Android 8.1 (Oreo)"},
             { "Android SDK Platform 28", "Android 28 (Pie)"},
-            { "android-28", "Android SDK Platform 28"}
+            { "Android SDK Platform Q", "Android SDK Platform Q"},
+            { "android-28", "Android SDK Platform 28"},
         };
 
         /// <summary>
@@ -47,6 +48,10 @@ namespace SdkManager.Core
         {
             string r = name;
             Aliases.TryGetValue(name, out r);
+            if(string.IsNullOrEmpty(r))
+            {
+                r = name;
+            }
             return r;
         }
     }
