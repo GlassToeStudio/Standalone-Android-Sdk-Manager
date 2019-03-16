@@ -30,9 +30,7 @@
 		</Border>
 		
 		<StackPanel Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="3" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-
 			<Button HorizontalAlignment="Center" Content="Close" Width="60" Margin="10,5,10,5" Command="{Binding CancelCommand}"/>
-
 		</StackPanel>
 	</Grid>
 </Window>

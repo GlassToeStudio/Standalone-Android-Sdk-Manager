@@ -37,7 +37,7 @@ namespace SdkManager.Core
 
         /// <summary>
         /// The path to sdkmanager.bat
-        /// </summary> TODO: Intentional Typeo!!!!!!!!!!!!!!!!!!!!!!
+        /// </summary>
         public static string PathName { get => _pathName;
             set
             {
@@ -56,12 +56,12 @@ namespace SdkManager.Core
         #region Events/Actions
 
         /// <summary>
-        /// Listen for this event to get the output from the hidden console window.
+        /// Listen for this event to get the output from the hidden console window as it it received.
         /// </summary>
         public static event Action<string> CommandLineOutputReceived;
         
         /// <summary>
-        /// Listen for this event to get the output from the hidden console window.
+        /// Listen for this event to get the full output from the hidden console window.
         /// </summary>
         public static event Action<string> CommandLineOutputComplete;
 
