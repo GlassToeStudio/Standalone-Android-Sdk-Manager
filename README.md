@@ -9,12 +9,12 @@
 
 ## Getting Started
 ---
-   * Install the latest [release](https://github.com/GlassToeStudio/Standalone-Android-Sdk-Manager/releases)
-   * Unzip the file.
+   * Download and Install the latest [Release](https://github.com/GlassToeStudio/Standalone-Android-Sdk-Manager/releases)
+   * Unzip the folder contents.
    * Run setup.exe
 
-   *you may get a warning, becuse this cert used to sign is not widely known.*
-   
+   *you may get a warning, because the cert used to sign is not widely known.*
+
    *If this is too risky for you, there is always the option to clone the repo, and build the exe on your own system :D*
 
 ---
