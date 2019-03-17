@@ -16,6 +16,11 @@ namespace SdkManager.UI
         /// </summary>
         private string _consoleOutput = "Status";
 
+        /// <summary>
+        /// ConsoleOutput backing field.
+        /// </summary>
+        private string _consoleWindowOutput = "Status";
+
         #endregion
 
         #region Public Properties
@@ -44,6 +49,22 @@ namespace SdkManager.UI
                 if(_consoleOutput != value)
                 {
                     _consoleOutput = value;
+                    NotifyPropertyChanged();
+                }
+            }
+        }
+        
+        /// <summary>
+        /// Output recieved from console window.
+        /// </summary>
+        public string ConsoleWindowOutput
+        {
+            get => _consoleWindowOutput;
+            set
+            {
+                if(_consoleWindowOutput != value)
+                {
+                    _consoleWindowOutput = value;
                     NotifyPropertyChanged();
                 }
             }
@@ -100,9 +121,12 @@ namespace SdkManager.UI
         /// </summary>
         public async Task RunCommands(string args)
         {
+            
+            SdkManagerBat.CommandLineOutputComplete += OnCommandLineOutputComplete;
             SdkManagerBat.CommandLineOutputReceived += OnCommandLineOutputReceived;
             var t = await Task.Run(() => SdkManagerBat.RunCommandAsync(args));
             SdkManagerBat.CommandLineOutputReceived -= OnCommandLineOutputReceived;
+            SdkManagerBat.CommandLineOutputComplete -= OnCommandLineOutputComplete;
         }
 
         /// <summary>
@@ -125,6 +149,15 @@ namespace SdkManager.UI
         {
             // System.Console.WriteLine(output?.Trim());
             ConsoleOutput = output?.Trim();
+        }        
+        /// <summary>
+        /// Called when text is written tot he console window.
+        /// </summary>
+        /// <param name="output"></param>
+        private void OnCommandLineOutputComplete(string output)
+        {
+            // System.Console.WriteLine(output?.Trim());
+            ConsoleWindowOutput = output?.Trim();
         }
         
         #endregion

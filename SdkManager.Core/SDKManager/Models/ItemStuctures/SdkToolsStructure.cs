@@ -17,7 +17,6 @@ namespace SdkManager.Core
             CreateItems();
         }
 
-
         // TODO: Fix This
         protected override void CreateItems()
         {
@@ -27,6 +26,7 @@ namespace SdkManager.Core
             {
                 return;
             }
+
             foreach (var p in Items)
             {
                 p.CheckForUpdates();

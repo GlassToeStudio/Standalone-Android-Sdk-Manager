@@ -28,15 +28,19 @@ namespace SdkManager.UI
             ExecuteCommand = new RelayCommand(Execute);
         }
 
+
         /// <summary>
         /// Do somethign with the output... Just outputs to the little Label on the MainWindow
         /// </summary>
         private void Execute()
         {
+            var cmoWindow = new CommandLineOutputWindow(this._sdkManager);
+            
             var t = Task.Run(async () =>
             {
                 await _sdkManager.RunCommands(argsList);
-            });        
+            });
+            bool? result = cmoWindow.ShowDialog();
         }
     }
 }
