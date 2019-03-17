@@ -5,8 +5,9 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:SdkManager.UI"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
-	<Grid Background="#3C3F41" Margin="-2,1,-2,-2">
+             d:DesignHeight="457.04" d:DesignWidth="766">
+	
+	<Grid Background="#3C3F41" Margin="-2,0.5,-2,-2">
 
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition Width="10"/>
@@ -115,49 +116,49 @@
 					Width="50"
 					HorizontalAlignment="Left" 
 					VerticalAlignment="Top" 
-					Margin="20,2,2,10"></CheckBox>
+					Margin="2,2,2,10"></CheckBox>
 				<CheckBox Content="--verbose" 
 					Width="75"
 					HorizontalAlignment="Left" 
 					VerticalAlignment="Top" 
-					Margin="10,2,2,10"></CheckBox>
+					Margin="2,2,2,10"></CheckBox>
 				<CheckBox Content="--include__obselete" 
 					Width="125"
 					HorizontalAlignment="Left" 
 					VerticalAlignment="Top" 
-					Margin="10,2,2,10"></CheckBox>
+					Margin="2,2,2,10"></CheckBox>
 			</StackPanel>
 			
 			<StackPanel Grid.Row="3" Grid.Column="4" Grid.ColumnSpan="1" Margin="2"
 						Orientation="Horizontal">
 				<CheckBox Content="--update" 
-					Width="137"
+					Width="75"
 					HorizontalAlignment="Left" 
 					VerticalAlignment="Top" 
-					Margin="20,2,2,10"></CheckBox>
+					Margin="2,2,2,10"></CheckBox>
 
 				<CheckBox Content="--include__obselete" 
 					Width="125"
 					HorizontalAlignment="Left" 
 					VerticalAlignment="Top" 
-					Margin="10,2,2,10"></CheckBox>
+					Margin="56,2,2,10"></CheckBox>
 			</StackPanel>
 			
 			<CheckBox Content="--install" 
 				Width="200"
 				HorizontalAlignment="Left" 
 				VerticalAlignment="Top" 
-				Margin="20,2,2,10"></CheckBox>
+				Margin="2,2,2,10"></CheckBox>
 			<CheckBox Content="--uninstall" 
 				Width="200"
 				HorizontalAlignment="Left" 
 				VerticalAlignment="Top" 
-				Margin="20,2,2,10"></CheckBox>
+				Margin="2,2,2,10"></CheckBox>
 			<CheckBox Content="--version" 
 				Width="200"
 				HorizontalAlignment="Left" 
 				VerticalAlignment="Top" 
-				Margin="20,2,2,10"></CheckBox>
+				Margin="2,2,2,10"></CheckBox>
 		</StackPanel>
 	</Grid>
 </UserControl>
