@@ -10,7 +10,7 @@ namespace SdkManager.UI
 {
     public partial class MainWindow : Window
     {
-       public MainWindow()
+        public MainWindow()
         {
             this.DataContext = new MainWindowViewModel();
 
@@ -27,7 +27,7 @@ namespace SdkManager.UI
                 DialogResult result = fbd.ShowDialog();
                 if (result == System.Windows.Forms.DialogResult.OK && !string.IsNullOrWhiteSpace(fbd.SelectedPath))
                 {
-                    if(File.Exists(fbd.SelectedPath + @"\tools\bin\sdkmanager.bat"))
+                    if (File.Exists(fbd.SelectedPath + @"\tools\bin\sdkmanager.bat"))
                     {
                         FolderPathBox.Text = fbd.SelectedPath;
                     }
