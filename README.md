@@ -20,26 +20,37 @@
 ---
 ## Prerequisites
 ---
-### Already have a valid Sdk installed?
+
+__This Program requires the Android SDK Command Line Tools and the Java JDK__
+### ★ Already have a valid Sdk installed and Java JDK?
 * You are done :D
 
-
-### Don't have a valid Sdk installed?
 ---
 
-__Go download [Android Sdk Command Line Tools](https://developer.android.com/studio#downloads) installed. (For windows)__
+#### ★ Don't have a valid JDK installed?
 
- * Create a root `Sdk` folder somewhere that is easy to find `C:\\` is a good place.
- * Extract the zip file to that root `Sdk` folder.
- * Folder structure should be `C:\\Sdk\tools` (if you chose `C:\\`)
- * Folder structure is important for this to work, since you will need to navigate to the root `Sdk` folder within the application, It will then look in `\tools\bin\` for the sdkmanager.bat file that is included with the command-line tools.
+ * __Go download [Java JDK](https://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html) and install it. (For Windows)__
+
+    * After installation add Java to your `PATH`
+    * More information about adding Java to `PATH` can be found [here](https://javatutorial.net/set-java-home-windows-10)
+
+#### ★ Don't have a valid Sdk installed?
+
+  * __Go download [Android Sdk Command Line Tools](https://developer.android.com/studio#downloads). (For windows)__
+
+    * Create a root `Sdk` folder somewhere that is easy to find `C:\\` is a good place.
+    * Extract the zip file to that root `Sdk` folder.
+    * Folder structure should be `C:\\Sdk\tools` (if you chose `C:\\`)
+    * Folder structure is important for this to work, since you will need to navigate to the root `Sdk` folder within the application, It will then look in `\tools\bin\` for the sdkmanager.bat file that is included with the command-line tools.
  
+---
 
 ### Notes:
 * I named the root folder `Sdk`, the name does not matter. Additionally, this folder can be inside any other folder. The important part is that you know which is the root. 
 * A common structure is `C:\\Android\Sdk\` or `C:\\Android-Sdk\` as the root folder name.
 * It is preferable (but not necessary) that `C:\\Sdk\tools` has been added to your `PATH`.
 * More info about adding to your `PATH` can be found [here](https://www.androidcentral.com/installing-android-sdk-windows-mac-and-linux-tutorial) 
+
 
 * If contributing, be sure to have `git` installed.
 ---
