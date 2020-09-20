@@ -35,6 +35,8 @@ namespace SdkManager.Core
             { "Android SDK Platform 26", "Android 8.0 (Oreo)"},
             { "Android SDK Platform 27", "Android 8.1 (Oreo)"},
             { "Android SDK Platform 28", "Android 28 (Pie)"},
+            { "Android SDK Platform 29", "Android 10"},
+            { "Android SDK Platform 30", "Android 11"},
             { "Android SDK Platform Q", "Android SDK Platform Q"},
             { "android-28", "Android SDK Platform 28"},
         };
