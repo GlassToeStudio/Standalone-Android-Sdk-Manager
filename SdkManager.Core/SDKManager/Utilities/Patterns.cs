@@ -26,23 +26,23 @@
         /// <summary>
         /// Expression to match the pattern of all high-level platforms.
         /// </summary>
-        public const string PLATFORM_PATTERN =      @"(?<Platform>(?:platforms;android-)(?<APILevel>[\d]*))(?:[\s]*Description[:][\s]*)(?<Description>Android[\s\w]*\n)(?:[\s]*[\w\s]*[:][\s]*)(?<Version>[\d]*)(?:(?:[\s]*Installed Location[:][\s]*)(?<Installed_Location>[\s]*[\w\:\\\-]*))?";
+        public const string PLATFORM_PATTERN = @"(?<Platform>(?:platforms;android-)(?<APILevel>[\da-zA-Z]*))(?:[\s]*Description[:][\s]*)(?<Description>Android[\s\w]*\n)(?:[\s]*[\w\s]*[:][\s]*)(?<Version>[\d]*)(?:(?:[\s]*Installed Location[:][\s]*)(?<Installed_Location>[\s]*[\w\:\\\-]*))?";
         /// <summary>
         /// Expression to match the pattern of all google api packages.
         /// </summary>
-        public const string GOOGLE_APIS =           @"(?<Platform>(?:add-ons;addon-google_apis-google-)(?<APILevel>[\d]*))(?:[\s\w]*[:][\s]*)(?<Description>Google[\s\w]*\n)(?:[\s]*[\w\s]*[:][\s]*)(?<Version>[\d]*)(?:(?:[\s]*Installed Location[:][\s]*)(?<Installed_Location>[\s]*[\w\:\\\-]*))?";
+        public const string GOOGLE_APIS = @"(?<Platform>(?:add-ons;addon-google_apis-google-)(?<APILevel>[\da-zA-Z]*))(?:[\s\w]*[:][\s]*)(?<Description>Google[\s\w]*\n)(?:[\s]*[\w\s]*[:][\s]*)(?<Version>[\d]*)(?:(?:[\s]*Installed Location[:][\s]*)(?<Installed_Location>[\s]*[\w\:\\\-]*))?";
         /// <summary>
         /// Expression to match the pattern of all platform sources.
         /// </summary>
-        public const string SOURCES_PATTERN =       @"(?<Platform>(?:sources;android-)(?<APILevel>[\d]*))(?:[\s\w]*[:][\s]*)(?<Description>Sources[\s\w]*\n)(?:[\s]*[\w\s]*[:][\s]*)(?<Version>[\d]*)(?:(?:[\s]*Installed Location[:][\s]*)(?<Installed_Location>[\s]*[\w\:\\\-]*))?";
+        public const string SOURCES_PATTERN = @"(?<Platform>(?:sources;android-)(?<APILevel>[\da-zA-Z]*))(?:[\s\w]*[:][\s]*)(?<Description>Sources[\s\w]*\n)(?:[\s]*[\w\s]*[:][\s]*)(?<Version>[\d]*)(?:(?:[\s]*Installed Location[:][\s]*)(?<Installed_Location>[\s]*[\w\:\\\-]*))?";
         /// <summary>
         /// Expression to match the pattern of all system images.
         /// </summary>
-        public const string SYSTEM_IMAGES_PATTERN = @"(?<Platform>(?:system-images;android-)(?<APILevel>[\d]*)[\s\w\-\;]*\n)(?:[\s]*Description[:][\s]*)(?<Description>[\s\w]*\n)(?:[\s]*[\w\s]*[:][\s]*)(?<Version>[\d]*)(?:(?:[\s]*Installed Location[:][\s]*)(?<Installed_Location>[\s]*[\w\:\\\-]*))?";
+        public const string SYSTEM_IMAGES_PATTERN = @"(?<Platform>(?:system-images;android-)(?<APILevel>[\da-zA-Z]*)[\s\w\-\;]*\n)(?:[\s]*Description[:][\s]*)(?<Description>[\s\w]*\n)(?:[\s]*[\w\s]*[:][\s]*)(?<Version>[\d]*)(?:(?:[\s]*Installed Location[:][\s]*)(?<Installed_Location>[\s]*[\w\:\\\-]*))?";
         /// <summary>
         /// Expression to match the pattern of google glass packages.
         /// </summary>
-        public const string GOOGLE_GLASS_PATTERN =  @"(?<Platform>(?:add-ons;addon-google_gdk-google-)(?<APILevel>[\d]*))(?:[\s\w]*[:][\s]*)(?<Description>Glass[\s\w]*\n)(?:[\s]*[\w\s]*[:][\s]*)(?<Version>[\d]*)(?:(?:[\s]*Installed Location[:][\s]*)(?<Installed_Location>[\s]*[\w\:\\\-]*))?";
+        public const string GOOGLE_GLASS_PATTERN = @"(?<Platform>(?:add-ons;addon-google_gdk-google-)(?<APILevel>[\da-zA-Z]*))(?:[\s\w]*[:][\s]*)(?<Description>Glass[\s\w]*\n)(?:[\s]*[\w\s]*[:][\s]*)(?<Version>[\d]*)(?:(?:[\s]*Installed Location[:][\s]*)(?<Installed_Location>[\s]*[\w\:\\\-]*))?";
         
         // This requires a different method to parse.
         /// <summary>
